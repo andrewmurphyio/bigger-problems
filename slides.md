@@ -121,7 +121,7 @@ Callback to the weekend pipe, now through the ToC lens: THIS is a bottleneck. Th
 
 ---
 
-<PipelineSim mode="workUnknown" />
+<PipelineSim mode="workUnknown" manual />
 
 <!--
 Now the work pipe with nothing highlighted. Ask the room and let it sit: where is the bottleneck in YOUR system? Every system has one. Most teams have never traced theirs.

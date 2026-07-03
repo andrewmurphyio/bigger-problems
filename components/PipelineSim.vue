@@ -23,8 +23,9 @@ type Scenario = {
   stages: Stage[]
 }
 
-const props = withDefaults(defineProps<{ mode?: string }>(), {
+const props = withDefaults(defineProps<{ mode?: string, manual?: boolean }>(), {
   mode: 'workBoost',
+  manual: false,
 })
 
 const scenarios: Record<string, Scenario> = {
@@ -345,6 +346,7 @@ type SimGate = {
 const rootEl = ref<HTMLElement | null>(null)
 const balls = shallowRef<SimBall[]>([])
 const gates = shallowRef<SimGate[]>([])
+const started = ref(false)
 
 let nextId = 1
 let rafHandle = 0
@@ -398,7 +400,9 @@ function buildSim() {
   // Queues start EMPTY on slide entry by default: the audience watches ideas
   // stack up live behind each constraint. Scenarios can opt into preFill to
   // start the story mid-flight (for example: code just got faster).
-  const preFill = scenario.value.preFill ?? 0
+  // Manual slides always begin completely empty: the pipe is a still diagram
+  // until the presenter presses run.
+  const preFill = props.manual ? 0 : (scenario.value.preFill ?? 0)
   if (preFill > 0) {
     for (let gi = 0; gi < gs.length; gi++) {
       const gate = gs[gi]
@@ -458,7 +462,7 @@ function buildSim() {
   // the slower of spawn rate / upstream service rates lets through.
   let throughputPerSec = 1 / spawnIntervalSec
   let segStart = -8
-  for (let seg = 0; seg <= gs.length; seg++) {
+  for (let seg = 0; !props.manual && seg <= gs.length; seg++) {
     const segEnd = seg < gs.length ? gs[seg].x - 26 : VIEW_W + 8
     const len = Math.max(0, segEnd - segStart)
     const count = Math.round((throughputPerSec * len) / ballSpeed.value)
@@ -497,7 +501,7 @@ function buildSim() {
     }
   }
 
-  spawnTimer = spawnIntervalSec * 0.5
+  spawnTimer = props.manual ? 0.3 : spawnIntervalSec * 0.5
   gates.value = gs
   balls.value = bs
 }
@@ -688,14 +692,21 @@ function setRunning(value: boolean) {
   }
 }
 
+function startSim() {
+  started.value = true
+  setRunning(true)
+}
+
 onMounted(() => {
   buildSim()
   observer = new IntersectionObserver((entries) => {
     for (const entry of entries) {
       // Restart the story each time the slide comes into view: empty queues,
-      // then ideas visibly stack up behind the constraint.
-      if (entry.isIntersecting && !running) buildSim()
-      setRunning(entry.isIntersecting)
+      // then ideas visibly stack up behind the constraint. Manual slides
+      // re-arm their run button instead of auto-starting.
+      if (!entry.isIntersecting && props.manual) started.value = false
+      if (entry.isIntersecting && !running && (!props.manual || !started.value)) buildSim()
+      setRunning(entry.isIntersecting && (!props.manual || started.value))
     }
   })
   if (rootEl.value) observer.observe(rootEl.value)
@@ -805,6 +816,10 @@ const queueLabels = computed(() => {
     </svg>
 
     <p class="pipeline-caption">{{ scenario.caption }}</p>
+
+    <div v-if="props.manual && !started" class="sim-start">
+      <button type="button" @click="startSim">▶ run the system</button>
+    </div>
   </section>
 </template>
 
@@ -969,6 +984,35 @@ const queueLabels = computed(() => {
   color: var(--deck-muted, #8f8a99);
   font-size: 0.96rem;
   line-height: 1.34;
+}
+
+.sim-start {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.sim-start button {
+  pointer-events: auto;
+  padding: 0.7rem 1.5rem;
+  border: 1px solid var(--deck-accent, #d783dc);
+  border-radius: 0.25rem;
+  background: rgba(2, 1, 3, 0.82);
+  color: var(--deck-accent, #d783dc);
+  font: 700 0.95rem/1 var(--slidev-code-font-family);
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  cursor: pointer;
+  box-shadow: 0 0.6rem 1.6rem rgba(0, 0, 0, 0.5);
+  transition: background 200ms ease, color 200ms ease;
+}
+
+.sim-start button:hover {
+  background: var(--deck-accent, #d783dc);
+  color: #020103;
 }
 
 @keyframes edgePulse {
