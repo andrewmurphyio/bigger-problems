@@ -83,7 +83,7 @@ const scenarios: Record<string, Scenario> = {
     eyebrow: 'the usual suspect',
     title: 'Pretend the bottleneck is coding',
     caption: 'The way everyone assumes it is: hand-written code as the narrow part, ideas queueing behind engineering.',
-    pace: 1.5,
+    pace: 3,
     stages: [
       { label: 'Idea', rate: 5, queue: 2 },
       { label: 'Discovery', sub: 'what problem?', rate: 3, queue: 2 },
@@ -342,6 +342,9 @@ const rootEl = ref<HTMLElement | null>(null)
 const balls = shallowRef<SimBall[]>([])
 const gates = shallowRef<SimGate[]>([])
 const started = ref(false)
+// Live tuning dial: scales the whole simulation (travel, service, spawn)
+// like a playback-speed control, so ball density stays constant.
+const speedMult = ref(1)
 
 let nextId = 1
 let rafHandle = 0
@@ -692,7 +695,7 @@ function tick(dt: number) {
 function loop(now: number) {
   rafHandle = 0
   if (!running) return
-  const dt = Math.min(0.05, (now - lastTime) / 1000)
+  const dt = Math.min(0.05, (now - lastTime) / 1000) * speedMult.value
   lastTime = now
   tick(dt)
   rafHandle = requestAnimationFrame(loop)
@@ -754,6 +757,11 @@ const queueLabels = computed(() => {
       <span>idea</span>
       <span class="legend-ball working" />
       <span>coded / value</span>
+    </div>
+
+    <div class="speed-dial">
+      <input v-model.number="speedMult" type="range" min="0.25" max="4" step="0.25" />
+      <span>×{{ speedMult }}</span>
     </div>
 
     <svg
@@ -998,6 +1006,28 @@ const queueLabels = computed(() => {
   color: var(--deck-muted, #8f8a99);
   font-size: 0.96rem;
   line-height: 1.34;
+}
+
+.speed-dial {
+  position: absolute;
+  top: 2.55rem;
+  right: 1.25rem;
+  z-index: 7;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--deck-muted, #8f8a99);
+  font: 600 0.62rem/1 var(--slidev-code-font-family);
+}
+
+.speed-dial input {
+  width: 6.5rem;
+  accent-color: var(--deck-accent, #d783dc);
+  cursor: pointer;
+}
+
+.speed-dial span {
+  min-width: 2.2rem;
 }
 
 .sim-start {
