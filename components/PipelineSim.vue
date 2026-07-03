@@ -60,59 +60,40 @@ const scenarios: Record<string, Scenario> = {
       { label: 'Working thing', sub: 'eventually', rate: 3 },
     ],
   },
-  workUnknown: {
-    eyebrow: 'larger system',
-    title: 'Where is the bottleneck in your system?',
-    caption: 'Every system has one. Most teams have never traced theirs.',
-    pace: 4.5,
-    timeScale: 2,
+  workBefore: {
+    eyebrow: 'the obvious bottleneck',
+    title: 'The obvious bottleneck: coding',
+    caption: 'Hand-written code is the narrow part everyone can see. Ideas queue behind engineering.',
+    pace: 5,
     stages: [
-      // Honest red herring: Deploy is genuinely the slowest-looking AND
-      // slowest station, but demand binds at Review first — Review's queue
-      // explodes while Deploy, starved by Review upstream, only dribbles.
       { label: 'Idea', rate: 5, queue: 2 },
       { label: 'Discovery', sub: 'what problem?', rate: 4.5, queue: 2 },
       { label: 'Prioritise', sub: 'whose goal?', rate: 4.5, sheds: true, queue: 2 },
-      { label: 'Code', sub: 'by hand', rate: 4.5, queue: 2 },
-      { label: 'Review', sub: 'humans', rate: 2.2, bottleneck: true, subtle: true, queue: 2 },
+      { label: 'Code', sub: 'by hand', rate: 1, bottleneck: true, queue: 2 },
+      { label: 'Review', sub: 'humans', rate: 2.2, queue: 2 },
       { label: 'CI / QA', sub: 'confidence', rate: 3, queue: 1 },
       { label: 'Deploy', sub: 'permission', rate: 1.5, queue: 1 },
       { label: 'User', sub: 'value', rate: 3 },
     ],
   },
-  workBefore: {
-    eyebrow: 'the usual suspect',
-    title: 'Pretend the bottleneck is coding',
-    caption: 'The way everyone assumes it is: hand-written code as the narrow part, ideas queueing behind engineering.',
-    pace: 5,
-    stages: [
-      { label: 'Idea', rate: 5, queue: 2 },
-      { label: 'Discovery', sub: 'what problem?', rate: 3, queue: 2 },
-      { label: 'Prioritise', sub: 'whose goal?', rate: 3, sheds: true, queue: 8 },
-      { label: 'Code', sub: 'by hand', rate: 1, bottleneck: true, queue: 2 },
-      { label: 'Review', sub: 'humans', rate: 2, queue: 2 },
-      { label: 'CI / QA', sub: 'confidence', rate: 2.5, queue: 1 },
-      { label: 'Deploy', sub: 'permission', rate: 2, queue: 1 },
-      { label: 'User', sub: 'value', rate: 3 },
-    ],
-  },
   workMap: {
-    // Identical to workBefore in every way except one: the Coding stage got
-    // bigger. Review carries an invisible sim flag so demand exceeds it and
-    // the new jam emerges there — but its bore and rate match workBefore.
-    eyebrow: 'larger system',
-    title: 'Work is a longer pipe',
-    caption: 'Same developer. Same AI tool. Code is wide now — watch where the queue forms.',
+    // Identical to workBefore except one thing: the Coding stage got bigger.
+    // The honest surprise: Deploy now looks (and is) the slowest-looking
+    // station, but demand binds at Review first — Review's queue explodes
+    // while Deploy, starved by Review upstream, only dribbles.
+    eyebrow: 'place your bets',
+    title: 'Code is wide now. Where is the bottleneck?',
+    caption: 'Guess first — then run the system and watch where the queue forms.',
     pace: 3,
     coldStart: true,
     stages: [
       { label: 'Idea', rate: 5, queue: 2 },
-      { label: 'Discovery', sub: 'what problem?', rate: 3, queue: 2 },
-      { label: 'Prioritise', sub: 'whose goal?', rate: 3, sheds: true, queue: 8 },
+      { label: 'Discovery', sub: 'what problem?', rate: 4.5, queue: 2 },
+      { label: 'Prioritise', sub: 'whose goal?', rate: 4.5, sheds: true, queue: 2 },
       { label: 'Code', sub: 'faster now', rate: 5, boosted: true, queue: 2 },
-      { label: 'Review', sub: 'humans', rate: 2, bottleneck: true, subtle: true, queue: 2 },
-      { label: 'CI / QA', sub: 'confidence', rate: 2.5, queue: 1 },
-      { label: 'Deploy', sub: 'permission', rate: 2, queue: 1 },
+      { label: 'Review', sub: 'humans', rate: 2.2, bottleneck: true, subtle: true, queue: 2 },
+      { label: 'CI / QA', sub: 'confidence', rate: 3, queue: 1 },
+      { label: 'Deploy', sub: 'permission', rate: 1.5, queue: 1 },
       { label: 'User', sub: 'value', rate: 3 },
     ],
   },

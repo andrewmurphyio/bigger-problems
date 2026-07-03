@@ -121,26 +121,18 @@ Callback to the weekend pipe, now through the ToC lens: THIS is a bottleneck. Th
 
 ---
 
-<PipelineSim mode="workUnknown" manual />
-
-<!--
-Now the work pipe with nothing highlighted. Ask the room and let it sit: where is the bottleneck in YOUR system? Every system has one. Most teams have never traced theirs.
--->
-
----
-
 <PipelineSim mode="workBefore" />
 
 <!--
-So let's pretend the bottleneck IS code — the way everyone implicitly assumes. Hand-written code as the constriction, ideas queueing behind engineering. This is the world the weekend fix expects.
+The obvious bottleneck first: hand-written code is the narrow part everyone can see, ideas queueing behind engineering. This is the world the weekend fix expects — and here, widening Code genuinely would help.
 -->
 
 ---
 
-<PipelineSim mode="workMap" />
+<PipelineSim mode="workMap" manual />
 
 <!--
-Same developer. Same tool. Different system. At work the value stream is longer, more social, more gated, and more ambiguous.
+Now expand Code with AI — same pipe otherwise. Ask the room: where is the bottleneck NOW? Most will point at Deploy, it looks narrowest. Press run: the queue forms at Review. The surprise is honestly earned — the constraint is set by demand meeting rates in order, not by which pipe looks thinnest.
 -->
 
 ---
