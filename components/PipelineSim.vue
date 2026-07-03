@@ -70,9 +70,9 @@ const scenarios: Record<string, Scenario> = {
       { label: 'Discovery', sub: 'what problem?', rate: 2.4, queue: 2 },
       { label: 'Prioritise', sub: 'whose goal?', rate: 4.2, sheds: true, queue: 2 },
       { label: 'Code', sub: 'by hand', rate: 1, bottleneck: true, queue: 2 },
-      { label: 'Review', sub: 'humans', rate: 3.4, queue: 2 },
+      { label: 'Review', sub: 'humans', rate: 2.7, queue: 2 },
       { label: 'CI / QA', sub: 'confidence', rate: 5, queue: 1 },
-      { label: 'Deploy', sub: 'permission', rate: 2.7, queue: 1 },
+      { label: 'Deploy', sub: 'permission', rate: 3.4, queue: 1 },
       { label: 'User', sub: 'value', rate: 3 },
     ],
   },
@@ -92,16 +92,17 @@ const scenarios: Record<string, Scenario> = {
       { label: 'Discovery', sub: 'what problem?', rate: 2.4, bottleneck: true, subtle: true, queue: 2 },
       { label: 'Prioritise', sub: 'whose goal?', rate: 4.2, sheds: true, queue: 2 },
       { label: 'Code', sub: 'faster now', rate: 8, boosted: true, queue: 2 },
-      { label: 'Review', sub: 'humans', rate: 3.4, queue: 2 },
+      { label: 'Review', sub: 'humans', rate: 2.7, queue: 2 },
       { label: 'CI / QA', sub: 'confidence', rate: 5, queue: 1 },
-      { label: 'Deploy', sub: 'permission', rate: 2.7, queue: 1 },
+      { label: 'Deploy', sub: 'permission', rate: 3.4, queue: 1 },
       { label: 'User', sub: 'value', rate: 3 },
     ],
   },
   workReview: {
-    // The constraint moves. Discovery got the investment (wide now); Review
-    // never did — it is the slowest gate in this snapshot, so the jam
-    // surfaces there next. Honest bores: Review is visibly the narrowest.
+    // Identical to workMap except ONE change: Discovery got the investment
+    // (rate 2.4 -> 5, highlighted alongside Code as the fixed stations).
+    // Review is now the slowest remaining gate, so the jam surfaces there
+    // next. The constraint never disappears; it moves.
     eyebrow: 'the constraint moves',
     title: 'Fix discovery. The bottleneck moves again.',
     caption: 'Discovery got the investment. Review never did. The queue finds the new slowest rate.',
@@ -109,12 +110,12 @@ const scenarios: Record<string, Scenario> = {
     coldStart: true,
     stages: [
       { label: 'Idea', rate: 6, queue: 2 },
-      { label: 'Discovery', sub: 'researched', rate: 5, queue: 2 },
+      { label: 'Discovery', sub: 'researched', rate: 5, boosted: true, queue: 2 },
       { label: 'Prioritise', sub: 'whose goal?', rate: 4.2, sheds: true, queue: 2 },
       { label: 'Code', sub: 'faster now', rate: 8, boosted: true, queue: 2 },
-      { label: 'Review', sub: 'humans', rate: 2.4, bottleneck: true, subtle: true, queue: 2 },
+      { label: 'Review', sub: 'humans', rate: 2.7, bottleneck: true, subtle: true, queue: 2 },
       { label: 'CI / QA', sub: 'confidence', rate: 5, queue: 1 },
-      { label: 'Deploy', sub: 'permission', rate: 3.2, queue: 1 },
+      { label: 'Deploy', sub: 'permission', rate: 3.4, queue: 1 },
       { label: 'User', sub: 'value', rate: 3 },
     ],
   },
