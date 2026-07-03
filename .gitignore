@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.slidev/
+.slidev-inspection/
+*.pdf
+.DS_Store
+.pi/

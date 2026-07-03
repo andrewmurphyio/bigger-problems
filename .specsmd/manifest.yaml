@@ -1,0 +1,10 @@
+flow: simple
+version: 0.1.74
+installed_at: '2026-07-02T05:55:13.069Z'
+tools:
+  - claude
+  - cursor
+  - copilot
+  - gemini
+  - codex
+  - opencode
