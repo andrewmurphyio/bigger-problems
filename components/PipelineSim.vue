@@ -342,9 +342,10 @@ const rootEl = ref<HTMLElement | null>(null)
 const balls = shallowRef<SimBall[]>([])
 const gates = shallowRef<SimGate[]>([])
 const started = ref(false)
-// Live tuning dial: scales the whole simulation (travel, service, spawn)
-// like a playback-speed control, so ball density stays constant.
-const speedMult = ref(1)
+// Live tuning dial: ABSOLUTE speed level 1-10. The same number means the
+// same ball speed on every pipeline (level x 60 units/sec of travel); each
+// scenario's tuned pace sets its default position.
+const speedLevel = ref(1)
 
 let nextId = 1
 let rafHandle = 0
@@ -508,6 +509,7 @@ function buildSim() {
   }
 
   spawnTimer = props.manual ? 0.3 : spawnIntervalSec * 0.5
+  speedLevel.value = scenario.value.pace ?? 1
   gates.value = gs
   balls.value = bs
 }
@@ -695,7 +697,7 @@ function tick(dt: number) {
 function loop(now: number) {
   rafHandle = 0
   if (!running) return
-  const dt = Math.min(0.05, (now - lastTime) / 1000) * speedMult.value
+  const dt = Math.min(0.05, (now - lastTime) / 1000) * (speedLevel.value / (scenario.value.pace ?? 1))
   lastTime = now
   tick(dt)
   rafHandle = requestAnimationFrame(loop)
@@ -838,8 +840,8 @@ const queueLabels = computed(() => {
       </button>
       <div class="speed-dial">
         <span>speed</span>
-        <input v-model.number="speedMult" type="range" min="0.25" max="4" step="0.25" />
-        <span>×{{ speedMult }}</span>
+        <input v-model.number="speedLevel" type="range" min="1" max="10" step="0.5" />
+        <span>{{ speedLevel }}/10</span>
       </div>
     </div>
 
