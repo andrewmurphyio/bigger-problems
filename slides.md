@@ -137,6 +137,14 @@ Now expand Code with AI — same pipe otherwise. Ask the room: where is the bott
 
 ---
 
+<PipelineSim mode="workReview" />
+
+<!--
+The constraint MOVES. Say the org invests in discovery — researchers, clearer problems. Run the same system: the queue surfaces at Review next, the slowest remaining rate. Fixing a bottleneck never removes the constraint; it relocates it. This is why the work never feels done.
+-->
+
+---
+
 <div class="eyebrow">the-trap</div>
 
 # We copied the weekend fix into the work system

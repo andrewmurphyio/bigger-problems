@@ -98,6 +98,26 @@ const scenarios: Record<string, Scenario> = {
       { label: 'User', sub: 'value', rate: 3 },
     ],
   },
+  workReview: {
+    // The constraint moves. Discovery got the investment (wide now); Review
+    // never did — it is the slowest gate in this snapshot, so the jam
+    // surfaces there next. Honest bores: Review is visibly the narrowest.
+    eyebrow: 'the constraint moves',
+    title: 'Fix discovery. The bottleneck moves again.',
+    caption: 'Discovery got the investment. Review never did. The queue finds the new slowest rate.',
+    pace: 5,
+    coldStart: true,
+    stages: [
+      { label: 'Idea', rate: 6, queue: 2 },
+      { label: 'Discovery', sub: 'researched', rate: 5, queue: 2 },
+      { label: 'Prioritise', sub: 'whose goal?', rate: 4.2, sheds: true, queue: 2 },
+      { label: 'Code', sub: 'faster now', rate: 8, boosted: true, queue: 2 },
+      { label: 'Review', sub: 'humans', rate: 2.4, bottleneck: true, subtle: true, queue: 2 },
+      { label: 'CI / QA', sub: 'confidence', rate: 5, queue: 1 },
+      { label: 'Deploy', sub: 'permission', rate: 3.2, queue: 1 },
+      { label: 'User', sub: 'value', rate: 3 },
+    ],
+  },
   workBoost: {
     eyebrow: 'non-bottleneck optimisation',
     title: 'AI accelerates build. The system does not accelerate.',
