@@ -194,10 +194,7 @@ code {
 }
 
 .cover-grad {
-	background: linear-gradient(90deg, var(--deck-accent-strong, #9747ff), var(--deck-accent, #d783dc));
-	-webkit-background-clip: text;
-	background-clip: text;
-	-webkit-text-fill-color: transparent;
+	color: var(--deck-accent);
 }
 
 .cover-title .footer-line {
@@ -301,11 +298,7 @@ code {
 .metric-bar {
 	height: 100%;
 	border-radius: inherit;
-	background: linear-gradient(
-		90deg,
-		var(--deck-accent-strong),
-		var(--deck-accent)
-	);
+	background: var(--deck-accent);
 }
 
 .metric-value {
