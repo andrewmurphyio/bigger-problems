@@ -104,7 +104,7 @@ This is the first big reveal. Say it cleanly. Do not soften it into “work is c
 # Theory of Constraints in one slide
 
 <div class="quote-panel">
-  <p>Every system has a constraint. The throughput of the system is determined by the throughput of that constraint.</p>
+  <p>Every system has exactly one constraint. The throughput of the system is determined by the throughput of that constraint.</p>
 </div>
 
 <!--
