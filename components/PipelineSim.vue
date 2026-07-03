@@ -274,6 +274,29 @@ function fillPath(g: StageGeom) {
   return `M ${top.join(' L ')} L ${bottom.join(' L ')} Z`
 }
 
+function scaledEdge(g: StageGeom, sign: number, k: number) {
+  const pts: string[] = []
+  const steps = Math.max(6, Math.round((g.xb - g.xa) / 6))
+  for (let s = 0; s <= steps; s++) {
+    const x = g.xa + ((g.xb - g.xa) * s) / steps
+    pts.push(`${x.toFixed(1)} ${(CY + sign * caliberAt(x) * k).toFixed(1)}`)
+  }
+  return pts
+}
+
+// The hatched region between the pipe wall and the utilised inner band:
+// capacity the organisation pays for but does not use.
+function wastePath(g: StageGeom, util: number) {
+  const k = Math.min(1, Math.max(0.12, util))
+  if (k >= 0.97) return ''
+  const topOuter = scaledEdge(g, -1, 1)
+  const topInner = scaledEdge(g, -1, k).reverse()
+  const botOuter = scaledEdge(g, 1, 1)
+  const botInner = scaledEdge(g, 1, k).reverse()
+  return `M ${topOuter.join(' L ')} L ${topInner.join(' L ')} Z `
+    + `M ${botOuter.join(' L ')} L ${botInner.join(' L ')} Z`
+}
+
 // --- Live queue simulation ---
 // Every ball is one entity: it enters on the left, queues behind the gate at
 // each station, is released at that station's service rate, and flows on.
@@ -337,6 +360,7 @@ type SimGate = {
   cap: number
   interval: number
   queue: number[]
+  released: number[]
   serving: number | null
   sheds: boolean
   slots: { x: number, y: number }[]
@@ -357,6 +381,10 @@ const speedLevel = ref(1)
 // leaving it as value, over a rolling window of simulated time. Spilled
 // ideas never count as output.
 const flowStats = ref({ inRate: 0, outRate: 0 })
+// Measured utilisation per stage (actual throughput / capacity). The
+// hatched overlay shows the complement: wasted capacity.
+const stageUtil = ref<number[]>([])
+const showWaste = ref(false)
 const RATE_WINDOW = 8
 let simTime = 0
 let enteredAt: number[] = []
@@ -410,6 +438,7 @@ function buildSim() {
       cap: Math.min(10, sheds ? Math.max(seed, 8) : slots.length),
       interval,
       queue: [],
+      released: [],
       serving: null,
       sheds,
       slots,
@@ -560,6 +589,7 @@ function tick(dt: number) {
           released.state = 'flow'
           released.gatePos = gi + 1
           released.progress = Math.max(released.progress, (gi + 1) / gs.length)
+          gate.released.push(simTime)
         }
         gate.serving = null
       }
@@ -728,6 +758,18 @@ function tick(dt: number) {
     statsUpdatedAt = nowWall
     const span = Math.max(2, Math.min(simTime, RATE_WINDOW))
     flowStats.value = { inRate: enteredAt.length / span, outRate: exitedAt.length / span }
+
+    // Utilisation per stage: measured throughput / capacity.
+    const stages = scenario.value.stages
+    const ts = scenario.value.timeScale ?? 1
+    const utils: number[] = []
+    utils.push(Math.min(1, (enteredAt.length / span) / ((stages[0].rate ?? 1) * RATE_SCALE * ts)))
+    for (const gate of gs) {
+      while (gate.released.length && gate.released[0] < simTime - RATE_WINDOW) gate.released.shift()
+      utils.push(Math.min(1, (gate.released.length / span) * gate.interval))
+    }
+    utils.push(Math.min(1, (exitedAt.length / span) / ((stages[stages.length - 1].rate ?? 1) * RATE_SCALE * ts)))
+    stageUtil.value = utils
   }
 }
 
@@ -805,6 +847,18 @@ const queueLabels = computed(() => {
       role="img"
       :aria-label="scenario.title"
     >
+      <defs>
+        <pattern
+          :id="`waste-${props.mode}`"
+          width="7"
+          height="7"
+          patternTransform="rotate(45)"
+          patternUnits="userSpaceOnUse"
+        >
+          <line x1="0" y1="0" x2="0" y2="7" class="waste-line" />
+        </pattern>
+      </defs>
+
       <!-- one continuous pipe body -->
       <path
         v-for="(g, i) in geom"
@@ -813,6 +867,17 @@ const queueLabels = computed(() => {
         :class="{ bottleneck: g.stage.bottleneck && !g.stage.subtle, boosted: g.stage.boosted, faded: g.stage.faded }"
         :d="fillPath(g)"
       />
+
+      <!-- wasted capacity: the unused share of each station's bore -->
+      <g v-if="showWaste" class="waste-layer">
+        <path
+          v-for="(g, i) in geom"
+          :key="`waste-${props.mode}-${i}`"
+          class="waste-band"
+          :fill="`url(#waste-${props.mode})`"
+          :d="wastePath(g, stageUtil[i] ?? 0)"
+        />
+      </g>
 
       <!-- station markers inside the pipe -->
       <line
@@ -884,6 +949,10 @@ const queueLabels = computed(() => {
       <button v-if="props.manual && !started" type="button" class="run-btn" @click="startSim">
         ▶ run the system
       </button>
+      <label class="waste-toggle">
+        <input v-model="showWaste" type="checkbox" />
+        <span>wasted capacity</span>
+      </label>
       <div class="speed-dial">
         <span>speed</span>
         <input v-model.number="speedLevel" type="range" min="1" max="10" step="0.5" />
@@ -1090,6 +1159,31 @@ const queueLabels = computed(() => {
   color: var(--deck-muted, #8f8a99);
   font: 600 0.62rem/1 var(--slidev-code-font-family);
   text-transform: lowercase;
+}
+
+.waste-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--deck-muted, #8f8a99);
+  font: 600 0.62rem/1 var(--slidev-code-font-family);
+  text-transform: lowercase;
+  cursor: pointer;
+}
+
+.waste-toggle input {
+  accent-color: var(--deck-accent, #d783dc);
+  cursor: pointer;
+}
+
+.waste-band {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.waste-line {
+  stroke: #8f8a99;
+  stroke-width: 1.4;
 }
 
 .speed-dial input {
