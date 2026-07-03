@@ -11,6 +11,7 @@ type Stage = {
   boosted?: boolean
   faded?: boolean
   sheds?: boolean
+  caliber?: number
 }
 
 type Scenario = {
@@ -72,7 +73,7 @@ const scenarios: Record<string, Scenario> = {
       { label: 'Code', sub: 'by hand', rate: 1, bottleneck: true, queue: 2 },
       { label: 'Review', sub: 'humans', rate: 2.2, queue: 2 },
       { label: 'CI / QA', sub: 'confidence', rate: 3, queue: 1 },
-      { label: 'Deploy', sub: 'permission', rate: 2.2, queue: 1 },
+      { label: 'Deploy', sub: 'permission', rate: 2.2, caliber: 9.5, queue: 1 },
       { label: 'User', sub: 'value', rate: 3 },
     ],
   },
@@ -93,7 +94,7 @@ const scenarios: Record<string, Scenario> = {
       { label: 'Code', sub: 'faster now', rate: 8, boosted: true, queue: 2 },
       { label: 'Review', sub: 'humans', rate: 2.2, bottleneck: true, subtle: true, queue: 2 },
       { label: 'CI / QA', sub: 'confidence', rate: 3, queue: 1 },
-      { label: 'Deploy', sub: 'permission', rate: 2.2, queue: 1 },
+      { label: 'Deploy', sub: 'permission', rate: 2.2, caliber: 9.5, queue: 1 },
       { label: 'User', sub: 'value', rate: 3 },
     ],
   },
@@ -171,8 +172,10 @@ type StageGeom = {
 }
 
 function caliberFor(stage: Stage) {
-  // Bore is an explicit, honest function of service rate: a station's
-  // narrowness always tells the truth about its capacity.
+  // Bore is an explicit function of service rate. A stage may override its
+  // caliber to LOOK narrower than its true throughput (deploy ceremony:
+  // scary-looking gate, adequate capacity) — the decoy for the reveal.
+  if (stage.caliber != null) return stage.caliber
   const rate = stage.rate ?? 1
   return Math.min(36, Math.max(7, 4 + rate * 4.2))
 }
