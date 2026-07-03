@@ -11,7 +11,6 @@ type Stage = {
   boosted?: boolean
   faded?: boolean
   sheds?: boolean
-  caliber?: number
 }
 
 type Scenario = {
@@ -73,15 +72,16 @@ const scenarios: Record<string, Scenario> = {
       { label: 'Code', sub: 'by hand', rate: 1, bottleneck: true, queue: 2 },
       { label: 'Review', sub: 'humans', rate: 2.2, queue: 2 },
       { label: 'CI / QA', sub: 'confidence', rate: 3, queue: 1 },
-      { label: 'Deploy', sub: 'permission', rate: 2.2, caliber: 9.5, queue: 1 },
+      { label: 'Deploy', sub: 'permission', rate: 2.2, queue: 1 },
       { label: 'User', sub: 'value', rate: 3 },
     ],
   },
   workMap: {
     // Identical to workBefore except one thing: the Coding stage got MUCH
     // bigger (AI boost). Review and Deploy are honest twins (same rate, same
-    // bore); only Review jams because it meets the demand first — Deploy sits
-    // starved behind it. That is the honestly-earned surprise.
+    // bore). The surprise comes from the guess itself: the room commits to a
+    // station before the run, and only Review jams — it meets demand first,
+    // Deploy sits starved behind it. Half the twin-guessers are wrong.
     eyebrow: 'place your bets',
     title: 'Code is wide now. Where is the bottleneck?',
     caption: 'Guess first — then run the system and watch where the queue forms.',
@@ -94,7 +94,7 @@ const scenarios: Record<string, Scenario> = {
       { label: 'Code', sub: 'faster now', rate: 8, boosted: true, queue: 2 },
       { label: 'Review', sub: 'humans', rate: 2.2, bottleneck: true, subtle: true, queue: 2 },
       { label: 'CI / QA', sub: 'confidence', rate: 3, queue: 1 },
-      { label: 'Deploy', sub: 'permission', rate: 2.2, caliber: 9.5, queue: 1 },
+      { label: 'Deploy', sub: 'permission', rate: 2.2, queue: 1 },
       { label: 'User', sub: 'value', rate: 3 },
     ],
   },
@@ -172,10 +172,8 @@ type StageGeom = {
 }
 
 function caliberFor(stage: Stage) {
-  // Bore is an explicit function of service rate. A stage may override its
-  // caliber to LOOK narrower than its true throughput (deploy ceremony:
-  // scary-looking gate, adequate capacity) — the decoy for the reveal.
-  if (stage.caliber != null) return stage.caliber
+  // Bore is an explicit, honest function of service rate — always. The
+  // visual never lies about capacity.
   const rate = stage.rate ?? 1
   return Math.min(36, Math.max(7, 4 + rate * 4.2))
 }
