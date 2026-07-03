@@ -563,6 +563,12 @@ function buildSim() {
   utils.push(Math.min(1, flow / ((stages[stages.length - 1].rate ?? 1) * RATE_SCALE * timeScale)))
   stageUtil.value = utils
   flowStats.value = { inRate: spawnRate, outRate: flow }
+
+  // Slides that openly show their bottleneck start with the toggle on;
+  // guess/reveal slides (subtle constraints) start with it off so the
+  // presenter can flip it as the payoff.
+  showWaste.value = stages.some((stage) => stage.bottleneck && !stage.subtle)
+
   gates.value = gs
   balls.value = bs
 }
@@ -838,7 +844,7 @@ const queueLabels = computed(() => {
         v-for="(g, i) in geom"
         :key="`fill-${props.mode}-${i}`"
         class="pipe-fill"
-        :class="{ bottleneck: g.stage.bottleneck && !g.stage.subtle, boosted: g.stage.boosted, faded: g.stage.faded }"
+        :class="{ bottleneck: g.stage.bottleneck && (!g.stage.subtle || showWaste), boosted: g.stage.boosted, faded: g.stage.faded }"
         :d="fillPath(g)"
       />
 
@@ -881,12 +887,12 @@ const queueLabels = computed(() => {
       <g v-for="(g, i) in geom" :key="`edge-${props.mode}-${i}`" :class="{ faded: g.stage.faded }">
         <path
           class="pipe-edge"
-          :class="{ bottleneck: g.stage.bottleneck && !g.stage.subtle, boosted: g.stage.boosted }"
+          :class="{ bottleneck: g.stage.bottleneck && (!g.stage.subtle || showWaste), boosted: g.stage.boosted }"
           :d="topPath(g)"
         />
         <path
           class="pipe-edge"
-          :class="{ bottleneck: g.stage.bottleneck && !g.stage.subtle, boosted: g.stage.boosted }"
+          :class="{ bottleneck: g.stage.bottleneck && (!g.stage.subtle || showWaste), boosted: g.stage.boosted }"
           :d="bottomPath(g)"
         />
       </g>
@@ -925,7 +931,7 @@ const queueLabels = computed(() => {
       </button>
       <label class="waste-toggle">
         <input v-model="showWaste" type="checkbox" />
-        <span>wasted capacity</span>
+        <span>show bottleneck</span>
       </label>
       <div class="speed-dial">
         <span>speed</span>
