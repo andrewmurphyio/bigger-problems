@@ -104,7 +104,7 @@ This is the first big reveal. Say it cleanly. Do not soften it into “work is c
 # Theory of Constraints in one slide
 
 <div class="quote-panel">
-  <p>Every system has exactly one constraint. The throughput of the system is determined by the throughput of that constraint.</p>
+  <p>Every system has <em>exactly one constraint</em>. The <em>throughput</em> of the system is determined by the <em>throughput</em> of <em>that constraint</em>.</p>
 </div>
 
 <!--
@@ -303,7 +303,7 @@ This is not anti-AI. It is anti-confusing generation with comprehension. The bot
 # Your calendar is a load-bearing wall
 
 <div class="quote-panel">
-  <p>Sometimes the entire delivery system is waiting for a meeting with someone who is on holiday.</p>
+  <p>Sometimes the entire delivery system is waiting for <em>a meeting</em> with someone who is <em>on holiday</em>.</p>
 </div>
 
 <!--
@@ -383,7 +383,7 @@ Make it actionable and boring. The boring thing is the thing that works.
 # Measure cycle time, not output
 
 <div class="quote-panel">
-  <p>The gap between steps is where your delivery time lives.</p>
+  <p>The gap <em>between</em> steps is where your <em>delivery time</em> lives.</p>
 </div>
 
 <!--
