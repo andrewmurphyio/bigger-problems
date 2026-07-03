@@ -99,6 +99,14 @@ This is the first big reveal. Say it cleanly. Do not soften it into “work is c
 
 ---
 
+<PipelineSim mode="workBefore" />
+
+<!--
+Before AI, this is what the work system looked like: a long, unevenly narrow pipe where hand-written code was the constriction everyone could see. Ideas queued behind engineering. This is the world the weekend fix assumed.
+-->
+
+---
+
 <PipelineSim mode="workMap" />
 
 <!--

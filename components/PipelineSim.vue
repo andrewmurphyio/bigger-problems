@@ -6,6 +6,7 @@ type Stage = {
   sub?: string
   rate?: number
   queue?: number
+  caliber?: number
   bottleneck?: boolean
   boosted?: boolean
   faded?: boolean
@@ -43,18 +44,33 @@ const scenarios: Record<string, Scenario> = {
       { label: 'Working thing', sub: 'Sunday afternoon', rate: 5 },
     ],
   },
+  workBefore: {
+    eyebrow: 'larger system',
+    title: 'Work before AI coding',
+    caption: 'Hand-written code was the narrow part everyone could see. Ideas queued behind engineering.',
+    stages: [
+      { label: 'Idea', rate: 5, queue: 2 },
+      { label: 'Discovery', sub: 'what problem?', rate: 2, caliber: 17, queue: 2 },
+      { label: 'Prioritise', sub: 'whose goal?', rate: 3, queue: 8 },
+      { label: 'Code', sub: 'by hand', rate: 1, bottleneck: true, queue: 2 },
+      { label: 'Review', sub: 'humans', rate: 2, caliber: 12, queue: 2 },
+      { label: 'CI / QA', sub: 'confidence', rate: 4, caliber: 13, queue: 1 },
+      { label: 'Deploy', sub: 'permission', rate: 2, queue: 1 },
+      { label: 'User', sub: 'value', rate: 3 },
+    ],
+  },
   workMap: {
     eyebrow: 'larger system',
     title: 'Work is a longer pipe',
     caption: 'Same developer. Same AI tool. More places for ideas to slow down before users see value.',
     stages: [
       { label: 'Idea', rate: 5, queue: 2 },
-      { label: 'Discovery', sub: 'what problem?', rate: 3, queue: 3 },
+      { label: 'Discovery', sub: 'what problem?', rate: 2, caliber: 17, queue: 3 },
       { label: 'Prioritise', sub: 'whose goal?', rate: 3, queue: 2 },
       { label: 'Code', sub: 'faster now', rate: 5, boosted: true, queue: 3 },
-      { label: 'Review', sub: 'humans', rate: 3, queue: 4 },
-      { label: 'CI / QA', sub: 'confidence', rate: 3, queue: 2 },
-      { label: 'Deploy', sub: 'permission', rate: 3, queue: 1 },
+      { label: 'Review', sub: 'humans', rate: 2, caliber: 12, queue: 4 },
+      { label: 'CI / QA', sub: 'confidence', rate: 4, caliber: 13, queue: 2 },
+      { label: 'Deploy', sub: 'permission', rate: 2, queue: 1 },
       { label: 'User', sub: 'value', rate: 3 },
     ],
   },
@@ -127,16 +143,23 @@ type StageGeom = {
   x: number
   h: number
   xa: number
-  ha: number
   xb: number
-  hb: number
+}
+
+function labelWobble(label: string) {
+  // Deterministic pseudo-random per station name: real organisations are not
+  // smooth pipes, so identical rates still render slightly different bores.
+  let hash = 0
+  for (const ch of label) hash = (hash * 31 + ch.charCodeAt(0)) % 997
+  return ((hash % 7) - 3) * 1.2
 }
 
 function caliberFor(stage: Stage) {
   const rate = stage.rate ?? 1
   if (stage.bottleneck) return 8
+  if (stage.caliber != null) return stage.caliber
   if (stage.boosted) return Math.min(36, 27 + rate)
-  return Math.min(26, 17 + rate * 1.4)
+  return Math.min(27, Math.max(11, 10 + rate * 3.2 + labelWobble(stage.label)))
 }
 
 const geom = computed(() => {
@@ -148,17 +171,13 @@ const geom = computed(() => {
     x: PIPE_X0 + span * (i + 0.5),
     h: caliberFor(stage),
     xa: 0,
-    ha: 0,
     xb: 0,
-    hb: 0,
   }))
   for (let i = 0; i < n; i++) {
     const prev = items[i - 1]
     const next = items[i + 1]
     items[i].xa = prev ? (prev.x + items[i].x) / 2 : PIPE_X0
-    items[i].ha = prev ? (prev.h + items[i].h) / 2 : items[i].h
     items[i].xb = next ? (items[i].x + next.x) / 2 : PIPE_X1
-    items[i].hb = next ? (items[i].h + next.h) / 2 : items[i].h
   }
   return items
 })
@@ -168,39 +187,54 @@ function smooth(u: number) {
   return t * t * (3 - 2 * t)
 }
 
+// Each station holds its own bore for its whole span (a plateau), with a
+// short transition at each boundary. Real organisations are lumpy pipes.
+const TRANSITION = 26
+
 function caliberAt(x: number) {
   const items = geom.value
   if (!items.length) return 18
-  if (x <= items[0].xa) return items[0].ha
-  for (const g of items) {
-    if (x >= g.xa && x <= g.x) {
-      return g.ha + (g.h - g.ha) * smooth((x - g.xa) / ((g.x - g.xa) || 1))
+  if (x <= items[0].xa) return items[0].h
+  for (let i = 0; i < items.length; i++) {
+    const g = items[i]
+    if (x > g.xb && i < items.length - 1) continue
+    const prev = items[i - 1]
+    const next = items[i + 1]
+    if (prev && x < g.xa + TRANSITION / 2) {
+      const t = smooth((x - (g.xa - TRANSITION / 2)) / TRANSITION)
+      return prev.h + (g.h - prev.h) * t
     }
-    if (x > g.x && x <= g.xb) {
-      return g.h + (g.hb - g.h) * smooth((x - g.x) / ((g.xb - g.x) || 1))
+    if (next && x > g.xb - TRANSITION / 2) {
+      const t = smooth((x - (g.xb - TRANSITION / 2)) / TRANSITION)
+      return g.h + (next.h - g.h) * t
     }
+    return g.h
   }
-  return items[items.length - 1].hb
+  return items[items.length - 1].h
 }
 
-function bez(xa: number, ya: number, xc: number, yc: number, xb: number, yb: number) {
-  const m1 = ((xa + xc) / 2).toFixed(1)
-  const m2 = ((xc + xb) / 2).toFixed(1)
-  return `C ${m1} ${ya.toFixed(1)} ${m1} ${yc.toFixed(1)} ${xc.toFixed(1)} ${yc.toFixed(1)} `
-    + `C ${m2} ${yc.toFixed(1)} ${m2} ${yb.toFixed(1)} ${xb.toFixed(1)} ${yb.toFixed(1)}`
+function sampledEdge(g: StageGeom, sign: number) {
+  const pts: string[] = []
+  const steps = Math.max(6, Math.round((g.xb - g.xa) / 6))
+  for (let k = 0; k <= steps; k++) {
+    const x = g.xa + ((g.xb - g.xa) * k) / steps
+    pts.push(`${x.toFixed(1)} ${(CY + sign * caliberAt(x)).toFixed(1)}`)
+  }
+  return pts
 }
 
 function topPath(g: StageGeom) {
-  return `M ${g.xa.toFixed(1)} ${(CY - g.ha).toFixed(1)} ${bez(g.xa, CY - g.ha, g.x, CY - g.h, g.xb, CY - g.hb)}`
+  return `M ${sampledEdge(g, -1).join(' L ')}`
 }
 
 function bottomPath(g: StageGeom) {
-  return `M ${g.xa.toFixed(1)} ${(CY + g.ha).toFixed(1)} ${bez(g.xa, CY + g.ha, g.x, CY + g.h, g.xb, CY + g.hb)}`
+  return `M ${sampledEdge(g, 1).join(' L ')}`
 }
 
 function fillPath(g: StageGeom) {
-  return `${topPath(g)} L ${g.xb.toFixed(1)} ${(CY + g.hb).toFixed(1)} `
-    + `${bez(g.xb, CY + g.hb, g.x, CY + g.h, g.xa, CY + g.ha)} Z`
+  const top = sampledEdge(g, -1)
+  const bottom = sampledEdge(g, 1).reverse()
+  return `M ${top.join(' L ')} L ${bottom.join(' L ')} Z`
 }
 
 // --- Live queue simulation ---
