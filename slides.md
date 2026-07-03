@@ -20,9 +20,9 @@ drawings:
 
 <div class="eyebrow">ndc-oslo/60-min</div>
 
-# If you thought the speed of writing code was your problem, you have bigger problems
+<p class="cover-setup">If you thought <em>the speed of writing code</em> was your problem…</p>
 
-<div class="subtitle">AI made my weekend projects feel impossible in the best way. Then it made work feel weird.</div>
+<h1 class="cover-punch">you have <span class="cover-grad">bigger problems</span></h1>
 
 <div class="footer-line"><span class="brand-a">andrew</span>.murphy</div>
 

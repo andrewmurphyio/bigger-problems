@@ -176,15 +176,28 @@ code {
 	justify-content: center;
 }
 
-.cover-title h1 {
-	max-width: 26ch;
-	font-size: clamp(2.3rem, 3.9vw, 3.45rem);
-	line-height: 1.08;
+.cover-setup {
+	margin: 0;
+	max-width: 44rem;
+	color: var(--deck-muted);
+	font-family: var(--slidev-code-font-family);
+	font-weight: 500;
+	font-size: clamp(1.15rem, 1.8vw, 1.5rem);
+	line-height: 1.5;
 }
 
-.cover-title .subtitle {
-	max-width: 46rem;
-	font-size: 1.15rem;
+.cover-punch {
+	margin-top: 1.1rem;
+	max-width: 18ch;
+	font-size: clamp(3.2rem, 6.5vw, 5.4rem);
+	line-height: 1.02;
+}
+
+.cover-grad {
+	background: linear-gradient(90deg, var(--deck-accent-strong, #9747ff), var(--deck-accent, #d783dc));
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 
 .cover-title .footer-line {
