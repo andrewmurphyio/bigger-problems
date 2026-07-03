@@ -99,6 +99,20 @@ This is the first big reveal. Say it cleanly. Do not soften it into “work is c
 
 ---
 
+<div class="eyebrow">goldratt-would-like-a-word</div>
+
+# Theory of Constraints in one slide
+
+<div class="quote-panel">
+  <p>Every system has a constraint. The throughput of the system is determined by the throughput of that constraint.</p>
+</div>
+
+<!--
+Keep this practical and visual. No long management theory detour. One bottleneck governs throughput. Land this lens BEFORE showing the work pipes, so the audience reads every pipe that follows through it.
+-->
+
+---
+
 <PipelineSim mode="workBefore" />
 
 <!--
@@ -134,20 +148,6 @@ Same developer. Same tool. Different system. At work the value stream is longer,
 
 <!--
 Make the category error explicit. We assume the local improvement generalizes to the organizational system.
--->
-
----
-
-<div class="eyebrow">goldratt-would-like-a-word</div>
-
-# Theory of Constraints in one slide
-
-<div class="quote-panel">
-  <p>Every system has a constraint. The throughput of the system is determined by the throughput of that constraint.</p>
-</div>
-
-<!--
-Keep this practical and visual. No long management theory detour. One bottleneck governs throughput.
 -->
 
 ---
