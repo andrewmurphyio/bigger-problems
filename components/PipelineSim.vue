@@ -62,8 +62,8 @@ const scenarios: Record<string, Scenario> = {
     eyebrow: 'larger system',
     title: 'Where is the bottleneck in your system?',
     caption: 'Every system has one. Most teams have never traced theirs.',
-    pace: 6,
-    timeScale: 4,
+    pace: 3,
+    timeScale: 2,
     stages: [
       { label: 'Idea', rate: 5, queue: 2 },
       { label: 'Discovery', sub: 'what problem?', rate: 2, caliber: 17, queue: 2 },
