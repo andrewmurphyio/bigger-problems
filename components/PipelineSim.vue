@@ -759,11 +759,6 @@ const queueLabels = computed(() => {
       <span>coded / value</span>
     </div>
 
-    <div class="speed-dial">
-      <input v-model.number="speedMult" type="range" min="0.25" max="4" step="0.25" />
-      <span>×{{ speedMult }}</span>
-    </div>
-
     <svg
       class="pipe-canvas"
       :viewBox="`0 0 ${VIEW_W} ${VIEW_H}`"
@@ -837,11 +832,18 @@ const queueLabels = computed(() => {
       </text>
     </svg>
 
-    <p class="pipeline-caption">{{ scenario.caption }}</p>
-
-    <div v-if="props.manual && !started" class="sim-start">
-      <button type="button" @click="startSim">▶ run the system</button>
+    <div class="pipe-controls">
+      <button v-if="props.manual && !started" type="button" class="run-btn" @click="startSim">
+        ▶ run the system
+      </button>
+      <div class="speed-dial">
+        <span>speed</span>
+        <input v-model.number="speedMult" type="range" min="0.25" max="4" step="0.25" />
+        <span>×{{ speedMult }}</span>
+      </div>
     </div>
+
+    <p class="pipeline-caption">{{ scenario.caption }}</p>
   </section>
 </template>
 
@@ -1008,16 +1010,24 @@ const queueLabels = computed(() => {
   line-height: 1.34;
 }
 
-.speed-dial {
-  position: absolute;
-  top: 2.55rem;
-  right: 1.25rem;
+.pipe-controls {
+  position: relative;
   z-index: 7;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.1rem;
+  min-height: 1.9rem;
+  margin-top: 0.2rem;
+}
+
+.speed-dial {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
   color: var(--deck-muted, #8f8a99);
   font: 600 0.62rem/1 var(--slidev-code-font-family);
+  text-transform: lowercase;
 }
 
 .speed-dial input {
@@ -1026,34 +1036,24 @@ const queueLabels = computed(() => {
   cursor: pointer;
 }
 
-.speed-dial span {
+.speed-dial span:last-child {
   min-width: 2.2rem;
 }
 
-.sim-start {
-  position: absolute;
-  right: 1.15rem;
-  bottom: 0.95rem;
-  z-index: 7;
-  pointer-events: none;
-}
-
-.sim-start button {
-  pointer-events: auto;
-  padding: 0.7rem 1.5rem;
+.run-btn {
+  padding: 0.45rem 1.1rem;
   border: 1px solid var(--deck-accent, #d783dc);
   border-radius: 0.25rem;
   background: rgba(2, 1, 3, 0.82);
   color: var(--deck-accent, #d783dc);
-  font: 700 0.95rem/1 var(--slidev-code-font-family);
+  font: 700 0.82rem/1 var(--slidev-code-font-family);
   letter-spacing: 0.06em;
   text-transform: lowercase;
   cursor: pointer;
-  box-shadow: 0 0.6rem 1.6rem rgba(0, 0, 0, 0.5);
   transition: background 200ms ease, color 200ms ease;
 }
 
-.sim-start button:hover {
+.run-btn:hover {
   background: var(--deck-accent, #d783dc);
   color: #020103;
 }
