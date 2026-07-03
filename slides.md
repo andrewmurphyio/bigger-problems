@@ -113,10 +113,26 @@ Keep this practical and visual. No long management theory detour. One bottleneck
 
 ---
 
+<PipelineSim mode="bottleneckRecap" />
+
+<!--
+Callback to the weekend pipe, now through the ToC lens: THIS is a bottleneck. The narrowest station set the throughput of the whole system — which is exactly why AI coding felt miraculous there.
+-->
+
+---
+
+<PipelineSim mode="workUnknown" />
+
+<!--
+Now the work pipe with nothing highlighted. Ask the room and let it sit: where is the bottleneck in YOUR system? Every system has one. Most teams have never traced theirs.
+-->
+
+---
+
 <PipelineSim mode="workBefore" />
 
 <!--
-Before AI, this is what the work system looked like: a long, unevenly narrow pipe where hand-written code was the constriction everyone could see. Ideas queued behind engineering. This is the world the weekend fix assumed.
+So let's pretend the bottleneck IS code — the way everyone implicitly assumes. Hand-written code as the constriction, ideas queueing behind engineering. This is the world the weekend fix expects.
 -->
 
 ---

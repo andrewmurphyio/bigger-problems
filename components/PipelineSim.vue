@@ -8,6 +8,7 @@ type Stage = {
   queue?: number
   caliber?: number
   bottleneck?: boolean
+  subtle?: boolean
   boosted?: boolean
   faded?: boolean
 }
@@ -17,6 +18,8 @@ type Scenario = {
   title: string
   caption: string
   pace?: number
+  preFill?: number
+  timeScale?: number
   stages: Stage[]
 }
 
@@ -45,10 +48,36 @@ const scenarios: Record<string, Scenario> = {
       { label: 'Working thing', sub: 'Sunday afternoon', rate: 5 },
     ],
   },
-  workBefore: {
+  bottleneckRecap: {
+    eyebrow: 'goldratt would like a word',
+    title: 'This is a bottleneck',
+    caption: 'The narrowest station sets the throughput of the whole system. Nothing else matters until it moves.',
+    stages: [
+      { label: 'Ideas', sub: 'too many', rate: 5, queue: 10 },
+      { label: 'Coding', sub: 'nights + weekends', rate: 1, bottleneck: true, queue: 1 },
+      { label: 'Working thing', sub: 'eventually', rate: 1 },
+    ],
+  },
+  workUnknown: {
     eyebrow: 'larger system',
-    title: 'Work before AI coding',
-    caption: 'Hand-written code was the narrow part everyone could see. Ideas queued behind engineering.',
+    title: 'Where is the bottleneck in your system?',
+    caption: 'Every system has one. Most teams have never traced theirs.',
+    pace: 1.5,
+    stages: [
+      { label: 'Idea', rate: 5, queue: 2 },
+      { label: 'Discovery', sub: 'what problem?', rate: 2, caliber: 17, queue: 2 },
+      { label: 'Prioritise', sub: 'whose goal?', rate: 3, queue: 2 },
+      { label: 'Code', sub: 'by hand', rate: 3, queue: 2 },
+      { label: 'Review', sub: 'humans', rate: 2, caliber: 12, queue: 2 },
+      { label: 'CI / QA', sub: 'confidence', rate: 4, caliber: 13, queue: 1 },
+      { label: 'Deploy', sub: 'permission', rate: 2, queue: 1 },
+      { label: 'User', sub: 'value', rate: 3 },
+    ],
+  },
+  workBefore: {
+    eyebrow: 'the usual suspect',
+    title: 'Pretend the bottleneck is coding',
+    caption: 'The way everyone assumes it is: hand-written code as the narrow part, ideas queueing behind engineering.',
     pace: 1.5,
     stages: [
       { label: 'Idea', rate: 5, queue: 2 },
@@ -64,16 +93,18 @@ const scenarios: Record<string, Scenario> = {
   workMap: {
     eyebrow: 'larger system',
     title: 'Work is a longer pipe',
-    caption: 'Same developer. Same AI tool. More places for ideas to slow down before users see value.',
-    pace: 1.5,
+    caption: 'Same developer. Same AI tool. Code is wide now — watch where the queue forms.',
+    pace: 2.4,
+    preFill: 0.15,
+    timeScale: 2,
     stages: [
       { label: 'Idea', rate: 5, queue: 2 },
-      { label: 'Discovery', sub: 'what problem?', rate: 2, caliber: 17, queue: 3 },
-      { label: 'Prioritise', sub: 'whose goal?', rate: 3, queue: 2 },
-      { label: 'Code', sub: 'faster now', rate: 5, boosted: true, queue: 3 },
-      { label: 'Review', sub: 'humans', rate: 2, caliber: 12, queue: 4 },
+      { label: 'Discovery', sub: 'what problem?', rate: 4, caliber: 17, queue: 3 },
+      { label: 'Prioritise', sub: 'whose goal?', rate: 4, caliber: 21, queue: 2 },
+      { label: 'Code', sub: 'faster now', rate: 5, boosted: true, queue: 12 },
+      { label: 'Review', sub: 'humans', rate: 2, bottleneck: true, subtle: true, caliber: 12, queue: 4 },
       { label: 'CI / QA', sub: 'confidence', rate: 4, caliber: 13, queue: 2 },
-      { label: 'Deploy', sub: 'permission', rate: 2, queue: 1 },
+      { label: 'Deploy', sub: 'permission', rate: 3, caliber: 17, queue: 1 },
       { label: 'User', sub: 'value', rate: 3 },
     ],
   },
@@ -160,8 +191,8 @@ function labelWobble(label: string) {
 
 function caliberFor(stage: Stage) {
   const rate = stage.rate ?? 1
-  if (stage.bottleneck) return 8
   if (stage.caliber != null) return stage.caliber
+  if (stage.bottleneck) return 8
   if (stage.boosted) return Math.min(36, 27 + rate)
   return Math.min(27, Math.max(11, 10 + rate * 3.2 + labelWobble(stage.label)))
 }
@@ -343,11 +374,12 @@ function buildSim() {
   const gs: SimGate[] = []
 
   // A gate sits at every station after the entry stage; the final stage is the exit.
+  const timeScale = scenario.value.timeScale ?? 1
   for (let j = 1; j <= items.length - 2; j++) {
     const stage = stages[j]
     const rate = stage.rate ?? 1
     const seed = Math.min(stages[j - 1].queue ?? 0, 26)
-    const interval = 1 / (rate * RATE_SCALE)
+    const interval = 1 / (rate * RATE_SCALE * timeScale)
     gs.push({
       bottleneck: Boolean(stage.bottleneck),
       cap: stage.bottleneck ? Math.max(seed, 10) : Math.max(seed * 2, 12),
@@ -362,8 +394,46 @@ function buildSim() {
 
   const bs: SimBall[] = []
 
-  // Queues start EMPTY on slide entry: the audience watches ideas stack up
-  // live behind each constraint. Scenario queue values only set capacities.
+  // Queues start EMPTY on slide entry by default: the audience watches ideas
+  // stack up live behind each constraint. Scenarios can opt into preFill to
+  // start the story mid-flight (for example: code just got faster).
+  const preFill = scenario.value.preFill ?? 0
+  if (preFill > 0) {
+    for (let gi = 0; gi < gs.length; gi++) {
+      const gate = gs[gi]
+      const seedCount = Math.min(
+        Math.round((stages[gi].queue ?? 0) * preFill),
+        gate.slots.length,
+        gate.cap,
+      )
+      for (let s = 0; s < seedCount; s++) {
+        const slot = gate.slots[s]
+        const progress = gi / Math.max(1, gs.length)
+        const [cr, cg, cb] = rampColor(progress)
+        const ball: SimBall = {
+          id: nextId++,
+          x: slot.x,
+          y: slot.y,
+          lane: LANES[s % LANES.length],
+          state: 'queued',
+          gatePos: gi,
+          hot: false,
+          active: false,
+          progress,
+          cr,
+          cg,
+          cb,
+          fill: `rgb(${Math.round(cr)},${Math.round(cg)},${Math.round(cb)})`,
+          opacity: 1,
+          spillT: 0,
+          spillX: 0,
+          spillY: 0,
+        }
+        gate.queue.push(ball.id)
+        bs.push(ball)
+      }
+    }
+  }
 
   const bottleneckGates = gs.filter((gate) => gate.bottleneck)
   if (bottleneckGates.length) {
@@ -377,6 +447,10 @@ function buildSim() {
 
   // Half-density stream: fewer balls in the pipe, same service rates.
   spawnIntervalSec *= 2
+
+  // Time-lapse scenarios run the whole system faster so consequences appear
+  // within seconds of the slide loading.
+  spawnIntervalSec /= timeScale
 
   // Pre-fill the through-flow at steady-state density so the number of balls
   // in transit looks constant from the first frame: each segment carries what
@@ -668,7 +742,7 @@ const queueLabels = computed(() => {
         v-for="(g, i) in geom"
         :key="`fill-${props.mode}-${i}`"
         class="pipe-fill"
-        :class="{ bottleneck: g.stage.bottleneck, boosted: g.stage.boosted, faded: g.stage.faded }"
+        :class="{ bottleneck: g.stage.bottleneck && !g.stage.subtle, boosted: g.stage.boosted, faded: g.stage.faded }"
         :d="fillPath(g)"
       />
 
@@ -700,12 +774,12 @@ const queueLabels = computed(() => {
       <g v-for="(g, i) in geom" :key="`edge-${props.mode}-${i}`" :class="{ faded: g.stage.faded }">
         <path
           class="pipe-edge"
-          :class="{ bottleneck: g.stage.bottleneck, boosted: g.stage.boosted }"
+          :class="{ bottleneck: g.stage.bottleneck && !g.stage.subtle, boosted: g.stage.boosted }"
           :d="topPath(g)"
         />
         <path
           class="pipe-edge"
-          :class="{ bottleneck: g.stage.bottleneck, boosted: g.stage.boosted }"
+          :class="{ bottleneck: g.stage.bottleneck && !g.stage.subtle, boosted: g.stage.boosted }"
           :d="bottomPath(g)"
         />
       </g>
