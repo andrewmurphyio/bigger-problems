@@ -6,11 +6,11 @@ type Stage = {
   sub?: string
   rate?: number
   queue?: number
-  caliber?: number
   bottleneck?: boolean
   subtle?: boolean
   boosted?: boolean
   faded?: boolean
+  sheds?: boolean
 }
 
 type Scenario = {
@@ -35,8 +35,8 @@ const scenarios: Record<string, Scenario> = {
     caption: 'Ideas were waiting behind the slowest part of the pipe: me turning them into working code.',
     stages: [
       { label: 'Ideas', sub: 'too many', rate: 5, queue: 10 },
-      { label: 'Coding', sub: 'nights + weekends', rate: 1, bottleneck: true, queue: 1 },
-      { label: 'Working thing', sub: 'eventually', rate: 1 },
+      { label: 'Coding', sub: 'nights + weekends', rate: 1, bottleneck: true, sheds: true, queue: 1 },
+      { label: 'Working thing', sub: 'eventually', rate: 3 },
     ],
   },
   weekendAfter: {
@@ -55,8 +55,8 @@ const scenarios: Record<string, Scenario> = {
     caption: 'The narrowest station sets the throughput of the whole system. Nothing else matters until it moves.',
     stages: [
       { label: 'Ideas', sub: 'too many', rate: 5, queue: 10 },
-      { label: 'Coding', sub: 'nights + weekends', rate: 1, bottleneck: true, queue: 1 },
-      { label: 'Working thing', sub: 'eventually', rate: 1 },
+      { label: 'Coding', sub: 'nights + weekends', rate: 1, bottleneck: true, sheds: true, queue: 1 },
+      { label: 'Working thing', sub: 'eventually', rate: 3 },
     ],
   },
   workUnknown: {
@@ -66,16 +66,16 @@ const scenarios: Record<string, Scenario> = {
     pace: 4.5,
     timeScale: 2,
     stages: [
-      // The visual red herring: Deploy has the narrowest bore, but Review has
-      // the slowest service rate — the jam forms where the RATE is lowest,
-      // not where the pipe looks thinnest.
+      // Honest red herring: Deploy is genuinely the slowest-looking AND
+      // slowest station, but demand binds at Review first — Review's queue
+      // explodes while Deploy, starved by Review upstream, only dribbles.
       { label: 'Idea', rate: 5, queue: 2 },
-      { label: 'Discovery', sub: 'what problem?', rate: 5, caliber: 17, queue: 2 },
-      { label: 'Prioritise', sub: 'whose goal?', rate: 5, caliber: 21, queue: 2 },
-      { label: 'Code', sub: 'by hand', rate: 5, caliber: 19, queue: 2 },
-      { label: 'Review', sub: 'humans', rate: 1.5, bottleneck: true, subtle: true, caliber: 15, queue: 2 },
-      { label: 'CI / QA', sub: 'confidence', rate: 5, caliber: 13, queue: 1 },
-      { label: 'Deploy', sub: 'permission', rate: 5, caliber: 10, queue: 1 },
+      { label: 'Discovery', sub: 'what problem?', rate: 4.5, queue: 2 },
+      { label: 'Prioritise', sub: 'whose goal?', rate: 4.5, sheds: true, queue: 2 },
+      { label: 'Code', sub: 'by hand', rate: 4.5, queue: 2 },
+      { label: 'Review', sub: 'humans', rate: 2.2, bottleneck: true, subtle: true, queue: 2 },
+      { label: 'CI / QA', sub: 'confidence', rate: 3, queue: 1 },
+      { label: 'Deploy', sub: 'permission', rate: 1.5, queue: 1 },
       { label: 'User', sub: 'value', rate: 3 },
     ],
   },
@@ -86,11 +86,11 @@ const scenarios: Record<string, Scenario> = {
     pace: 1.5,
     stages: [
       { label: 'Idea', rate: 5, queue: 2 },
-      { label: 'Discovery', sub: 'what problem?', rate: 2, caliber: 17, queue: 2 },
-      { label: 'Prioritise', sub: 'whose goal?', rate: 3, queue: 8 },
+      { label: 'Discovery', sub: 'what problem?', rate: 3, queue: 2 },
+      { label: 'Prioritise', sub: 'whose goal?', rate: 3, sheds: true, queue: 8 },
       { label: 'Code', sub: 'by hand', rate: 1, bottleneck: true, queue: 2 },
-      { label: 'Review', sub: 'humans', rate: 2, caliber: 12, queue: 2 },
-      { label: 'CI / QA', sub: 'confidence', rate: 4, caliber: 13, queue: 1 },
+      { label: 'Review', sub: 'humans', rate: 2, queue: 2 },
+      { label: 'CI / QA', sub: 'confidence', rate: 2.5, queue: 1 },
       { label: 'Deploy', sub: 'permission', rate: 2, queue: 1 },
       { label: 'User', sub: 'value', rate: 3 },
     ],
@@ -104,12 +104,12 @@ const scenarios: Record<string, Scenario> = {
     timeScale: 2,
     stages: [
       { label: 'Idea', rate: 5, queue: 2 },
-      { label: 'Discovery', sub: 'what problem?', rate: 4, caliber: 17, queue: 3 },
-      { label: 'Prioritise', sub: 'whose goal?', rate: 4, caliber: 21, queue: 2 },
+      { label: 'Discovery', sub: 'what problem?', rate: 4, queue: 3 },
+      { label: 'Prioritise', sub: 'whose goal?', rate: 4, sheds: true, queue: 2 },
       { label: 'Code', sub: 'faster now', rate: 5, boosted: true, queue: 12 },
-      { label: 'Review', sub: 'humans', rate: 2, bottleneck: true, subtle: true, caliber: 12, queue: 4 },
-      { label: 'CI / QA', sub: 'confidence', rate: 4, caliber: 13, queue: 2 },
-      { label: 'Deploy', sub: 'permission', rate: 3, caliber: 17, queue: 1 },
+      { label: 'Review', sub: 'humans', rate: 2, bottleneck: true, subtle: true, queue: 4 },
+      { label: 'CI / QA', sub: 'confidence', rate: 4, queue: 2 },
+      { label: 'Deploy', sub: 'permission', rate: 3, queue: 1 },
       { label: 'User', sub: 'value', rate: 3 },
     ],
   },
@@ -119,7 +119,7 @@ const scenarios: Record<string, Scenario> = {
     caption: 'The balls are ideas. If review is the constraint, faster coding creates back-pressure before review.',
     stages: [
       { label: 'Idea', rate: 6, queue: 3 },
-      { label: 'Discovery', sub: 'ambiguous', rate: 6, queue: 4 },
+      { label: 'Discovery', sub: 'ambiguous', rate: 3, queue: 4 },
       { label: 'Code', sub: 'AI boost', rate: 8, boosted: true, queue: 22 },
       { label: 'Review', sub: 'constraint', rate: 2, bottleneck: true, queue: 7 },
       { label: 'CI / QA', sub: 'wait', rate: 3, queue: 4 },
@@ -133,7 +133,7 @@ const scenarios: Record<string, Scenario> = {
     caption: 'Faster coding does not help when ideas are blocked before implementation starts.',
     stages: [
       { label: 'Idea', rate: 7, queue: 13 },
-      { label: 'Discovery', sub: 'constraint', rate: 1, bottleneck: true, queue: 4 },
+      { label: 'Discovery', sub: 'constraint', rate: 1, bottleneck: true, sheds: true, queue: 4 },
       { label: 'Code', sub: 'fast', rate: 6, boosted: true, faded: true, queue: 1 },
       { label: 'Ship', sub: 'wrong thing?', rate: 2 },
     ],
@@ -148,7 +148,7 @@ const scenarios: Record<string, Scenario> = {
       { label: 'CI', sub: 'flake?', rate: 3, queue: 6 },
       { label: 'QA', sub: 'handoff', rate: 3, queue: 4 },
       { label: 'Deploy', sub: 'window', rate: 1, bottleneck: true, queue: 2 },
-      { label: 'User', sub: 'eventually', rate: 1 },
+      { label: 'User', sub: 'eventually', rate: 2 },
     ],
   },
   fixedConstraint: {
@@ -186,20 +186,11 @@ type StageGeom = {
   xb: number
 }
 
-function labelWobble(label: string) {
-  // Deterministic pseudo-random per station name: real organisations are not
-  // smooth pipes, so identical rates still render slightly different bores.
-  let hash = 0
-  for (const ch of label) hash = (hash * 31 + ch.charCodeAt(0)) % 997
-  return ((hash % 7) - 3) * 1.2
-}
-
 function caliberFor(stage: Stage) {
+  // Bore is an explicit, honest function of service rate: a station's
+  // narrowness always tells the truth about its capacity.
   const rate = stage.rate ?? 1
-  if (stage.caliber != null) return stage.caliber
-  if (stage.bottleneck) return 8
-  if (stage.boosted) return Math.min(36, 27 + rate)
-  return Math.min(27, Math.max(11, 10 + rate * 3.2 + labelWobble(stage.label)))
+  return Math.min(36, Math.max(7, 4 + rate * 4.2))
 }
 
 const geom = computed(() => {
@@ -341,6 +332,7 @@ type SimGate = {
   interval: number
   queue: number[]
   serving: number | null
+  sheds: boolean
   slots: { x: number, y: number }[]
   timer: number
   x: number
@@ -359,11 +351,13 @@ let spawnIntervalSec = 1
 let running = false
 let observer: IntersectionObserver | null = null
 
-function buildSlots(gateX: number) {
+function buildSlots(gateX: number, minX: number) {
+  // Physical queue slots between this gate and the previous station.
   const out: { x: number, y: number }[] = []
   let col = 0
   while (out.length < 30 && col < 40) {
     const x = gateX - 16 - col * 10
+    if (x < minX) break
     const caliber = caliberAt(x)
     const rows = Math.min(4, Math.max(1, Math.floor((caliber - 6) / 5)))
     for (let row = 0; row < rows && out.length < 30; row++) {
@@ -386,13 +380,19 @@ function buildSim() {
     const rate = stage.rate ?? 1
     const seed = Math.min(stages[j - 1].queue ?? 0, 26)
     const interval = 1 / (rate * RATE_SCALE * timeScale)
+    const sheds = Boolean(stage.sheds)
+    const slots = buildSlots(items[j].x, items[j - 1].x + 24)
     gs.push({
       bottleneck: Boolean(stage.bottleneck),
-      cap: stage.bottleneck ? Math.max(seed, 10) : Math.max(seed * 2, 12),
+      // No station ever holds more than 10 items. Shedding gates drop work
+      // at capacity; everywhere else a full queue blocks the upstream gate
+      // and pressure backs up the pipe.
+      cap: Math.min(10, sheds ? Math.max(seed, 8) : slots.length),
       interval,
       queue: [],
       serving: null,
-      slots: buildSlots(items[j].x),
+      sheds,
+      slots,
       timer: interval * (0.3 + (((j * 7) % 10) / 10) * 0.5),
       x: items[j].x,
     })
@@ -519,6 +519,13 @@ function tick(dt: number) {
     const gate = gs[gi]
     gate.timer -= dt
     if (gate.timer <= 0) {
+      const next = gs[gi + 1]
+      if (gate.serving != null && next && !next.sheds && next.queue.length >= next.cap) {
+        // Downstream is physically full: hold the finished item in place.
+        // Back-pressure, not loss — retry shortly.
+        gate.timer = 0.25
+        continue
+      }
       gate.timer += gate.interval
       if (gate.serving != null) {
         const released = arr.find((ball) => ball.id === gate.serving)
@@ -625,8 +632,12 @@ function tick(dt: number) {
       } else {
         const tail = gate.slots[Math.min(gate.queue.length, gate.slots.length - 1)]
         if (ball.x >= tail.x) {
-          if (gate.queue.length >= gate.cap) {
-            // The queue is genuinely full: one idea overflows and falls out.
+          if (gate.queue.length >= gate.cap && !gate.sheds) {
+            // This station never drops work: the idea waits in the pipe just
+            // behind the queue, backing pressure up towards earlier stations.
+            ball.x = Math.min(ball.x, tail.x - 8)
+          } else if (gate.queue.length >= gate.cap) {
+            // Shedding station (prioritisation): one idea gets dropped.
             // Roughly half the time it is the newly arriving idea; otherwise a
             // random already-queued idea gets shoved out and the new one joins.
             if (Math.random() < 0.5) {
