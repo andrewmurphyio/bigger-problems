@@ -864,7 +864,8 @@ const queueLabels = computed(() => {
         → in {{ Math.round(flowStats.inRate * 60) }}/min
       </text>
       <text class="rate-label rate-out" :x="PIPE_X1" y="215" text-anchor="end">
-        out {{ Math.round(flowStats.outRate * 60) }}/min →
+        out {{ Math.round(flowStats.outRate * 60) }}/min
+        ({{ flowStats.inRate > 0 ? Math.round((flowStats.outRate / flowStats.inRate) * 100) : 0 }}% of input) →
       </text>
     </svg>
 
