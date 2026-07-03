@@ -506,12 +506,31 @@ function tick(dt: number) {
         const tail = gate.slots[Math.min(gate.queue.length, gate.slots.length - 1)]
         if (ball.x >= tail.x) {
           if (gate.queue.length >= gate.cap) {
-            // The queue is genuinely full: this idea overflows and falls out.
-            ball.state = 'spill'
-            ball.active = false
-            ball.spillT = 0
-            ball.spillX = ball.x
-            ball.spillY = CY - caliberAt(ball.x) - 3
+            // The queue is genuinely full: one idea overflows and falls out.
+            // Roughly half the time it is the newly arriving idea; otherwise a
+            // random already-queued idea gets shoved out and the new one joins.
+            if (Math.random() < 0.5) {
+              ball.state = 'spill'
+              ball.active = false
+              ball.spillT = 0
+              ball.spillX = ball.x
+              ball.spillY = CY - caliberAt(ball.x) - 3
+            } else {
+              const victimIdx = Math.floor(Math.random() * gate.queue.length)
+              const victimId = gate.queue.splice(victimIdx, 1)[0]
+              const victim = arr.find((candidate) => candidate.id === victimId)
+              if (victim) {
+                victim.state = 'spill'
+                victim.active = false
+                victim.hot = true
+                victim.spillT = 0
+                victim.spillX = victim.x
+                victim.spillY = CY - caliberAt(victim.x) - 3
+              }
+              ball.state = 'queued'
+              ball.active = false
+              gate.queue.push(ball.id)
+            }
           } else {
             ball.state = 'queued'
             ball.active = false
