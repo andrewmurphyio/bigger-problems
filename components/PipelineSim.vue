@@ -356,6 +356,7 @@ const RATE_WINDOW = 8
 let simTime = 0
 let enteredAt: number[] = []
 let exitedAt: number[] = []
+let statsUpdatedAt = 0
 
 let nextId = 1
 let rafHandle = 0
@@ -716,8 +717,13 @@ function tick(dt: number) {
 
   while (enteredAt.length && enteredAt[0] < simTime - RATE_WINDOW) enteredAt.shift()
   while (exitedAt.length && exitedAt[0] < simTime - RATE_WINDOW) exitedAt.shift()
-  const span = Math.max(2, Math.min(simTime, RATE_WINDOW))
-  flowStats.value = { inRate: enteredAt.length / span, outRate: exitedAt.length / span }
+  // Refresh the displayed figures only once per second so they are readable.
+  const nowWall = performance.now()
+  if (nowWall - statsUpdatedAt >= 1000) {
+    statsUpdatedAt = nowWall
+    const span = Math.max(2, Math.min(simTime, RATE_WINDOW))
+    flowStats.value = { inRate: enteredAt.length / span, outRate: exitedAt.length / span }
+  }
 }
 
 function loop(now: number) {
