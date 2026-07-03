@@ -19,6 +19,7 @@ type Scenario = {
   caption: string
   pace?: number
   preFill?: number
+  coldStart?: boolean
   timeScale?: number
   stages: Stage[]
 }
@@ -83,7 +84,7 @@ const scenarios: Record<string, Scenario> = {
     eyebrow: 'the usual suspect',
     title: 'Pretend the bottleneck is coding',
     caption: 'The way everyone assumes it is: hand-written code as the narrow part, ideas queueing behind engineering.',
-    pace: 3,
+    pace: 5,
     stages: [
       { label: 'Idea', rate: 5, queue: 2 },
       { label: 'Discovery', sub: 'what problem?', rate: 3, queue: 2 },
@@ -99,8 +100,8 @@ const scenarios: Record<string, Scenario> = {
     eyebrow: 'larger system',
     title: 'Work is a longer pipe',
     caption: 'Same developer. Same AI tool. Code is wide now — watch where the queue forms.',
-    pace: 2.4,
-    preFill: 0.15,
+    pace: 3,
+    coldStart: true,
     timeScale: 2,
     stages: [
       { label: 'Idea', rate: 5, queue: 2 },
@@ -409,7 +410,7 @@ function buildSim() {
   // start the story mid-flight (for example: code just got faster).
   // Manual slides always begin completely empty: the pipe is a still diagram
   // until the presenter presses run.
-  const preFill = props.manual ? 0 : (scenario.value.preFill ?? 0)
+  const preFill = props.manual || scenario.value.coldStart ? 0 : (scenario.value.preFill ?? 0)
   if (preFill > 0) {
     for (let gi = 0; gi < gs.length; gi++) {
       const gate = gs[gi]
@@ -467,9 +468,10 @@ function buildSim() {
   // Pre-fill the through-flow at steady-state density so the number of balls
   // in transit looks constant from the first frame: each segment carries what
   // the slower of spawn rate / upstream service rates lets through.
+  const coldStart = props.manual || Boolean(scenario.value.coldStart)
   let throughputPerSec = 1 / spawnIntervalSec
   let segStart = -8
-  for (let seg = 0; !props.manual && seg <= gs.length; seg++) {
+  for (let seg = 0; !coldStart && seg <= gs.length; seg++) {
     const segEnd = seg < gs.length ? gs[seg].x - 26 : VIEW_W + 8
     const len = Math.max(0, segEnd - segStart)
     const count = Math.round((throughputPerSec * len) / ballSpeed.value)
@@ -508,7 +510,7 @@ function buildSim() {
     }
   }
 
-  spawnTimer = props.manual ? 0.3 : spawnIntervalSec * 0.5
+  spawnTimer = coldStart ? 0.3 : spawnIntervalSec * 0.5
   speedLevel.value = scenario.value.pace ?? 1
   gates.value = gs
   balls.value = bs
