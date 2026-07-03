@@ -99,6 +99,20 @@ This is the first big reveal. Say it cleanly. Do not soften it into “work is c
 
 ---
 
+<div class="eyebrow">the-receipts</div>
+
+# Writing code is <em>16%</em> of an engineer's time
+
+<div class="subtitle">The other 84% is the pipe. Make coding instant and the whole system gets at most ~19% faster.</div>
+
+<div class="footnote">IDC, “How Do Software Developers Spend Their Time?” (2025) — 16% in 2024, up from 15% the year before.</div>
+
+<!--
+Receipts for the reveal. IDC: application development was 16% of developer time in 2024. Amdahl's law does the punchline: even infinite coding speed caps the system improvement at roughly 19%.
+-->
+
+---
+
 <div class="eyebrow">goldratt-would-like-a-word</div>
 
 # Theory of Constraints in one slide

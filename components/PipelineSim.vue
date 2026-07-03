@@ -153,7 +153,7 @@ const scenarios: Record<string, Scenario> = {
       { label: 'Review', sub: 'constraint', rate: 2, bottleneck: true, queue: 10 },
       { label: 'CI', sub: 'flake?', rate: 3, queue: 6 },
       { label: 'QA', sub: 'handoff', rate: 3, queue: 4 },
-      { label: 'Deploy', sub: 'window', rate: 1, bottleneck: true, queue: 2 },
+      { label: 'Deploy', sub: 'window', rate: 2.5, queue: 2 },
       { label: 'User', sub: 'eventually', rate: 2 },
     ],
   },

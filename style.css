@@ -408,6 +408,12 @@ code {
 	margin: 0.65rem 0;
 }
 
+.footnote {
+	margin-top: 2.2rem;
+	color: var(--deck-muted);
+	font: 500 0.78rem/1.4 var(--slidev-code-font-family);
+}
+
 @media (max-width: 1000px) {
 	.slidev-layout {
 		padding: 2.7rem 3.4rem;
