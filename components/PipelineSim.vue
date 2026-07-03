@@ -97,20 +97,22 @@ const scenarios: Record<string, Scenario> = {
     ],
   },
   workMap: {
+    // Identical to workBefore in every way except one: the Coding stage got
+    // bigger. Review carries an invisible sim flag so demand exceeds it and
+    // the new jam emerges there — but its bore and rate match workBefore.
     eyebrow: 'larger system',
     title: 'Work is a longer pipe',
     caption: 'Same developer. Same AI tool. Code is wide now — watch where the queue forms.',
     pace: 3,
     coldStart: true,
-    timeScale: 2,
     stages: [
       { label: 'Idea', rate: 5, queue: 2 },
-      { label: 'Discovery', sub: 'what problem?', rate: 4, queue: 3 },
-      { label: 'Prioritise', sub: 'whose goal?', rate: 4, sheds: true, queue: 2 },
-      { label: 'Code', sub: 'faster now', rate: 5, boosted: true, queue: 12 },
-      { label: 'Review', sub: 'humans', rate: 2, bottleneck: true, subtle: true, queue: 4 },
-      { label: 'CI / QA', sub: 'confidence', rate: 4, queue: 2 },
-      { label: 'Deploy', sub: 'permission', rate: 3, queue: 1 },
+      { label: 'Discovery', sub: 'what problem?', rate: 3, queue: 2 },
+      { label: 'Prioritise', sub: 'whose goal?', rate: 3, sheds: true, queue: 8 },
+      { label: 'Code', sub: 'faster now', rate: 5, boosted: true, queue: 2 },
+      { label: 'Review', sub: 'humans', rate: 2, bottleneck: true, subtle: true, queue: 2 },
+      { label: 'CI / QA', sub: 'confidence', rate: 2.5, queue: 1 },
+      { label: 'Deploy', sub: 'permission', rate: 2, queue: 1 },
       { label: 'User', sub: 'value', rate: 3 },
     ],
   },
