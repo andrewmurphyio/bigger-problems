@@ -16,6 +16,7 @@ type Scenario = {
   eyebrow: string
   title: string
   caption: string
+  pace?: number
   stages: Stage[]
 }
 
@@ -48,6 +49,7 @@ const scenarios: Record<string, Scenario> = {
     eyebrow: 'larger system',
     title: 'Work before AI coding',
     caption: 'Hand-written code was the narrow part everyone could see. Ideas queued behind engineering.',
+    pace: 1.5,
     stages: [
       { label: 'Idea', rate: 5, queue: 2 },
       { label: 'Discovery', sub: 'what problem?', rate: 2, caliber: 17, queue: 2 },
@@ -63,6 +65,7 @@ const scenarios: Record<string, Scenario> = {
     eyebrow: 'larger system',
     title: 'Work is a longer pipe',
     caption: 'Same developer. Same AI tool. More places for ideas to slow down before users see value.',
+    pace: 1.5,
     stages: [
       { label: 'Idea', rate: 5, queue: 2 },
       { label: 'Discovery', sub: 'what problem?', rate: 2, caliber: 17, queue: 3 },
@@ -129,6 +132,7 @@ const scenarios: Record<string, Scenario> = {
 }
 
 const scenario = computed(() => scenarios[props.mode] ?? scenarios.workBoost)
+const ballSpeed = computed(() => BALL_SPEED * (scenario.value.pace ?? 1))
 
 // --- One continuous pipe: geometry in SVG user units ---
 
@@ -382,7 +386,7 @@ function buildSim() {
   for (let seg = 0; seg <= gs.length; seg++) {
     const segEnd = seg < gs.length ? gs[seg].x - 26 : VIEW_W + 8
     const len = Math.max(0, segEnd - segStart)
-    const count = Math.round((throughputPerSec * len) / BALL_SPEED)
+    const count = Math.round((throughputPerSec * len) / ballSpeed.value)
     for (let k = 0; k < count; k++) {
       const jitter = (((k * 37) % 11) - 5) * 1.6
       const x = segStart + ((k + 0.5) * len) / count + jitter
@@ -516,7 +520,7 @@ function tick(dt: number) {
     }
 
     // Flowing: move right, squeezing lanes down inside narrow sections.
-    ball.x += BALL_SPEED * dt
+    ball.x += ballSpeed.value * dt
     const caliber = caliberAt(ball.x)
     const squeeze = Math.min(1, Math.max(0.12, (caliber - 5) / 20))
     const targetY = CY + ball.lane * squeeze
