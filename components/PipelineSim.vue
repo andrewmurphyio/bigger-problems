@@ -988,10 +988,9 @@ const queueLabels = computed(() => {
 
 .sim-start {
   position: absolute;
-  inset: 0;
+  right: 1.15rem;
+  bottom: 0.95rem;
   z-index: 7;
-  display: grid;
-  place-items: center;
   pointer-events: none;
 }
 
