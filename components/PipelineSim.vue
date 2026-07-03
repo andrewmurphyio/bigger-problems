@@ -861,10 +861,10 @@ const queueLabels = computed(() => {
 
       <!-- measured throughput at the pipe ends -->
       <text class="rate-label rate-in" :x="PIPE_X0" y="215" text-anchor="start">
-        → in {{ flowStats.inRate.toFixed(1) }}/s
+        → in {{ Math.round(flowStats.inRate * 60) }}/min
       </text>
       <text class="rate-label rate-out" :x="PIPE_X1" y="215" text-anchor="end">
-        out {{ flowStats.outRate.toFixed(1) }}/s →
+        out {{ Math.round(flowStats.outRate * 60) }}/min →
       </text>
     </svg>
 
