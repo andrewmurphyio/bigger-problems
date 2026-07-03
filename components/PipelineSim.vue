@@ -465,7 +465,8 @@ function tick(dt: number) {
         const ease = Math.min(1, dt * 7)
         ball.x += (slot.x - ball.x) * ease
         ball.y += (slot.y - ball.y) * ease
-        ball.hot = gate.queue.length >= 8
+        // Waiting does not change an idea: queued balls keep their colour.
+        ball.hot = false
         ball.active = false
       }
       continue
