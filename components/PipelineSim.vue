@@ -360,7 +360,6 @@ type SimGate = {
   cap: number
   interval: number
   queue: number[]
-  released: number[]
   serving: number | null
   sheds: boolean
   slots: { x: number, y: number }[]
@@ -377,19 +376,12 @@ const started = ref(false)
 // scenario's tuned pace sets its default position.
 const speedLevel = ref(1)
 
-// Live throughput: measured (not configured) ideas/sec entering the pipe and
-// leaving it as value, over a rolling window of simulated time. Spilled
-// ideas never count as output.
+// Steady-state throughput and utilisation, derived analytically from the
+// configured rates: flow through any station is min(demand, every upstream
+// service rate). Static per scenario — the physics, not a noisy sample.
 const flowStats = ref({ inRate: 0, outRate: 0 })
-// Measured utilisation per stage (actual throughput / capacity). The
-// hatched overlay shows the complement: wasted capacity.
 const stageUtil = ref<number[]>([])
 const showWaste = ref(false)
-const RATE_WINDOW = 8
-let simTime = 0
-let enteredAt: number[] = []
-let exitedAt: number[] = []
-let statsUpdatedAt = 0
 
 let nextId = 1
 let rafHandle = 0
@@ -438,7 +430,6 @@ function buildSim() {
       cap: Math.min(10, sheds ? Math.max(seed, 8) : slots.length),
       interval,
       queue: [],
-      released: [],
       serving: null,
       sheds,
       slots,
@@ -556,10 +547,22 @@ function buildSim() {
 
   spawnTimer = coldStart ? 0.3 : spawnIntervalSec * 0.5
   speedLevel.value = scenario.value.pace ?? 1
-  simTime = 0
-  enteredAt = []
-  exitedAt = []
-  flowStats.value = { inRate: 0, outRate: 0 }
+
+  // Steady-state utilisation: flow through station i is min(demand, every
+  // upstream service rate). Static per scenario — the constraint runs at
+  // 100%, everything else shows its true wasted share.
+  const spawnRate = 1 / spawnIntervalSec
+  const utils: number[] = []
+  utils.push(Math.min(1, spawnRate / ((stages[0].rate ?? 1) * RATE_SCALE * timeScale)))
+  let flow = spawnRate
+  for (const gate of gs) {
+    const svc = 1 / gate.interval
+    flow = Math.min(flow, svc)
+    utils.push(Math.min(1, flow / svc))
+  }
+  utils.push(Math.min(1, flow / ((stages[stages.length - 1].rate ?? 1) * RATE_SCALE * timeScale)))
+  stageUtil.value = utils
+  flowStats.value = { inRate: spawnRate, outRate: flow }
   gates.value = gs
   balls.value = bs
 }
@@ -567,7 +570,6 @@ function buildSim() {
 function tick(dt: number) {
   const gs = gates.value
   const arr = balls.value.slice()
-  simTime += dt
 
   // Each station works on ONE ball at a time: it sits in the throat for the
   // service interval, is released downstream, then the next in queue slides in.
@@ -589,7 +591,6 @@ function tick(dt: number) {
           released.state = 'flow'
           released.gatePos = gi + 1
           released.progress = Math.max(released.progress, (gi + 1) / gs.length)
-          gate.released.push(simTime)
         }
         gate.serving = null
       }
@@ -603,7 +604,6 @@ function tick(dt: number) {
   spawnTimer -= dt
   if (spawnTimer <= 0 && arr.length < 90) {
     spawnTimer += spawnIntervalSec
-    enteredAt.push(simTime)
     const lane = LANES[nextId % LANES.length]
     arr.push({
       id: nextId++,
@@ -742,35 +742,9 @@ function tick(dt: number) {
     ball.fill = `rgb(${Math.round(ball.cr)},${Math.round(ball.cg)},${Math.round(ball.cb)})`
   }
 
-  balls.value = arr.filter((ball) => {
-    if (ball.state !== 'spill' && ball.x >= VIEW_W + 16) {
-      exitedAt.push(simTime)
-      return false
-    }
-    return ball.state !== 'spill' || ball.spillT < 1.3
-  })
-
-  while (enteredAt.length && enteredAt[0] < simTime - RATE_WINDOW) enteredAt.shift()
-  while (exitedAt.length && exitedAt[0] < simTime - RATE_WINDOW) exitedAt.shift()
-  // Refresh the displayed figures only once per second so they are readable.
-  const nowWall = performance.now()
-  if (nowWall - statsUpdatedAt >= 1000) {
-    statsUpdatedAt = nowWall
-    const span = Math.max(2, Math.min(simTime, RATE_WINDOW))
-    flowStats.value = { inRate: enteredAt.length / span, outRate: exitedAt.length / span }
-
-    // Utilisation per stage: measured throughput / capacity.
-    const stages = scenario.value.stages
-    const ts = scenario.value.timeScale ?? 1
-    const utils: number[] = []
-    utils.push(Math.min(1, (enteredAt.length / span) / ((stages[0].rate ?? 1) * RATE_SCALE * ts)))
-    for (const gate of gs) {
-      while (gate.released.length && gate.released[0] < simTime - RATE_WINDOW) gate.released.shift()
-      utils.push(Math.min(1, (gate.released.length / span) * gate.interval))
-    }
-    utils.push(Math.min(1, (exitedAt.length / span) / ((stages[stages.length - 1].rate ?? 1) * RATE_SCALE * ts)))
-    stageUtil.value = utils
-  }
+  balls.value = arr.filter(
+    (ball) => ball.x < VIEW_W + 16 && (ball.state !== 'spill' || ball.spillT < 1.3),
+  )
 }
 
 function loop(now: number) {
