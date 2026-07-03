@@ -348,6 +348,15 @@ const started = ref(false)
 // scenario's tuned pace sets its default position.
 const speedLevel = ref(1)
 
+// Live throughput: measured (not configured) ideas/sec entering the pipe and
+// leaving it as value, over a rolling window of simulated time. Spilled
+// ideas never count as output.
+const flowStats = ref({ inRate: 0, outRate: 0 })
+const RATE_WINDOW = 8
+let simTime = 0
+let enteredAt: number[] = []
+let exitedAt: number[] = []
+
 let nextId = 1
 let rafHandle = 0
 let lastTime = 0
@@ -512,6 +521,10 @@ function buildSim() {
 
   spawnTimer = coldStart ? 0.3 : spawnIntervalSec * 0.5
   speedLevel.value = scenario.value.pace ?? 1
+  simTime = 0
+  enteredAt = []
+  exitedAt = []
+  flowStats.value = { inRate: 0, outRate: 0 }
   gates.value = gs
   balls.value = bs
 }
@@ -519,6 +532,7 @@ function buildSim() {
 function tick(dt: number) {
   const gs = gates.value
   const arr = balls.value.slice()
+  simTime += dt
 
   // Each station works on ONE ball at a time: it sits in the throat for the
   // service interval, is released downstream, then the next in queue slides in.
@@ -553,6 +567,7 @@ function tick(dt: number) {
   spawnTimer -= dt
   if (spawnTimer <= 0 && arr.length < 90) {
     spawnTimer += spawnIntervalSec
+    enteredAt.push(simTime)
     const lane = LANES[nextId % LANES.length]
     arr.push({
       id: nextId++,
@@ -691,9 +706,18 @@ function tick(dt: number) {
     ball.fill = `rgb(${Math.round(ball.cr)},${Math.round(ball.cg)},${Math.round(ball.cb)})`
   }
 
-  balls.value = arr.filter(
-    (ball) => ball.x < VIEW_W + 16 && (ball.state !== 'spill' || ball.spillT < 1.3),
-  )
+  balls.value = arr.filter((ball) => {
+    if (ball.state !== 'spill' && ball.x >= VIEW_W + 16) {
+      exitedAt.push(simTime)
+      return false
+    }
+    return ball.state !== 'spill' || ball.spillT < 1.3
+  })
+
+  while (enteredAt.length && enteredAt[0] < simTime - RATE_WINDOW) enteredAt.shift()
+  while (exitedAt.length && exitedAt[0] < simTime - RATE_WINDOW) exitedAt.shift()
+  const span = Math.max(2, Math.min(simTime, RATE_WINDOW))
+  flowStats.value = { inRate: enteredAt.length / span, outRate: exitedAt.length / span }
 }
 
 function loop(now: number) {
@@ -833,6 +857,14 @@ const queueLabels = computed(() => {
         text-anchor="middle"
       >
         {{ entry.len }} ideas waiting
+      </text>
+
+      <!-- measured throughput at the pipe ends -->
+      <text class="rate-label rate-in" :x="PIPE_X0" y="215" text-anchor="start">
+        → in {{ flowStats.inRate.toFixed(1) }}/s
+      </text>
+      <text class="rate-label rate-out" :x="PIPE_X1" y="215" text-anchor="end">
+        out {{ flowStats.outRate.toFixed(1) }}/s →
       </text>
     </svg>
 
@@ -1002,6 +1034,20 @@ const queueLabels = computed(() => {
   font: 600 8.5px var(--slidev-code-font-family);
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+.rate-label {
+  font: 700 9.5px var(--slidev-code-font-family);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.rate-in {
+  fill: var(--deck-accent, #d783dc);
+}
+
+.rate-out {
+  fill: var(--deck-teal, #03dac5);
 }
 
 .pipeline-caption {
