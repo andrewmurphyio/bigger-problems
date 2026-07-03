@@ -67,21 +67,21 @@ const scenarios: Record<string, Scenario> = {
     pace: 5,
     stages: [
       { label: 'Idea', rate: 5, queue: 2 },
-      { label: 'Discovery', sub: 'what problem?', rate: 4.5, queue: 2 },
+      { label: 'Discovery', sub: 'what problem?', rate: 2.4, queue: 2 },
       { label: 'Prioritise', sub: 'whose goal?', rate: 3, sheds: true, queue: 2 },
       { label: 'Code', sub: 'by hand', rate: 1, bottleneck: true, queue: 2 },
-      { label: 'Review', sub: 'humans', rate: 2.2, queue: 2 },
+      { label: 'Review', sub: 'humans', rate: 3, queue: 2 },
       { label: 'CI / QA', sub: 'confidence', rate: 3, queue: 1 },
-      { label: 'Deploy', sub: 'permission', rate: 2.2, queue: 1 },
+      { label: 'Deploy', sub: 'permission', rate: 2.7, queue: 1 },
       { label: 'User', sub: 'value', rate: 3 },
     ],
   },
   workMap: {
     // Identical to workBefore except one thing: the Coding stage got MUCH
-    // bigger (AI boost). Review and Deploy are honest twins (same rate, same
-    // bore). The surprise comes from the guess itself: the room commits to a
-    // station before the run, and only Review jams — it meets demand first,
-    // Deploy sits starved behind it. Half the twin-guessers are wrong.
+    // bigger (AI boost). The honest twist: Discovery has quietly been the
+    // second-narrowest station all along — narrower than Review, with Deploy
+    // between them. All eyes go to the delivery end; the jam forms at the
+    // START of the pipe. Knowing what to build is the true constraint.
     eyebrow: 'place your bets',
     title: 'Code is wide now. Where is the bottleneck?',
     caption: 'Guess first — then run the system and watch where the queue forms.',
@@ -89,12 +89,12 @@ const scenarios: Record<string, Scenario> = {
     coldStart: true,
     stages: [
       { label: 'Idea', rate: 5, queue: 2 },
-      { label: 'Discovery', sub: 'what problem?', rate: 4.5, queue: 2 },
+      { label: 'Discovery', sub: 'what problem?', rate: 2.4, bottleneck: true, subtle: true, queue: 2 },
       { label: 'Prioritise', sub: 'whose goal?', rate: 3, sheds: true, queue: 2 },
       { label: 'Code', sub: 'faster now', rate: 8, boosted: true, queue: 2 },
-      { label: 'Review', sub: 'humans', rate: 2.2, bottleneck: true, subtle: true, queue: 2 },
+      { label: 'Review', sub: 'humans', rate: 3, queue: 2 },
       { label: 'CI / QA', sub: 'confidence', rate: 3, queue: 1 },
-      { label: 'Deploy', sub: 'permission', rate: 2.2, queue: 1 },
+      { label: 'Deploy', sub: 'permission', rate: 2.7, queue: 1 },
       { label: 'User', sub: 'value', rate: 3 },
     ],
   },

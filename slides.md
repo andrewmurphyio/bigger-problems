@@ -132,7 +132,7 @@ The obvious bottleneck first: hand-written code is the narrow part everyone can 
 <PipelineSim mode="workMap" manual />
 
 <!--
-Now expand Code with AI — same pipe otherwise. Ask the room: where is the bottleneck NOW? Most will point at Deploy, it looks narrowest. Press run: the queue forms at Review. The surprise is honestly earned — the constraint is set by demand meeting rates in order, not by which pipe looks thinnest.
+Now expand Code with AI — same pipe otherwise. Ask the room: where is the bottleneck NOW? Eyes go to the delivery end — Review, QA, Deploy. Press run: the queue forms at DISCOVERY, right at the start of the pipe. It was quietly the second-narrowest station all along (narrower than Review, Deploy in between — all honest bores). Knowing what to build is the constraint. This plants the seed for the discovery-bottleneck slide later.
 -->
 
 ---
