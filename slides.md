@@ -37,15 +37,15 @@ Opening posture: pro-AI, excited, personal. This is not a dunk-on-tools talk. It
 # So many ideas. So little time
 
 <div class="idea-storm">
-  <span style="left: 5%; top: 14%; --hue: 52; --rot: -8deg; --delay: 0s">tiny SaaS</span>
-  <span style="left: 26%; top: 9%; --hue: 332; --rot: 7deg; --delay: .2s">weird CLI</span>
-  <span style="left: 58%; top: 12%; --hue: 188; --rot: -4deg; --delay: .4s">blog tool</span>
-  <span style="left: 76%; top: 22%; --hue: 96; --rot: 11deg; --delay: .1s">data viz</span>
-  <span style="left: 16%; top: 41%; --hue: 24; --rot: 6deg; --delay: .5s">agent toy</span>
-  <span style="left: 45%; top: 39%; --hue: 276; --rot: -10deg; --delay: .15s">support bot</span>
-  <span style="left: 68%; top: 49%; --hue: 42; --rot: 5deg; --delay: .3s">micro app</span>
-  <span style="left: 9%; top: 66%; --hue: 196; --rot: -5deg; --delay: .6s">dashboard</span>
-  <span style="left: 80%; top: 66%; --hue: 348; --rot: -12deg; --delay: .35s">weekend thing</span>
+  <span style="left: 5%; top: 14%; --hue: 52; --rot: -8deg; --delay: 0s">egg counter</span>
+  <span style="left: 26%; top: 9%; --hue: 332; --rot: 7deg; --delay: .2s">net worth app</span>
+  <span style="left: 58%; top: 12%; --hue: 188; --rot: -4deg; --delay: .4s">coop door bot</span>
+  <span style="left: 76%; top: 22%; --hue: 96; --rot: 11deg; --delay: .1s">solar monitor</span>
+  <span style="left: 16%; top: 41%; --hue: 24; --rot: 6deg; --delay: .5s">dividend chart</span>
+  <span style="left: 45%; top: 39%; --hue: 276; --rot: -10deg; --delay: .15s">chicken cam</span>
+  <span style="left: 68%; top: 49%; --hue: 42; --rot: 5deg; --delay: .3s">budget scraper</span>
+  <span style="left: 9%; top: 66%; --hue: 196; --rot: -5deg; --delay: .6s">smart blinds</span>
+  <span style="left: 80%; top: 66%; --hue: 348; --rot: -12deg; --delay: .35s">1:1 notes tool</span>
   <div class="constraint">available weekends</div>
 </div>
 
