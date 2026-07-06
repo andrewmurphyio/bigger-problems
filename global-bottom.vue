@@ -8,10 +8,10 @@ const { currentPage, total } = useNav()
 // Slide routes: 1 setup/weekend, 8 ToC lens, 20 constraints in the wild,
 // 30 what to do instead, 40 Q&A/outro.
 const sections = [
-  { title: 'setup', start: 1 },
-  { title: 'toc lens', start: 8 },
-  { title: 'constraints', start: 20 },
-  { title: 'what to do', start: 30 },
+  { title: 'weekend magic', start: 1 },
+  { title: 'the bottleneck', start: 8 },
+  { title: 'where it hurts', start: 20 },
+  { title: 'fix the pipe', start: 30 },
   { title: 'q&a', start: 40 },
 ]
 
