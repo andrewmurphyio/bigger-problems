@@ -55,7 +55,7 @@ Make this human. The audience has side projects, ideas, little tools they wish e
 
 ---
 
-<PipelineSim mode="weekendBefore" :speed="2" />
+<PipelineSim mode="weekendBefore" :speed="1.5" />
 
 <!--
 Before AI, the bottleneck in a weekend project is often just the lonely human doing all the mechanical work: scaffolding, wiring, debugging, styling, deploying.
@@ -117,6 +117,20 @@ Keep this practical and visual. No long management theory detour. One bottleneck
 
 <!--
 Callback to the weekend pipe, now through the ToC lens: THIS is a bottleneck. The narrowest station set the throughput of the whole system — which is exactly why AI coding felt miraculous there.
+-->
+
+---
+
+<div class="eyebrow">the-receipts</div>
+
+# Writing code is <em>16%</em> of an engineer's time
+
+<div class="subtitle">The other 84% is the rest of the pipe</div>
+
+<div class="footnote">IDC, “How Do Software Developers Spend Their Time?” (2025) — 16% in 2024, up from 15% the year before.</div>
+
+<!--
+Bridge from the weekend pipe to the work pipe. On the weekend, coding was most of the effort — and it was the constraint. At work, coding is 16% of an engineer's day. Hold that number: you're about to see the work pipeline and guess where its bottleneck is.
 -->
 
 ---
@@ -229,20 +243,6 @@ Output metrics make people feel good. Throughput is what users feel. If the exit
 
 <!--
 Let this sting. It's the emotional version of the chart.
--->
-
----
-
-<div class="eyebrow">the-receipts</div>
-
-# Writing code is <em>16%</em> of an engineer's time
-
-<div class="subtitle">The other 84% is the rest of the pipe</div>
-
-<div class="footnote">IDC, “How Do Software Developers Spend Their Time?” (2025) — 16% in 2024, up from 15% the year before.</div>
-
-<!--
-Act-three bridge. If coding is 16% of the time, the constraint almost certainly lives in the other 84%. So where? Let's hunt — the next four slides are the usual suspects.
 -->
 
 ---
