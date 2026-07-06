@@ -151,14 +151,6 @@ Now expand Code with AI — same pipe otherwise. Ask the room: where is the bott
 
 ---
 
-<PipelineSim mode="workReview" manual :speed="5" />
-
-<!--
-The constraint MOVES. Say the org invests in discovery — researchers, clearer problems. Run the same system: the queue surfaces at Review next, the slowest remaining rate. Fixing a bottleneck never removes the constraint; it relocates it. This is why the work never feels done.
--->
-
----
-
 <div class="eyebrow">the-trap</div>
 
 # We copied the weekend fix into the work system
@@ -177,7 +169,15 @@ The constraint MOVES. Say the org invests in discovery — researchers, clearer 
 </div>
 
 <!--
-Make the category error explicit. We assume the local improvement generalizes to the organizational system.
+Make the category error explicit — the audience just watched it happen on the previous slide: Code got the AI boost, the jam formed at Discovery anyway. We assumed the local improvement generalizes to the organizational system.
+-->
+
+---
+
+<PipelineSim mode="workReview" manual :speed="5" />
+
+<!--
+The constraint MOVES. Say the org invests in discovery — researchers, clearer problems. Run the same system: the queue surfaces at Review next, the slowest remaining rate. Fixing a bottleneck never removes the constraint; it relocates it. This is why the work never feels done.
 -->
 
 ---
