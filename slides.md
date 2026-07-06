@@ -455,6 +455,22 @@ If the metric watches Build, every improvement looks like Build. The system opti
 
 ---
 
+<div class="eyebrow">old-problems-faster</div>
+
+# AI coding didn't invent this. It <em>amplifies</em> it
+
+<div class="quote-panel">
+  <p>Same queues. Same handoffs. Same incentives. More work arriving per minute.</p>
+</div>
+
+<div class="subtitle">That is the Theory of Constraints angle.</div>
+
+<!--
+Synthesis beat before the practical turn. We already knew these problems existed: vague requirements, review queues, deploy fear, calendar bottlenecks, bad metrics. AI coding doesn't create them. It increases the feed rate into the same constrained system, so the existing problems get louder. This is exactly the ToC point: local speedup at a non-constraint increases pressure on the constraint.
+-->
+
+---
+
 # Where does value get stuck?
 
 <div class="subtitle">That is the question AI should make louder.</div>
