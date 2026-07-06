@@ -24,10 +24,33 @@ const ticks = computed(() =>
     left: `${Math.min(100, Math.max(0, ((section.start - 1) / count.value) * 100))}%`,
   })),
 )
+
+const labels = computed(() =>
+  sections.map((section, index) => {
+    const next = sections[index + 1]?.start ?? count.value + 1
+    const start = Math.min(100, Math.max(0, ((section.start - 1) / count.value) * 100))
+    const end = Math.min(100, Math.max(start, ((next - 1) / count.value) * 100))
+    const midpoint = Math.min(97, Math.max(3, start + (end - start) / 2))
+    return {
+      ...section,
+      active: page.value >= section.start && page.value < next,
+      left: `${midpoint}%`,
+    }
+  }),
+)
 </script>
 
 <template>
   <div class="deck-progress" aria-hidden="true">
+    <div class="deck-progress__labels">
+      <span
+        v-for="label in labels"
+        :key="label.title"
+        class="deck-progress__label"
+        :class="{ 'deck-progress__label--active': label.active }"
+        :style="{ left: label.left }"
+      >{{ label.title }}</span>
+    </div>
     <div class="deck-progress__track">
       <div class="deck-progress__fill" :style="{ width: progress }" />
       <span
@@ -47,8 +70,34 @@ const ticks = computed(() =>
   bottom: 0;
   left: 0;
   z-index: 50;
-  height: 5px;
+  height: 18px;
   pointer-events: none;
+}
+
+.deck-progress__labels {
+  position: absolute;
+  right: 0;
+  bottom: 6px;
+  left: 0;
+  height: 10px;
+  pointer-events: none;
+}
+
+.deck-progress__label {
+  position: absolute;
+  bottom: 0;
+  color: var(--deck-muted, #8f8a99);
+  font: 700 9px / 1 var(--slidev-code-font-family, ui-monospace, monospace);
+  letter-spacing: 0.08em;
+  opacity: 0.42;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.deck-progress__label--active {
+  color: var(--deck-accent, #d783dc);
+  opacity: 0.78;
 }
 
 .deck-progress__track {
