@@ -386,16 +386,45 @@ code {
 }
 
 .timeline {
+	position: relative;
 	display: grid;
-	gap: 0.62rem;
-	margin-top: 1.7rem;
+	gap: 0.5rem;
+	margin-top: 1rem;
+}
+
+.timeline::before {
+	content: '';
+	position: absolute;
+	left: 0.32rem;
+	top: 2.1rem;
+	bottom: 0.9rem;
+	width: 2px;
+	background: var(--deck-subtle);
+}
+
+.timeline-legend {
+	justify-self: end;
+	color: var(--deck-muted);
+	font: 500 0.72rem / 1 var(--slidev-code-font-family);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
 }
 
 .timeline-row {
 	display: grid;
-	grid-template-columns: 7.2rem 1fr;
+	grid-template-columns: 0.75rem 5.4rem 1fr 10.5rem;
 	gap: 0.8rem;
 	align-items: center;
+}
+
+.timeline-row .node {
+	position: relative;
+	z-index: 1;
+	width: 0.75rem;
+	height: 0.75rem;
+	border: 2px solid var(--deck-bg);
+	border-radius: 50%;
+	background: var(--node, var(--deck-accent));
 }
 
 .timeline-row .time {
@@ -404,12 +433,46 @@ code {
 }
 
 .timeline-row .event {
-	padding: 0.65rem 0.85rem;
+	padding: 0.5rem 0.85rem;
 	border: 1px solid var(--deck-line);
 	border-radius: 0.4rem;
 	background: rgba(35, 33, 56, 0.35);
 	color: var(--deck-body);
-	font-size: 1.02rem;
+	font-size: 0.98rem;
+}
+
+.timeline-row.bad .event {
+	border-color: var(--deck-danger);
+	background: var(--deck-danger-soft);
+	color: var(--deck-ink);
+}
+
+.timeline-row .ctx {
+	display: flex;
+	align-items: center;
+	gap: 0.55rem;
+}
+
+.timeline-row .ctx-track {
+	flex: 1;
+	height: 0.45rem;
+	overflow: hidden;
+	border-radius: 999px;
+	background: rgba(35, 33, 56, 0.8);
+}
+
+.timeline-row .ctx-bar {
+	width: var(--ctx, 0%);
+	height: 100%;
+	border-radius: inherit;
+	background: var(--node, var(--deck-accent));
+}
+
+.timeline-row .ctx span {
+	min-width: 2.6rem;
+	color: var(--deck-muted);
+	font: 700 0.75rem / 1 var(--slidev-code-font-family);
+	text-align: right;
 }
 
 .checklist li {

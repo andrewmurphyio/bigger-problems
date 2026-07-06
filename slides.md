@@ -309,11 +309,37 @@ Code being written is not done. Code sitting in review, CI, QA, security, stagin
 # The PR queue remembers what you forgot
 
 <div class="timeline">
-  <div class="timeline-row"><div class="time">Monday</div><div class="event">PR opened. Author still has all the context.</div></div>
-  <div class="timeline-row"><div class="time">Tuesday</div><div class="event">Author starts the next AI-assisted feature.</div></div>
-  <div class="timeline-row"><div class="time">Thursday</div><div class="event">Review comments arrive. Nobody remembers the edge cases.</div></div>
-  <div class="timeline-row"><div class="time">Friday</div><div class="event">Rubber stamp, flaky CI, deploy delayed.</div></div>
-  <div class="timeline-row"><div class="time">Monday</div><div class="event">“Wait, why did we build it this way?”</div></div>
+  <div class="timeline-legend">author's context remaining</div>
+  <div class="timeline-row" style="--node: var(--deck-teal); --ctx: 100%">
+    <span class="node"></span>
+    <div class="time">Monday</div>
+    <div class="event">PR opened. Author still has all the context.</div>
+    <div class="ctx"><div class="ctx-track"><div class="ctx-bar"></div></div><span>100%</span></div>
+  </div>
+  <div class="timeline-row" style="--node: var(--deck-accent); --ctx: 70%">
+    <span class="node"></span>
+    <div class="time">Tuesday</div>
+    <div class="event">Author starts the next AI-assisted feature.</div>
+    <div class="ctx"><div class="ctx-track"><div class="ctx-bar"></div></div><span>70%</span></div>
+  </div>
+  <div class="timeline-row" style="--node: var(--deck-accent-strong); --ctx: 35%">
+    <span class="node"></span>
+    <div class="time">Thursday</div>
+    <div class="event">Review comments arrive. Nobody remembers the edge cases.</div>
+    <div class="ctx"><div class="ctx-track"><div class="ctx-bar"></div></div><span>35%</span></div>
+  </div>
+  <div class="timeline-row" style="--node: var(--deck-danger); --ctx: 10%">
+    <span class="node"></span>
+    <div class="time">Friday</div>
+    <div class="event">Rubber stamp, flaky CI, deploy delayed.</div>
+    <div class="ctx"><div class="ctx-track"><div class="ctx-bar"></div></div><span>10%</span></div>
+  </div>
+  <div class="timeline-row bad" style="--node: var(--deck-danger); --ctx: 0%">
+    <span class="node"></span>
+    <div class="time">Monday</div>
+    <div class="event">“Wait, why did we build it this way?”</div>
+    <div class="ctx"><div class="ctx-track"><div class="ctx-bar"></div></div><span>0%</span></div>
+  </div>
 </div>
 
 <!--
