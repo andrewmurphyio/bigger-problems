@@ -99,46 +99,16 @@ This is the first big reveal. Say it cleanly. Do not soften it into “work is c
 
 ---
 
-<div class="eyebrow">the-receipts</div>
-
-# Writing code is <em>16%</em> of an engineer's time
-
-<div class="subtitle">The other 84% is the pipe. Make coding instant and the whole system gets at most ~19% faster.</div>
-
-<div class="footnote">IDC, “How Do Software Developers Spend Their Time?” (2025) — 16% in 2024, up from 15% the year before.</div>
-
-<!--
-Receipts for the reveal. IDC: application development was 16% of developer time in 2024. Amdahl's law does the punchline: even infinite coding speed caps the system improvement at roughly 19%.
--->
-
----
-
 <div class="eyebrow">goldratt-would-like-a-word</div>
 
 # Theory of Constraints in one slide
 
 <div class="quote-panel">
-  <p>Every system has <em>exactly one constraint</em>. The <em>throughput</em> of the system is determined by the <em>throughput</em> of <em>that constraint</em>.</p>
+  <p>Every system has exactly <em>one constraint</em>. The <em>throughput</em> of the <i>system</i> is determined by the <em>throughput</em> of <i>that constraint</i>.</p>
 </div>
 
 <!--
 Keep this practical and visual. No long management theory detour. One bottleneck governs throughput. Land this lens BEFORE showing the work pipes, so the audience reads every pipe that follows through it.
--->
-
----
-
-<div class="eyebrow">goldratt-has-a-second-word</div>
-
-# Theory of Constraints in one <em>more</em> slide
-
-<div class="quote-panel">
-  <p>Optimising anything that is <em>not the constraint</em> doesn't just fail to help. It makes the system <em>worse</em> — more WIP, deeper queues, older context, later feedback.</p>
-</div>
-
-<div class="footnote">Yes, I said “one slide”. The scope grew after the estimate. It happens.</div>
-
-<!--
-Deliver the joke first: "I know what I said. One slide. This is why estimation isn't the talk." Then land the corollary hard — Goldratt's version is "any improvement not made at the constraint is an illusion". Non-constraint improvements pump inventory into the system: queues grow, context decays while work waits, feedback arrives later, defects live longer. Worse, not just not-better.
 -->
 
 ---
@@ -198,6 +168,22 @@ Make the category error explicit. We assume the local improvement generalizes to
 
 ---
 
+<div class="eyebrow">goldratt-has-a-second-word</div>
+
+# Theory of Constraints in one <em>more</em> slide
+
+<div class="quote-panel">
+  <p>Optimising anything that is <em>not the constraint</em> doesn't just fail to help. It makes the system <em>worse</em> — more WIP, deeper queues, older context, later feedback.</p>
+</div>
+
+<div class="footnote">Yes, I said “one slide”. The scope grew after the estimate. It happens.</div>
+
+<!--
+Delayed callback — the audience saw "in one slide" several minutes ago. Deliver it first: "I know what I said. One slide. This is why estimation isn't the talk." Then land the corollary hard — Goldratt's version is "any improvement not made at the constraint is an illusion". Non-constraint improvements pump inventory into the system: queues grow, context decays while work waits, feedback arrives later, defects live longer. Worse, not just not-better. The next slide proves it live.
+-->
+
+---
+
 <PipelineSim mode="workBoost" />
 
 <!--
@@ -243,6 +229,20 @@ Output metrics make people feel good. Throughput is what users feel. If the exit
 
 <!--
 Let this sting. It's the emotional version of the chart.
+-->
+
+---
+
+<div class="eyebrow">the-receipts</div>
+
+# Writing code is <em>16%</em> of an engineer's time
+
+<div class="subtitle">The other 84% is the rest of the pipe</div>
+
+<div class="footnote">IDC, “How Do Software Developers Spend Their Time?” (2025) — 16% in 2024, up from 15% the year before.</div>
+
+<!--
+Act-three bridge. If coding is 16% of the time, the constraint almost certainly lives in the other 84%. So where? Let's hunt — the next four slides are the usual suspects.
 -->
 
 ---
