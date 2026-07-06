@@ -306,7 +306,7 @@ Code being written is not done. Code sitting in review, CI, QA, security, stagin
 
 <div class="eyebrow">the-horror-show</div>
 
-# The PR queue remembers what you forgot
+# Code waits fine. <em>Context rots.</em>
 
 <div class="timeline">
   <div class="timeline-legend">author's context remaining</div>
