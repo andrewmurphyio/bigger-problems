@@ -260,6 +260,18 @@ Source: METR (July 2025) — https://metr.org/blog/2025-07-10-early-2025-ai-expe
 
 ---
 
+<div class="eyebrow">the-usual-suspects</div>
+
+# So why does delivery get <em>slower</em>?
+
+<div class="subtitle">Four places the constraint actually hides.</div>
+
+<!--
+Section turn. The paradox is on the table — more code, less software — so now we go looking for the speed. Four usual suspects, each one a place the constraint hides while everyone stares at coding speed. Spoiler for the room: none of them is the keyboard.
+-->
+
+---
+
 <div class="eyebrow">bottleneck-suspect-1</div>
 
 # You don't know what to build
