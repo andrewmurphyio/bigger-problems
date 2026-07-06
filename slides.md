@@ -200,7 +200,7 @@ Delayed callback — the audience saw "in one slide" several minutes ago. Delive
 
 ---
 
-<PipelineSim mode="workBoost" :speed="1" />
+<PipelineSim mode="workBoost" :speed="5" />
 
 <!--
 Hero animation / visual. AI accelerates Build. Review is still constrained. The WIP pile avalanches. This is the money shot: you didn't speed delivery, you created a traffic jam and called it productivity.
@@ -256,6 +256,18 @@ Sources:
 Let this sting. It's the emotional version of the chart. The METR randomized controlled trial is the kicker: 16 experienced open-source devs, real issues in their own repos — 19% slower with AI, yet they self-reported a 20% speedup. Even the perception of speed is unreliable.
 
 Source: METR (July 2025) — https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/ · paper: https://arxiv.org/abs/2507.09089
+-->
+
+---
+
+<div class="eyebrow">not-a-villain</div>
+
+# AI coding isn't the problem. It just isn't the <em>miracle</em>
+
+<div class="subtitle">Faster typing only helps if you fix the pipeline it feeds.</div>
+
+<!--
+Explicit disclaimer so nobody hears "AI bad". The tool is genuinely good at the 16% it touches. But a local speedup at a non-constraint doesn't move throughput — it just fills queues faster. AI becomes a miracle only when you reassess the whole pipeline and point it at the actual constraint. That's the whole talk in one slide.
 -->
 
 ---
