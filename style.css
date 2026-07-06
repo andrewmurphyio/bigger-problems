@@ -563,6 +563,20 @@ code {
 	font: 500 0.78rem / 1.4 var(--slidev-code-font-family);
 }
 
+.site-link {
+	margin-top: 1.8rem;
+	font: 800 1.35rem / 1 var(--slidev-code-font-family);
+}
+
+.site-link a {
+	color: var(--deck-teal);
+	text-decoration: none;
+}
+
+.site-link a:hover {
+	color: var(--deck-accent);
+}
+
 @media (max-width: 1000px) {
 	.slidev-layout {
 		padding: 2.7rem 3.4rem;

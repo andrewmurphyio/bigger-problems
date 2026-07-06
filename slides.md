@@ -606,3 +606,17 @@ Almost the blog's final argument. Make it land.
 <!--
 Final line. Pause after “bottleneck”, then after “keyboard”.
 -->
+
+---
+
+<div class="eyebrow">thanks</div>
+
+# Thanks. <em>Q&A</em>
+
+<div class="subtitle">Questions?</div>
+
+<p class="site-link"><a href="https://andrewmurphy.io/">andrewmurphy.io</a></p>
+
+<!--
+Light outro after the punchline. Leave "Fix the bottleneck" as the real ending; this is just the room handoff.
+-->
