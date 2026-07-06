@@ -24,9 +24,10 @@ type Scenario = {
   stages: Stage[]
 }
 
-const props = withDefaults(defineProps<{ mode?: string, manual?: boolean }>(), {
+const props = withDefaults(defineProps<{ mode?: string, manual?: boolean, speed?: number }>(), {
   mode: 'workBoost',
   manual: false,
+  speed: undefined,
 })
 
 const scenarios: Record<string, Scenario> = {
@@ -551,7 +552,7 @@ function buildSim() {
   }
 
   spawnTimer = coldStart ? 0.3 : spawnIntervalSec * 0.5
-  speedLevel.value = scenario.value.pace ?? 1
+  speedLevel.value = props.speed ?? scenario.value.pace ?? 1
 
   // Steady-state utilisation: flow through station i is min(demand, every
   // upstream service rate). Static per scenario — the constraint runs at
@@ -806,6 +807,10 @@ onBeforeUnmount(() => {
 })
 
 watch(() => props.mode, buildSim)
+// Live dial updates when the speed is edited in the slide markdown.
+watch(() => props.speed, (value) => {
+  if (value != null) speedLevel.value = value
+})
 
 const queueLabels = computed(() => {
   void balls.value

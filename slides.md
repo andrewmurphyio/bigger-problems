@@ -55,7 +55,7 @@ Make this human. The audience has side projects, ideas, little tools they wish e
 
 ---
 
-<PipelineSim mode="weekendBefore" />
+<PipelineSim mode="weekendBefore" :speed="2" />
 
 <!--
 Before AI, the bottleneck in a weekend project is often just the lonely human doing all the mechanical work: scaffolding, wiring, debugging, styling, deploying.
@@ -63,7 +63,7 @@ Before AI, the bottleneck in a weekend project is often just the lonely human do
 
 ---
 
-<PipelineSim mode="weekendAfter" />
+<PipelineSim mode="weekendAfter" :speed="1" />
 
 <!--
 This is the honest excitement. AI coding attacked the actual constraint in the small system. Therefore throughput improved. Don't minimize this; it is the reason the talk has credibility.
@@ -113,7 +113,7 @@ Keep this practical and visual. No long management theory detour. One bottleneck
 
 ---
 
-<PipelineSim mode="bottleneckRecap" />
+<PipelineSim mode="bottleneckRecap" :speed="1" />
 
 <!--
 Callback to the weekend pipe, now through the ToC lens: THIS is a bottleneck. The narrowest station set the throughput of the whole system — which is exactly why AI coding felt miraculous there.
@@ -121,7 +121,7 @@ Callback to the weekend pipe, now through the ToC lens: THIS is a bottleneck. Th
 
 ---
 
-<PipelineSim mode="workBefore" />
+<PipelineSim mode="workBefore" :speed="5" />
 
 <!--
 The obvious bottleneck first: hand-written code is the narrow part everyone can see, ideas queueing behind engineering. This is the world the weekend fix expects — and here, widening Code genuinely would help.
@@ -129,7 +129,7 @@ The obvious bottleneck first: hand-written code is the narrow part everyone can 
 
 ---
 
-<PipelineSim mode="workMap" manual />
+<PipelineSim mode="workMap" manual :speed="5" />
 
 <!--
 Now expand Code with AI — same pipe otherwise. Ask the room: where is the bottleneck NOW? Eyes go to the delivery end — Review, QA, Deploy. Press run: the queue forms at DISCOVERY, right at the start of the pipe. It was quietly the second-narrowest station all along (narrower than Review, Deploy in between — all honest bores). Knowing what to build is the constraint. This plants the seed for the discovery-bottleneck slide later.
@@ -137,7 +137,7 @@ Now expand Code with AI — same pipe otherwise. Ask the room: where is the bott
 
 ---
 
-<PipelineSim mode="workReview" />
+<PipelineSim mode="workReview" :speed="5" />
 
 <!--
 The constraint MOVES. Say the org invests in discovery — researchers, clearer problems. Run the same system: the queue surfaces at Review next, the slowest remaining rate. Fixing a bottleneck never removes the constraint; it relocates it. This is why the work never feels done.
@@ -184,7 +184,7 @@ Delayed callback — the audience saw "in one slide" several minutes ago. Delive
 
 ---
 
-<PipelineSim mode="workBoost" />
+<PipelineSim mode="workBoost" :speed="1" />
 
 <!--
 Hero animation / visual. AI accelerates Build. Review is still constrained. The WIP pile avalanches. This is the money shot: you didn't speed delivery, you created a traffic jam and called it productivity.
@@ -251,7 +251,7 @@ Act-three bridge. If coding is 16% of the time, the constraint almost certainly 
 
 # You don't know what to build
 
-<PipelineSim mode="discoveryBottleneck" />
+<PipelineSim mode="discoveryBottleneck" :speed="1" />
 
 <!--
 The PM hasn't talked to a user, the ticket has three sentences and a Figma link, engineers make fifty micro-decisions and guess. AI makes guessing faster.
@@ -271,7 +271,7 @@ Good joke line. Use your own language on stage.
 
 # Everything after code is “done”
 
-<PipelineSim mode="postCodeBottleneck" />
+<PipelineSim mode="postCodeBottleneck" :speed="1" />
 
 <!--
 Code being written is not done. Code sitting in review, CI, QA, security, staging, approvals, deploy windows is inventory.
@@ -443,7 +443,7 @@ WIP limits. Context switching. Inventory. This connects directly to the avalanch
 
 ---
 
-<PipelineSim mode="fixedConstraint" />
+<PipelineSim mode="fixedConstraint" :speed="1" />
 
 <!--
 A satisfying visual resolution: fewer piles, more value out. AI is still present, but the system improvement comes from fixing the real constraint.
