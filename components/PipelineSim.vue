@@ -375,6 +375,11 @@ const started = ref(false)
 // same ball speed on every pipeline (level x 60 units/sec of travel); each
 // scenario's tuned pace sets its default position.
 const speedLevel = ref(1)
+// Dial position 1..10 is a linear ×1..×10. Past 10 it turns logarithmic:
+// each extra notch is a decade — 11 → ×100, 12 → ×1000.
+const speedFactor = computed(() =>
+  speedLevel.value <= 10 ? speedLevel.value : Math.round(10 ** (speedLevel.value - 9)),
+)
 
 // Steady-state throughput and utilisation, derived analytically from the
 // configured rates: flow through any station is min(demand, every upstream
@@ -756,9 +761,13 @@ function tick(dt: number) {
 function loop(now: number) {
   rafHandle = 0
   if (!running) return
-  const dt = Math.min(0.05, (now - lastTime) / 1000) * (speedLevel.value / (scenario.value.pace ?? 1))
+  const total = Math.min(0.05, (now - lastTime) / 1000) * (speedFactor.value / (scenario.value.pace ?? 1))
   lastTime = now
-  tick(dt)
+  // Substep so the discrete-event maths stays accurate at ×100/×1000:
+  // one huge dt would teleport balls past gates and batch releases.
+  const steps = Math.max(1, Math.min(400, Math.ceil(total / 0.06)))
+  const h = total / steps
+  for (let s = 0; s < steps; s++) tick(h)
   rafHandle = requestAnimationFrame(loop)
 }
 
@@ -935,8 +944,8 @@ const queueLabels = computed(() => {
       </label>
       <div class="speed-dial">
         <span>speed</span>
-        <input v-model.number="speedLevel" type="range" min="1" max="10" step="0.5" />
-        <span>{{ speedLevel }}/10</span>
+        <input v-model.number="speedLevel" type="range" min="1" max="12" step="0.5" />
+        <span>×{{ speedFactor }}</span>
       </div>
     </div>
 
@@ -1173,7 +1182,7 @@ const queueLabels = computed(() => {
 }
 
 .speed-dial span:last-child {
-  min-width: 2.2rem;
+  min-width: 3.4rem;
 }
 
 .run-btn {
