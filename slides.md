@@ -276,7 +276,7 @@ Section turn. The room already knows WHY delivery gets slower — the ToC lens d
 
 # You don't know what to build
 
-<PipelineSim mode="discoveryBottleneck" :speed="1" />
+<PipelineSim mode="discoveryBottleneck" no-header :speed="1" />
 
 <!--
 The PM hasn't talked to a user, the ticket has three sentences and a Figma link, engineers make fifty micro-decisions and guess. AI makes guessing faster.
@@ -296,7 +296,7 @@ Good joke line. Use your own language on stage.
 
 # Everything after code is “done”
 
-<PipelineSim mode="postCodeBottleneck" :speed="1" />
+<PipelineSim mode="postCodeBottleneck" no-header :speed="1" />
 
 <!--
 Code being written is not done. Code sitting in review, CI, QA, security, staging, approvals, deploy windows is inventory.

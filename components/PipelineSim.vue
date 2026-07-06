@@ -24,10 +24,11 @@ type Scenario = {
   stages: Stage[]
 }
 
-const props = withDefaults(defineProps<{ mode?: string, manual?: boolean, speed?: number }>(), {
+const props = withDefaults(defineProps<{ mode?: string, manual?: boolean, speed?: number, noHeader?: boolean }>(), {
   mode: 'workBoost',
   manual: false,
   speed: undefined,
+  noHeader: false,
 })
 
 const scenarios: Record<string, Scenario> = {
@@ -819,7 +820,7 @@ const queueLabels = computed(() => {
 
 <template>
   <section ref="rootEl" class="pipeline-sim">
-    <div class="pipeline-head">
+    <div v-if="!props.noHeader" class="pipeline-head">
       <span>{{ scenario.eyebrow.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-') }}</span>
       <h2>{{ scenario.title }}</h2>
     </div>
