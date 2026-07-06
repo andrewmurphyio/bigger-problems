@@ -362,21 +362,42 @@ This is where people laugh because it hurts. Make it specific. Context decays wh
 
 <div class="eyebrow">bottleneck-suspect-3</div>
 
-# Quality does not scale because typing got cheaper
+# The deploy trust spiral
 
-<div class="two-col">
-  <div class="card hot">
-    <div class="mini-label">more code</div>
-    <p>More surface area. More branches. More integration points. More things nobody fully understands.</p>
+<div class="subtitle">Faster code just makes scared releases bigger.</div>
+
+<div class="trust-loop">
+  <div class="trust-step">
+    <span class="step-id">1</span>
+    <strong>Flaky tests</strong>
+    <span>Shaky observability. Nobody trusts the signal.</span>
   </div>
-  <div class="card cool">
-    <div class="mini-label">same system</div>
-    <p>Same review energy. Same test confidence. Same shared understanding. Same production blast radius.</p>
+  <div class="trust-step">
+    <span class="step-id">2</span>
+    <strong>Batch changes</strong>
+    <span>Hold the release until it feels worth the risk.</span>
+  </div>
+  <div class="trust-step danger">
+    <span class="step-id">3</span>
+    <strong>Bigger release</strong>
+    <span>More code. More unknowns. More blast radius.</span>
+  </div>
+  <div class="trust-step">
+    <span class="step-id">4</span>
+    <strong>Deploy less</strong>
+    <span>Every ship becomes an event.</span>
+  </div>
+  <div class="trust-step danger">
+    <span class="step-id">5</span>
+    <strong>Trust drops</strong>
+    <span>Which makes the next deploy scarier.</span>
   </div>
 </div>
 
+<div class="trust-return">↺ the fear loops back into bigger batches</div>
+
 <!--
-This is not anti-AI. It is anti-confusing generation with comprehension. The bottleneck might be understanding.
+This is straight from the original post's "deploy trust spiral". If your team is already scared to deploy, AI doesn't make you faster — it gives you more code to be scared of. Flaky tests and weak observability reduce trust; low trust makes teams batch changes; bigger batches are riskier; riskier releases happen less often; shipping less often further erodes trust.
 -->
 
 ---
