@@ -276,7 +276,7 @@ Explicit disclaimer so nobody hears "AI bad". The tool is genuinely good at the 
 
 # The constraint in the wild
 
-<div class="subtitle">Four examples you will recognise.</div>
+<div class="subtitle">Four places the constraint hides.</div>
 
 <!--
 Section turn. The room already knows WHY delivery gets slower — the ToC lens did that. This section is recognition: four examples of where the constraint hides in real organisations. Expect nods. None of them is the keyboard.
