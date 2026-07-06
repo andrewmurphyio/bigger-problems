@@ -262,12 +262,12 @@ Source: METR (July 2025) — https://metr.org/blog/2025-07-10-early-2025-ai-expe
 
 <div class="eyebrow">the-usual-suspects</div>
 
-# So why does delivery get <em>slower</em>?
+# The constraint in the wild
 
-<div class="subtitle">Four places the constraint actually hides.</div>
+<div class="subtitle">Four examples you will recognise.</div>
 
 <!--
-Section turn. The paradox is on the table — more code, less software — so now we go looking for the speed. Four usual suspects, each one a place the constraint hides while everyone stares at coding speed. Spoiler for the room: none of them is the keyboard.
+Section turn. The room already knows WHY delivery gets slower — the ToC lens did that. This section is recognition: four examples of where the constraint hides in real organisations. Expect nods. None of them is the keyboard.
 -->
 
 ---
