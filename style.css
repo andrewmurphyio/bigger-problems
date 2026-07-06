@@ -301,6 +301,14 @@ code {
 	background: var(--deck-accent);
 }
 
+.metric-bar.down {
+	background: var(--deck-danger);
+}
+
+.metric-value.down {
+	color: var(--deck-danger);
+}
+
 .metric-value {
 	color: var(--deck-ink);
 	font: 700 0.95rem / 1 var(--slidev-code-font-family);
@@ -411,7 +419,7 @@ code {
 .footnote {
 	margin-top: 2.2rem;
 	color: var(--deck-muted);
-	font: 500 0.78rem/1.4 var(--slidev-code-font-family);
+	font: 500 0.78rem / 1.4 var(--slidev-code-font-family);
 }
 
 @media (max-width: 1000px) {

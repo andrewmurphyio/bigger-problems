@@ -212,37 +212,41 @@ Hero animation / visual. AI accelerates Build. Review is still constrained. The 
 
 <div class="card">
   <div class="metric">
-    <div class="metric-label">Code output</div>
+    <div class="metric-label">Coding speed</div>
+    <div class="metric-track"><div class="metric-bar" style="width: 78%"></div></div>
+    <div class="metric-value">↑ 55%</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Code churn</div>
     <div class="metric-track"><div class="metric-bar" style="width: 92%"></div></div>
-    <div class="metric-value">↑ 3x</div>
+    <div class="metric-value">× 2</div>
   </div>
   <div class="metric">
-    <div class="metric-label">Review capacity</div>
-    <div class="metric-track"><div class="metric-bar" style="width: 34%"></div></div>
-    <div class="metric-value">same</div>
+    <div class="metric-label">Delivery throughput</div>
+    <div class="metric-track"><div class="metric-bar down" style="width: 8%"></div></div>
+    <div class="metric-value down">↓ 1.5%</div>
   </div>
   <div class="metric">
-    <div class="metric-label">Deploy capacity</div>
-    <div class="metric-track"><div class="metric-bar" style="width: 28%"></div></div>
-    <div class="metric-value">same</div>
-  </div>
-  <div class="metric">
-    <div class="metric-label">User value</div>
-    <div class="metric-track"><div class="metric-bar" style="width: 31%"></div></div>
-    <div class="metric-value">same-ish</div>
+    <div class="metric-label">Delivery stability</div>
+    <div class="metric-track"><div class="metric-bar down" style="width: 18%"></div></div>
+    <div class="metric-value down">↓ 7.2%</div>
   </div>
 </div>
 
+<div class="footnote">GitHub Copilot research (task speed) · GitClear 2024, 153M changed lines (churn vs 2021 baseline) · DORA 2024 (per 25% increase in AI adoption)</div>
+
 <!--
-Output metrics make people feel good. Throughput is what users feel. If the exit rate doesn't change, the system did not get faster.
+Every number is sourced. GitHub's own research: 55% faster task completion with Copilot. GitClear analysed 153M changed lines: code churn — lines reverted or rewritten within two weeks — doubled vs the pre-AI baseline. And DORA 2024: for every 25% increase in AI adoption, delivery throughput dips 1.5% and delivery stability drops 7.2%. Individually faster, collectively slower. The system did not get faster — it got noisier.
 -->
 
 ---
 
 # You produced more code and shipped less software
 
+<div class="footnote">METR RCT, 2025: experienced developers using AI took 19% <em>longer</em> — while believing they had been 20% faster.</div>
+
 <!--
-Let this sting. It's the emotional version of the chart.
+Let this sting. It's the emotional version of the chart. The METR randomized controlled trial is the kicker: 16 experienced open-source devs, real issues in their own repos — 19% slower with AI, yet they self-reported a 20% speedup. Even the perception of speed is unreliable.
 -->
 
 ---
