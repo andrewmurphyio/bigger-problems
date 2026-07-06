@@ -131,6 +131,8 @@ Callback to the weekend pipe, now through the ToC lens: THIS is a bottleneck. Th
 
 <!--
 Bridge from the weekend pipe to the work pipe. On the weekend, coding was most of the effort — and it was the constraint. At work, coding is 16% of an engineer's day. Hold that number: you're about to see the work pipeline and guess where its bottleneck is.
+
+Source: IDC, "How Do Software Developers Spend Their Time?" (Adam Resnick, Feb 2025) — https://www.idc.com/getdoc.jsp?containerId=US53204725 · coverage: https://www.infoworld.com/article/3831759/developers-spend-most-of-their-time-not-coding-idc-report.html
 -->
 
 ---
@@ -237,6 +239,11 @@ Hero animation / visual. AI accelerates Build. Review is still constrained. The 
 
 <!--
 Every number is sourced. GitHub's own research: 55% faster task completion with Copilot. GitClear analysed 153M changed lines: code churn — lines reverted or rewritten within two weeks — doubled vs the pre-AI baseline. And DORA 2024: for every 25% increase in AI adoption, delivery throughput dips 1.5% and delivery stability drops 7.2%. Individually faster, collectively slower. The system did not get faster — it got noisier.
+
+Sources:
+- GitHub 55%: https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/
+- GitClear churn: https://www.gitclear.com/coding_on_copilot_data_shows_ais_downward_pressure_on_code_quality
+- DORA 2024: https://dora.dev/research/2024/dora-report/
 -->
 
 ---
@@ -247,6 +254,8 @@ Every number is sourced. GitHub's own research: 55% faster task completion with 
 
 <!--
 Let this sting. It's the emotional version of the chart. The METR randomized controlled trial is the kicker: 16 experienced open-source devs, real issues in their own repos — 19% slower with AI, yet they self-reported a 20% speedup. Even the perception of speed is unreliable.
+
+Source: METR (July 2025) — https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/ · paper: https://arxiv.org/abs/2507.09089
 -->
 
 ---
