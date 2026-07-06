@@ -129,7 +129,7 @@ Keep this practical and visual. No long management theory detour. One bottleneck
 
 <div class="eyebrow">goldratt-has-a-second-word</div>
 
-# Theory of Constraints in one more slide
+# Theory of Constraints in one <em>more</em> slide
 
 <div class="quote-panel">
   <p>Optimising anything that is <em>not the constraint</em> doesn't just fail to help. It makes the system <em>worse</em> — more WIP, deeper queues, older context, later feedback.</p>
