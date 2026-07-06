@@ -399,17 +399,14 @@ let observer: IntersectionObserver | null = null
 
 function buildSlots(gateX: number, minX: number) {
   // Physical queue slots between this gate and the previous station.
+  // Single file on the centerline: slot index = position in line, so when
+  // the head is served every dot steps one slot toward the gate. The queue
+  // reads as a queue — no vertical shuffling between rows.
   const out: { x: number, y: number }[] = []
-  let col = 0
-  while (out.length < 30 && col < 40) {
-    const x = gateX - 16 - col * 10
+  for (let i = 0; out.length < 30; i++) {
+    const x = gateX - 16 - i * 9
     if (x < minX) break
-    const caliber = caliberAt(x)
-    const rows = Math.min(4, Math.max(1, Math.floor((caliber - 6) / 5)))
-    for (let row = 0; row < rows && out.length < 30; row++) {
-      out.push({ x: x - (row % 2) * 2.5, y: CY + (row - (rows - 1) / 2) * 10 })
-    }
-    col++
+    out.push({ x, y: CY })
   }
   return out
 }
