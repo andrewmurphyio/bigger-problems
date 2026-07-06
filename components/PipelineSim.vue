@@ -106,7 +106,7 @@ const scenarios: Record<string, Scenario> = {
     // next. The constraint never disappears; it moves.
     eyebrow: 'the constraint moves',
     title: 'Fix discovery. The bottleneck moves again.',
-    caption: 'Discovery got the investment. Review never did. The queue finds the new slowest rate.',
+    caption: 'Discovery got the investment. Nothing else did. Where does the queue form now?',
     pace: 5,
     coldStart: true,
     stages: [
