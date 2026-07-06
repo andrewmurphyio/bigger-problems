@@ -127,6 +127,22 @@ Keep this practical and visual. No long management theory detour. One bottleneck
 
 ---
 
+<div class="eyebrow">goldratt-has-a-second-word</div>
+
+# Theory of Constraints in one more slide
+
+<div class="quote-panel">
+  <p>Optimising anything that is <em>not the constraint</em> doesn't just fail to help. It makes the system <em>worse</em> — more WIP, deeper queues, older context, later feedback.</p>
+</div>
+
+<div class="footnote">Yes, I said “one slide”. The scope grew after the estimate. It happens.</div>
+
+<!--
+Deliver the joke first: "I know what I said. One slide. This is why estimation isn't the talk." Then land the corollary hard — Goldratt's version is "any improvement not made at the constraint is an illusion". Non-constraint improvements pump inventory into the system: queues grow, context decays while work waits, feedback arrives later, defects live longer. Worse, not just not-better.
+-->
+
+---
+
 <PipelineSim mode="bottleneckRecap" />
 
 <!--
@@ -178,16 +194,6 @@ The constraint MOVES. Say the org invests in discovery — researchers, clearer 
 
 <!--
 Make the category error explicit. We assume the local improvement generalizes to the organizational system.
--->
-
----
-
-# Optimising a non-bottleneck does not make the system faster
-
-<div class="subtitle">It creates inventory.</div>
-
-<!--
-This is the scary corollary. Inventory in software is WIP, queues, stale PRs, half-made decisions, context loss.
 -->
 
 ---
