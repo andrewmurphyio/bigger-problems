@@ -493,9 +493,9 @@ code {
 }
 
 .trust-step:not(:last-child)::after {
-	content: '→';
+	content: "→";
 	position: absolute;
-	right: -0.72rem;
+	right: -0.36rem;
 	top: 50%;
 	z-index: 2;
 	color: var(--deck-muted);
