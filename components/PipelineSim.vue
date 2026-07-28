@@ -161,8 +161,8 @@ const scenarios: Record<string, Scenario> = {
   },
   fixedConstraint: {
     eyebrow: 'system optimisation',
-    title: 'Fix the constraint, then the system gets faster',
-    caption: 'The goal is not more ideas entering the pipe. It is more value leaving it.',
+    title: 'Stop starting. Start finishing.',
+    caption: 'Ten things in flight is not faster than three things done.',
     stages: [
       { label: 'Idea', rate: 4, queue: 1 },
       { label: 'Discovery', sub: 'clearer', rate: 4, queue: 1 },

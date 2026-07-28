@@ -6,13 +6,14 @@ const { currentPage, total } = useNav()
 
 // Single source of truth for the bottom progress-group ticks.
 // Slide routes: 1 setup/weekend, 8 ToC lens, 20 constraints in the wild,
-// 30 what to do instead, 40 Q&A/outro.
+// 30 what to do instead, 35 Q&A/outro, 36 comparison appendix.
 const sections = [
   { title: 'weekend magic', start: 1 },
   { title: 'the bottleneck', start: 8 },
   { title: 'where it hurts', start: 20 },
   { title: 'fix the pipe', start: 30 },
-  { title: 'q&a', start: 40 },
+  { title: 'q&a', start: 35 },
+  { title: 'cuts', start: 36 },
 ]
 
 const page = computed(() => Number(unref(currentPage)) || 1)

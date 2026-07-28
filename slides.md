@@ -463,10 +463,116 @@ If the metric watches Build, every improvement looks like Build. The system opti
   <p>Same queues. Same handoffs. Same incentives. More work arriving per minute.</p>
 </div>
 
-<div class="subtitle">That is the Theory of Constraints angle.</div>
+<div class="subtitle">So where does value get stuck?</div>
 
 <!--
-Synthesis beat before the practical turn. We already knew these problems existed: vague requirements, review queues, deploy fear, calendar bottlenecks, bad metrics. AI coding doesn't create them. It increases the feed rate into the same constrained system, so the existing problems get louder. This is exactly the ToC point: local speedup at a non-constraint increases pressure on the constraint.
+Synthesis beat and practical turn. We already knew these problems existed: vague requirements, review queues, deploy fear, calendar bottlenecks, bad metrics. AI coding increases the feed rate into the same constrained system. The useful response is to find where value now waits.
+-->
+
+---
+
+<div class="eyebrow">what-to-do-instead</div>
+
+# Find the constraint
+
+<div class="three-col">
+  <div class="card cool">
+    <div class="mini-label">1 · map</div>
+    <p>Follow one feature from idea to user.</p>
+  </div>
+  <div class="card">
+    <div class="mini-label">2 · measure</div>
+    <p>Mark every wait between steps.</p>
+  </div>
+  <div class="card hot">
+    <div class="mini-label">3 · fix</div>
+    <p>Attack the largest wait.</p>
+  </div>
+</div>
+
+<!--
+One method, three moves. Map the real path, not the official process. Measure elapsed time and waiting, not activity inside one station. Then improve the station causing the largest delay. The constraint determines the intervention. Bring snacks. This will be depressing.
+-->
+
+---
+
+<PipelineSim mode="fixedConstraint" :speed="1" />
+
+<!--
+A satisfying visual resolution: fewer piles, more value out. WIP limits reduce context switching and inventory. AI is still present, but the system gets faster because the real constraint was improved.
+-->
+
+---
+
+<div class="eyebrow">use-ai-where-the-constraint-is</div>
+
+# If coding is the bottleneck, great. Use AI there
+
+<div class="two-col">
+  <div class="card cool">
+    <div class="mini-label">solo / small system</div>
+    <p>AI coding can directly increase throughput because the constraint really is implementation.</p>
+  </div>
+  <div class="card hot">
+    <div class="mini-label">larger org system</div>
+    <p>Look first. The constraint might be discovery, review, confidence, deployment, or decisions.</p>
+  </div>
+</div>
+
+<!--
+This keeps the talk pro-tool and pro-systems thinking.
+-->
+
+---
+
+<div class="eyebrow">ai-at-the-constraint</div>
+
+# Use AI at the constraint
+
+<ul class="checklist">
+  <li><strong>Discovery:</strong> synthesize research, logs, and support tickets.</li>
+  <li><strong>Review:</strong> make PRs smaller, clearer, and safer.</li>
+  <li><strong>CI:</strong> isolate flaky tests and shorten feedback loops.</li>
+</ul>
+
+<!--
+The practical reframing is not “where can we generate code?” but “where is the constraint, and how can AI help there?” Three examples are enough to establish the pattern without starting another catalogue.
+-->
+
+---
+
+# Fix the bottleneck
+
+<div class="subtitle">It's not the keyboard.</div>
+
+<!--
+Set up the final slide verbally: “The competitive advantage is not writing code fastest. It is figuring out what to build, building it, and getting it into users' hands while everyone else is drowning in WIP.” Then let the shorter line land. Pause after “bottleneck”, then after “keyboard”.
+-->
+
+---
+
+<div class="eyebrow">thanks</div>
+
+# Thanks. <em>Q&A</em>
+
+<div class="subtitle">Questions?</div>
+
+<p class="site-link"><a href="https://andrewmurphy.io/">andrewmurphy.io</a></p>
+
+<!--
+Light outro after the punchline. Leave "Fix the bottleneck" as the real ending; this is just the room handoff.
+-->
+
+---
+
+<div class="eyebrow">comparison-only</div>
+
+# Appendix: cut from <em>main</em>
+
+<div class="subtitle">Seven standalone beats compressed into slides 29–34.</div>
+
+<!--
+Comparison-only appendix. The talk still ends on the Q&A slide; these are the original main-branch slides kept here so the cuts can be reviewed in context.
 -->
 
 ---
@@ -543,35 +649,6 @@ WIP limits. Context switching. Inventory. This connects directly to the avalanch
 
 ---
 
-<PipelineSim mode="fixedConstraint" :speed="1" />
-
-<!--
-A satisfying visual resolution: fewer piles, more value out. AI is still present, but the system improvement comes from fixing the real constraint.
--->
-
----
-
-<div class="eyebrow">use-ai-where-the-constraint-is</div>
-
-# If coding is the bottleneck, great. Use AI there
-
-<div class="two-col">
-  <div class="card cool">
-    <div class="mini-label">solo / small system</div>
-    <p>AI coding can directly increase throughput because the constraint really is implementation.</p>
-  </div>
-  <div class="card hot">
-    <div class="mini-label">larger org system</div>
-    <p>Look first. The constraint might be discovery, review, confidence, deployment, or decisions.</p>
-  </div>
-</div>
-
-<!--
-This keeps the talk pro-tool and pro-systems thinking.
--->
-
----
-
 <div class="eyebrow">ai-at-the-constraint</div>
 
 # Better questions
@@ -595,28 +672,4 @@ This is the practical reframing: not “where can we generate code?” but “wh
 
 <!--
 Almost the blog's final argument. Make it land.
--->
-
----
-
-# Fix the bottleneck
-
-<div class="subtitle">It's not the keyboard.</div>
-
-<!--
-Final line. Pause after “bottleneck”, then after “keyboard”.
--->
-
----
-
-<div class="eyebrow">thanks</div>
-
-# Thanks. <em>Q&A</em>
-
-<div class="subtitle">Questions?</div>
-
-<p class="site-link"><a href="https://andrewmurphy.io/">andrewmurphy.io</a></p>
-
-<!--
-Light outro after the punchline. Leave "Fix the bottleneck" as the real ending; this is just the room handoff.
 -->
