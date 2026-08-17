@@ -32,8 +32,12 @@ jobs:
       - name: Build Slidev
         run: npm run build -- --base "/bigger-problems/"
 
-      - name: Add SPA fallback
-        run: cp dist/index.html dist/404.html
+      - name: Add static route fallbacks
+        run: |
+          mkdir -p dist/presenter dist/overview
+          cp dist/index.html dist/404.html
+          cp dist/index.html dist/presenter/index.html
+          cp dist/index.html dist/overview/index.html
 
       - name: Upload Pages artifact
         # actions/upload-pages-artifact v5
