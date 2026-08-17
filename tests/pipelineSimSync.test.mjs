@@ -41,14 +41,14 @@ test("propagates presenter controls to the matching viewer", () => {
 
 	presenter.sync.publish("start", true);
 	presenter.sync.publish("showWaste", false);
-	presenter.sync.publish("speed", 7.5);
+	presenter.sync.publish("speed", 32);
 
 	assert.deepEqual(
 		viewer.events.map(({ control, value }) => ({ control, value })),
 		[
 			{ control: "start", value: true },
 			{ control: "showWaste", value: false },
-			{ control: "speed", value: 7.5 },
+			{ control: "speed", value: 32 },
 		],
 	);
 

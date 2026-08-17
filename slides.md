@@ -137,7 +137,7 @@ Source: IDC, "How Do Software Developers Spend Their Time?" (Adam Resnick, Feb 2
 
 ---
 
-<PipelineSim mode="workBefore" :speed="10" />
+<PipelineSim mode="workBefore" :speed="32" />
 
 <!--
 The obvious bottleneck first: hand-written code is the narrow part everyone can see, ideas queueing behind engineering. This is the world the weekend fix expects — and here, widening Code genuinely would help.
@@ -174,7 +174,7 @@ Make the category error explicit — the audience just watched it happen on the 
 
 ---
 
-<PipelineSim mode="workReview" manual :speed="5" />
+<PipelineSim mode="workReview" manual :speed="32" />
 
 <!--
 The constraint MOVES. Say the org invests in discovery — researchers, clearer problems. Run the same system: the queue surfaces at Review next, the slowest remaining rate. Fixing a bottleneck never removes the constraint; it relocates it. This is why the work never feels done.
@@ -286,7 +286,7 @@ Section turn. The room already knows WHY delivery gets slower — the ToC lens d
 
 # You don't know what to build
 
-<PipelineSim mode="discoveryBottleneck" no-header :speed="1" />
+<PipelineSim mode="discoveryBottleneck" no-header :speed="5" />
 
 <!--
 The PM hasn't talked to a user, the ticket has three sentences and a Figma link, engineers make fifty micro-decisions and guess. AI makes guessing faster.
@@ -306,7 +306,7 @@ Good joke line. Use your own language on stage.
 
 # Everything after code is “done”
 
-<PipelineSim mode="postCodeBottleneck" no-header :speed="1" />
+<PipelineSim mode="postCodeBottleneck" no-header :speed="5" />
 
 <!--
 Code being written is not done. Code sitting in review, CI, QA, security, staging, approvals, deploy windows is inventory.
@@ -473,7 +473,7 @@ One method, three moves. Map the real path, not the official process. Measure el
 
 ---
 
-<PipelineSim mode="fixedConstraint" :speed="1" />
+<PipelineSim mode="fixedConstraint" :speed="5" />
 
 <!--
 A satisfying visual resolution: fewer piles, more value out. WIP limits reduce context switching and inventory. AI is still present, but the system gets faster because the real constraint was improved.

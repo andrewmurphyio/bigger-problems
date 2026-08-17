@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import type { PipelineSimEvent, PipelineSimHoverTarget } from '../composables/pipelineSimSync.ts'
 import { computed, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
+import {
+  normalizePipelineSpeedFactor,
+  pipelineSpeedFactorForLevel,
+  pipelineSpeedLevelForFactor,
+} from '../composables/pipelineSimSpeed.ts'
 import { usePipelineSimSync } from '../composables/usePipelineSimSync.ts'
 
 type Stage = {
@@ -375,15 +380,10 @@ const rootEl = ref<HTMLElement | null>(null)
 const balls = shallowRef<SimBall[]>([])
 const gates = shallowRef<SimGate[]>([])
 const started = ref(false)
-// Live tuning dial: ABSOLUTE speed level 1-10. The same number means the
-// same ball speed on every pipeline (level x 60 units/sec of travel); each
-// scenario's tuned pace sets its default position.
-const speedLevel = ref(1)
-// Dial position 1..10 is a linear ×1..×10. Past 10 it turns logarithmic:
-// each extra notch is a decade — 11 → ×100, 12 → ×1000.
-const speedFactor = computed(() =>
-  speedLevel.value <= 10 ? speedLevel.value : Math.round(10 ** (speedLevel.value - 9)),
-)
+// Store the absolute simulation multiplier. The range input uses an internal
+// 1..12 coordinate: linear through ×10, then logarithmic up to ×1000.
+const speedFactor = ref(1)
+const speedLevel = computed(() => pipelineSpeedLevelForFactor(speedFactor.value))
 
 // Steady-state throughput and utilisation, derived analytically from the
 // configured rates: flow through any station is min(demand, every upstream
@@ -554,7 +554,7 @@ function buildSim() {
   }
 
   spawnTimer = coldStart ? 0.3 : spawnIntervalSec * 0.5
-  speedLevel.value = props.speed ?? scenario.value.pace ?? 1
+  speedFactor.value = normalizePipelineSpeedFactor(props.speed ?? scenario.value.pace ?? 1)
 
   // Steady-state utilisation: flow through station i is min(demand, every
   // upstream service rate). Static per scenario — the constraint runs at
@@ -791,7 +791,7 @@ function applySyncedControl(event: PipelineSimEvent) {
       showWaste.value = event.value
       break
     case 'speed':
-      speedLevel.value = event.value
+      speedFactor.value = normalizePipelineSpeedFactor(event.value)
       break
     case 'start':
       started.value = true
@@ -827,12 +827,13 @@ function updateSpeed(event: Event) {
   if (!(input instanceof HTMLInputElement))
     return
 
-  const value = Number(input.value)
-  if (!Number.isFinite(value))
+  const level = Number(input.value)
+  if (!Number.isFinite(level))
     return
 
-  speedLevel.value = value
-  publishControl('speed', value)
+  const factor = pipelineSpeedFactorForLevel(level)
+  speedFactor.value = factor
+  publishControl('speed', factor)
 }
 
 onMounted(() => {
@@ -858,9 +859,9 @@ onBeforeUnmount(() => {
 })
 
 watch(() => props.mode, buildSim)
-// Live dial updates when the speed is edited in the slide markdown.
+// Live dial updates when the absolute speed is edited in the slide markdown.
 watch(() => props.speed, (value) => {
-  if (value != null) speedLevel.value = value
+  if (value != null) speedFactor.value = normalizePipelineSpeedFactor(value)
 })
 
 const queueLabels = computed(() => {
