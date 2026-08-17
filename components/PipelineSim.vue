@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import type { PipelineSimEvent, PipelineSimHoverTarget } from '../composables/pipelineSimSync.ts'
 import { computed, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
+import { usePipelineSimSync } from '../composables/usePipelineSimSync.ts'
 
 type Stage = {
   label: string
@@ -389,6 +391,7 @@ const speedFactor = computed(() =>
 const flowStats = ref({ inRate: 0, outRate: 0 })
 const stageUtil = ref<number[]>([])
 const showWaste = ref(false)
+const remoteHoverTarget = ref<PipelineSimHoverTarget | null>(null)
 
 let nextId = 1
 let rafHandle = 0
@@ -396,6 +399,7 @@ let lastTime = 0
 let spawnTimer = 0
 let spawnIntervalSec = 1
 let running = false
+let isVisible = false
 let observer: IntersectionObserver | null = null
 
 function buildSlots(gateX: number, minX: number) {
@@ -778,9 +782,57 @@ function setRunning(value: boolean) {
   }
 }
 
+function applySyncedControl(event: PipelineSimEvent) {
+  switch (event.control) {
+    case 'hover':
+      remoteHoverTarget.value = event.value
+      break
+    case 'showWaste':
+      showWaste.value = event.value
+      break
+    case 'speed':
+      speedLevel.value = event.value
+      break
+    case 'start':
+      started.value = true
+      setRunning(isVisible)
+      break
+  }
+}
+
+const {
+  publish: publishControl,
+  publishHover,
+  remotePointer,
+} = usePipelineSimSync(props.mode, applySyncedControl)
+
 function startSim() {
+  publishHover(null)
   started.value = true
-  setRunning(true)
+  setRunning(isVisible)
+  publishControl('start', true)
+}
+
+function updateShowWaste(event: Event) {
+  const input = event.currentTarget
+  if (!(input instanceof HTMLInputElement))
+    return
+
+  showWaste.value = input.checked
+  publishControl('showWaste', input.checked)
+}
+
+function updateSpeed(event: Event) {
+  const input = event.currentTarget
+  if (!(input instanceof HTMLInputElement))
+    return
+
+  const value = Number(input.value)
+  if (!Number.isFinite(value))
+    return
+
+  speedLevel.value = value
+  publishControl('speed', value)
 }
 
 onMounted(() => {
@@ -790,9 +842,10 @@ onMounted(() => {
       // Restart the story each time the slide comes into view: empty queues,
       // then ideas visibly stack up behind the constraint. Manual slides
       // re-arm their run button instead of auto-starting.
-      if (!entry.isIntersecting && props.manual) started.value = false
-      if (entry.isIntersecting && !running && (!props.manual || !started.value)) buildSim()
-      setRunning(entry.isIntersecting && (!props.manual || started.value))
+      isVisible = entry.isIntersecting
+      if (!isVisible && props.manual) started.value = false
+      if (isVisible && !running && (!props.manual || !started.value)) buildSim()
+      setRunning(isVisible && (!props.manual || started.value))
     }
   })
   if (rootEl.value) observer.observe(rootEl.value)
@@ -820,6 +873,16 @@ const queueLabels = computed(() => {
 
 <template>
   <section ref="rootEl" class="pipeline-sim">
+    <Teleport v-if="remoteHoverTarget && remotePointer" to="#slide-content">
+      <div
+        class="pipeline-remote-pointer"
+        :style="{ left: `${remotePointer.x}%`, top: `${remotePointer.y}%` }"
+        aria-hidden="true"
+      >
+        <span class="i-ph-hand-pointing-fill" />
+      </div>
+    </Teleport>
+
     <div v-if="!props.noHeader" class="pipeline-head">
       <span>{{ scenario.eyebrow.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-') }}</span>
       <h2>{{ scenario.title }}</h2>
@@ -938,16 +1001,37 @@ const queueLabels = computed(() => {
     </svg>
 
     <div class="pipe-controls">
-      <button v-if="props.manual && !started" type="button" class="run-btn" @click="startSim">
+      <button
+        v-if="props.manual && !started"
+        type="button"
+        class="run-btn"
+        :class="{ 'is-remote-hover': remoteHoverTarget === 'run' }"
+        @click="startSim"
+        @pointerenter="publishHover('run')"
+        @pointerleave="publishHover(null)"
+        @pointercancel="publishHover(null)"
+      >
         ▶ run the system
       </button>
-      <label class="waste-toggle">
-        <input v-model="showWaste" type="checkbox" />
+      <label
+        class="waste-toggle"
+        :class="{ 'is-remote-hover': remoteHoverTarget === 'showWaste' }"
+        @pointerenter="publishHover('showWaste')"
+        @pointerleave="publishHover(null)"
+        @pointercancel="publishHover(null)"
+      >
+        <input :checked="showWaste" type="checkbox" @change="updateShowWaste" />
         <span>show bottleneck</span>
       </label>
-      <div class="speed-dial">
+      <div
+        class="speed-dial"
+        :class="{ 'is-remote-hover': remoteHoverTarget === 'speed' }"
+        @pointerenter="publishHover('speed')"
+        @pointerleave="publishHover(null)"
+        @pointercancel="publishHover(null)"
+      >
         <span>speed</span>
-        <input v-model.number="speedLevel" type="range" min="1" max="12" step="0.5" />
+        <input :value="speedLevel" type="range" min="1" max="12" step="0.5" @input="updateSpeed" />
         <span>×{{ speedFactor }}</span>
       </div>
     </div>
@@ -1151,6 +1235,7 @@ const queueLabels = computed(() => {
   color: var(--deck-muted, #8f8a99);
   font: 600 0.62rem/1 var(--slidev-code-font-family);
   text-transform: lowercase;
+  cursor: pointer;
 }
 
 .waste-toggle {
@@ -1161,6 +1246,21 @@ const queueLabels = computed(() => {
   font: 600 0.62rem/1 var(--slidev-code-font-family);
   text-transform: lowercase;
   cursor: pointer;
+}
+
+.speed-dial,
+.waste-toggle {
+  border-radius: 0.2rem;
+  transition: color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+
+.speed-dial:hover,
+.speed-dial.is-remote-hover,
+.waste-toggle:hover,
+.waste-toggle.is-remote-hover {
+  color: var(--deck-ink, #fafafa);
+  background: rgba(151, 71, 255, 0.12);
+  box-shadow: 0 0 0 0.3rem rgba(151, 71, 255, 0.12);
 }
 
 .waste-toggle input {
@@ -1201,9 +1301,29 @@ const queueLabels = computed(() => {
   transition: background 200ms ease, color 200ms ease;
 }
 
-.run-btn:hover {
+.run-btn:hover,
+.run-btn.is-remote-hover {
   background: var(--deck-accent, #d783dc);
   color: #020103;
+}
+
+.pipeline-remote-pointer {
+  position: absolute;
+  z-index: 10000;
+  width: 1.65rem;
+  height: 1.65rem;
+  color: var(--deck-ink, #fafafa);
+  pointer-events: none;
+  transform: translate(-28%, -6%);
+  filter:
+    drop-shadow(0 0 1px #020103)
+    drop-shadow(0 2px 2px rgba(2, 1, 3, 0.8));
+}
+
+.pipeline-remote-pointer > span {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 @keyframes edgePulse {

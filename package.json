@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "slidev --open=false",
     "build": "slidev build",
-    "export": "slidev export"
+    "export": "slidev export",
+    "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@slidev/cli": "^52.16.0",
