@@ -298,20 +298,45 @@ code {
 }
 
 .metric-track {
+	position: relative;
 	height: 0.8rem;
 	overflow: hidden;
 	border-radius: 999px;
 	background: rgba(35, 33, 56, 0.8);
 }
 
+.metric-track::after {
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	bottom: 0;
+	left: 50%;
+	width: 1px;
+	background: rgba(255, 255, 255, 0.55);
+	content: "";
+	transform: translateX(-0.5px);
+}
+
 .metric-bar {
-	height: 100%;
-	border-radius: inherit;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 50%;
 	background: var(--deck-accent);
+	transform: scaleX(var(--scale));
+}
+
+.metric-bar.up {
+	left: 50%;
+	border-radius: 0 999px 999px 0;
+	transform-origin: left;
 }
 
 .metric-bar.down {
+	right: 50%;
+	border-radius: 999px 0 0 999px;
 	background: var(--deck-danger);
+	transform-origin: right;
 }
 
 .metric-value.down {
@@ -493,12 +518,17 @@ code {
 
 .trust-step {
 	position: relative;
-	min-height: 8.25rem;
-	padding: 0.72rem 0.72rem 0.8rem;
+	display: flex;
+	min-height: 5.75rem;
+	padding: 0.72rem;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
 	border: 1px solid var(--deck-line);
 	border-radius: 0.55rem;
 	background: rgba(35, 33, 56, 0.38);
 	color: var(--deck-body);
+	text-align: center;
 }
 
 .trust-step:not(:last-child)::after {
@@ -564,6 +594,64 @@ code {
 
 .checklist li {
 	margin: 0.65rem 0;
+}
+
+.resource-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.62rem;
+	margin-top: 1rem;
+}
+
+.resource-card {
+	padding: 0.68rem 0.82rem;
+	border: 1px solid var(--deck-line);
+	border-radius: 0.65rem;
+	background: rgba(35, 33, 56, 0.35);
+}
+
+.resource-card:last-child {
+	grid-column: 1 / -1;
+}
+
+.resource-slide {
+	display: inline-flex;
+	margin-bottom: 0.34rem;
+	padding: 0.14rem 0.38rem;
+	border: 1px solid rgba(215, 131, 220, 0.42);
+	border-radius: 999px;
+	color: var(--deck-accent);
+	font: 700 0.58rem / 1 var(--slidev-code-font-family);
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+.resource-title {
+	font: 700 0.76rem / 1.2 var(--slidev-code-font-family);
+}
+
+.resource-title a,
+.resource-extra {
+	color: var(--deck-teal);
+	text-decoration: none;
+}
+
+.resource-title a:hover,
+.resource-extra:hover {
+	color: var(--deck-accent);
+}
+
+.resource-card p {
+	margin: 0.3rem 0 0;
+	color: var(--deck-muted);
+	font-size: 0.7rem;
+	line-height: 1.32;
+}
+
+.resource-extra {
+	margin-left: 0.3rem;
+	font: 600 0.66rem / 1.2 var(--slidev-code-font-family);
+	white-space: nowrap;
 }
 
 .footnote {

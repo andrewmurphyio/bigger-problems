@@ -113,7 +113,7 @@ Keep this practical and visual. No long management theory detour. One bottleneck
 
 ---
 
-<PipelineSim mode="bottleneckRecap" :speed="1" />
+<PipelineSim mode="bottleneckRecap" :speed="5" />
 
 <!--
 Callback to the weekend pipe, now through the ToC lens: THIS is a bottleneck. The narrowest station set the throughput of the whole system — which is exactly why AI coding felt miraculous there.
@@ -130,14 +130,14 @@ Callback to the weekend pipe, now through the ToC lens: THIS is a bottleneck. Th
 <div class="footnote">IDC, “How Do Software Developers Spend Their Time?” (2025) — 16% in 2024, up from 15% the year before.</div>
 
 <!--
-Bridge from the weekend pipe to the work pipe. On the weekend, coding was most of the effort — and it was the constraint. At work, coding is 16% of an engineer's day. Hold that number: you're about to see the work pipeline and guess where its bottleneck is.
+Bridge from the weekend pipe to the work pipe. IDC's survey reports that developers spent 16% of a self-reported typical month developing applications. This is not directly observed keyboard time. The remaining 84% is arithmetic. Hold the contrast: you're about to see the work pipeline and guess where its bottleneck is.
 
 Source: IDC, "How Do Software Developers Spend Their Time?" (Adam Resnick, Feb 2025) — https://www.idc.com/getdoc.jsp?containerId=US53204725 · coverage: https://www.infoworld.com/article/3831759/developers-spend-most-of-their-time-not-coding-idc-report.html
 -->
 
 ---
 
-<PipelineSim mode="workBefore" :speed="5" />
+<PipelineSim mode="workBefore" :speed="10" />
 
 <!--
 The obvious bottleneck first: hand-written code is the narrow part everyone can see, ideas queueing behind engineering. This is the world the weekend fix expects — and here, widening Code genuinely would help.
@@ -145,7 +145,7 @@ The obvious bottleneck first: hand-written code is the narrow part everyone can 
 
 ---
 
-<PipelineSim mode="workMap" manual :speed="5" />
+<PipelineSim mode="workMap" manual :speed="32" />
 
 <!--
 Now expand Code with AI — same pipe otherwise. Ask the room: where is the bottleneck NOW? Eyes go to the delivery end — Review, QA, Deploy. Press run: the queue forms at DISCOVERY, right at the start of the pipe. It was quietly the second-narrowest station all along (narrower than Review, Deploy in between — all honest bores). Knowing what to build is the constraint. This plants the seed for the discovery-bottleneck slide later.
@@ -161,12 +161,10 @@ Now expand Code with AI — same pipe otherwise. Ask the room: where is the bott
   <div class="card cool">
     <div class="mini-label">Weekend project</div>
     <p><strong>Coding was the constraint.</strong></p>
-    <p>Speeding up coding sped up the system.</p>
   </div>
   <div class="card hot">
     <div class="mini-label">Work project</div>
     <p><strong>Coding is one station.</strong></p>
-    <p>Speeding up one station may just feed the queue.</p>
   </div>
 </div>
 
@@ -215,22 +213,22 @@ Hero animation / visual. AI accelerates Build. Review is still constrained. The 
 <div class="card">
   <div class="metric">
     <div class="metric-label">Coding speed</div>
-    <div class="metric-track"><div class="metric-bar" style="width: 78%"></div></div>
+    <div class="metric-track"><div class="metric-bar up" style="--scale: 0.55"></div></div>
     <div class="metric-value">↑ 55%</div>
   </div>
   <div class="metric">
     <div class="metric-label">Code churn</div>
-    <div class="metric-track"><div class="metric-bar" style="width: 92%"></div></div>
+    <div class="metric-track"><div class="metric-bar up" style="--scale: 1"></div></div>
     <div class="metric-value">× 2</div>
   </div>
   <div class="metric">
     <div class="metric-label">Delivery throughput</div>
-    <div class="metric-track"><div class="metric-bar down" style="width: 8%"></div></div>
+    <div class="metric-track"><div class="metric-bar down" style="--scale: 0.015"></div></div>
     <div class="metric-value down">↓ 1.5%</div>
   </div>
   <div class="metric">
     <div class="metric-label">Delivery stability</div>
-    <div class="metric-track"><div class="metric-bar down" style="width: 18%"></div></div>
+    <div class="metric-track"><div class="metric-bar down" style="--scale: 0.072"></div></div>
     <div class="metric-value down">↓ 7.2%</div>
   </div>
 </div>
@@ -238,12 +236,12 @@ Hero animation / visual. AI accelerates Build. Review is still constrained. The 
 <div class="footnote">GitHub Copilot research (task speed) · GitClear 2024, 153M changed lines (churn vs 2021 baseline) · DORA 2024 (per 25% increase in AI adoption)</div>
 
 <!--
-Every number is sourced. GitHub's own research: 55% faster task completion with Copilot. GitClear analysed 153M changed lines: code churn — lines reverted or rewritten within two weeks — doubled vs the pre-AI baseline. And DORA 2024: for every 25% increase in AI adoption, delivery throughput dips 1.5% and delivery stability drops 7.2%. Individually faster, collectively slower. The system did not get faster — it got noisier.
+These results come from separate studies, not one causal chain. GitHub found 55% faster completion on one JavaScript HTTP-server task. GitClear projected that 2024 code churn could double vs 2021 after analysing 153M changed lines. DORA estimated that each 25% increase in AI adoption was associated with 1.5% lower delivery throughput and 7.2% lower delivery stability; it did not establish causation.
 
 Sources:
 - GitHub 55%: https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/
-- GitClear churn: https://www.gitclear.com/coding_on_copilot_data_shows_ais_downward_pressure_on_code_quality
-- DORA 2024: https://dora.dev/research/2024/dora-report/
+- GitClear churn projection: https://www.gitclear.com/coding_on_copilot_data_shows_ais_downward_pressure_on_code_quality
+- DORA 2024 associations: https://dora.dev/research/2024/dora-report/
 -->
 
 ---
@@ -253,7 +251,7 @@ Sources:
 <div class="footnote">METR RCT, 2025: experienced developers using AI took 19% <em>longer</em> — while believing they had been 20% faster.</div>
 
 <!--
-Let this sting. It's the emotional version of the chart. The METR randomized controlled trial is the kicker: 16 experienced open-source devs, real issues in their own repos — 19% slower with AI, yet they self-reported a 20% speedup. Even the perception of speed is unreliable.
+Treat this as a historical result, not a current benchmark. METR's randomized controlled trial covered 16 experienced open-source developers working on real issues in their own repos: they were 19% slower with AI yet estimated they had been 20% faster. METR now labels the study out of date and not representative of current models.
 
 Source: METR (July 2025) — https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/ · paper: https://arxiv.org/abs/2507.09089
 -->
@@ -324,32 +322,20 @@ Code being written is not done. Code sitting in review, CI, QA, security, stagin
   <div class="timeline-legend">author's context remaining</div>
   <div class="timeline-row" style="--node: var(--deck-teal); --ctx: 100%">
     <span class="node"></span>
-    <div class="time">Monday</div>
-    <div class="event">PR opened. Author still has all the context.</div>
+    <div class="time">Mon</div>
+    <div class="event">PR opened.</div>
     <div class="ctx"><div class="ctx-track"><div class="ctx-bar"></div></div><span>100%</span></div>
-  </div>
-  <div class="timeline-row" style="--node: var(--deck-accent); --ctx: 70%">
-    <span class="node"></span>
-    <div class="time">Tuesday</div>
-    <div class="event">Author starts the next AI-assisted feature.</div>
-    <div class="ctx"><div class="ctx-track"><div class="ctx-bar"></div></div><span>70%</span></div>
   </div>
   <div class="timeline-row" style="--node: var(--deck-accent-strong); --ctx: 35%">
     <span class="node"></span>
-    <div class="time">Thursday</div>
-    <div class="event">Review comments arrive. Nobody remembers the edge cases.</div>
+    <div class="time">Thu</div>
+    <div class="event">Review arrives.</div>
     <div class="ctx"><div class="ctx-track"><div class="ctx-bar"></div></div><span>35%</span></div>
-  </div>
-  <div class="timeline-row" style="--node: var(--deck-danger); --ctx: 10%">
-    <span class="node"></span>
-    <div class="time">Friday</div>
-    <div class="event">Rubber stamp, flaky CI, deploy delayed.</div>
-    <div class="ctx"><div class="ctx-track"><div class="ctx-bar"></div></div><span>10%</span></div>
   </div>
   <div class="timeline-row bad" style="--node: var(--deck-danger); --ctx: 0%">
     <span class="node"></span>
-    <div class="time">Monday</div>
-    <div class="event">“Wait, why did we build it this way?”</div>
+    <div class="time">Next Mon</div>
+    <div class="event">“Why did we build it this way?”</div>
     <div class="ctx"><div class="ctx-track"><div class="ctx-bar"></div></div><span>0%</span></div>
   </div>
 </div>
@@ -364,37 +350,30 @@ This is where people laugh because it hurts. Make it specific. Context decays wh
 
 # The deploy trust spiral
 
-<div class="subtitle">Faster code just makes scared releases bigger.</div>
-
 <div class="trust-loop">
   <div class="trust-step">
     <span class="step-id">1</span>
     <strong>Flaky tests</strong>
-    <span>Shaky observability. Nobody trusts the signal.</span>
   </div>
   <div class="trust-step">
     <span class="step-id">2</span>
-    <strong>Batch changes</strong>
-    <span>Hold the release until it feels worth the risk.</span>
+    <strong>Bigger batches</strong>
   </div>
   <div class="trust-step danger">
     <span class="step-id">3</span>
-    <strong>Bigger release</strong>
-    <span>More code. More unknowns. More blast radius.</span>
+    <strong>Riskier releases</strong>
   </div>
   <div class="trust-step">
     <span class="step-id">4</span>
     <strong>Deploy less</strong>
-    <span>Every ship becomes an event.</span>
   </div>
   <div class="trust-step danger">
     <span class="step-id">5</span>
     <strong>Trust drops</strong>
-    <span>Which makes the next deploy scarier.</span>
   </div>
 </div>
 
-<div class="trust-return">↺ the fear loops back into bigger batches</div>
+<div class="trust-return">↺ and the cycle repeats</div>
 
 <!--
 This is straight from the original post's "deploy trust spiral". If your team is already scared to deploy, AI doesn't make you faster — it gives you more code to be scared of. Flaky tests and weak observability reduce trust; low trust makes teams batch changes; bigger batches are riskier; riskier releases happen less often; shipping less often further erodes trust.
@@ -463,8 +442,6 @@ If the metric watches Build, every improvement looks like Build. The system opti
   <p>Same queues. Same handoffs. Same incentives. More work arriving per minute.</p>
 </div>
 
-<div class="subtitle">So where does value get stuck?</div>
-
 <!--
 Synthesis beat and practical turn. We already knew these problems existed: vague requirements, review queues, deploy fear, calendar bottlenecks, bad metrics. AI coding increases the feed rate into the same constrained system. The useful response is to find where value now waits.
 -->
@@ -506,37 +483,96 @@ A satisfying visual resolution: fewer piles, more value out. WIP limits reduce c
 
 <div class="eyebrow">use-ai-where-the-constraint-is</div>
 
-# If coding is the bottleneck, great. Use AI there
+# Is coding the bottleneck?
 
 <div class="two-col">
   <div class="card cool">
-    <div class="mini-label">solo / small system</div>
-    <p>AI coding can directly increase throughput because the constraint really is implementation.</p>
+    <div class="mini-label">yes</div>
+    <p><strong>Use AI there.</strong></p>
   </div>
   <div class="card hot">
-    <div class="mini-label">larger org system</div>
-    <p>Look first. The constraint might be discovery, review, confidence, deployment, or decisions.</p>
+    <div class="mini-label">not sure</div>
+    <p><strong>Find the constraint first.</strong></p>
   </div>
 </div>
 
 <!--
-This keeps the talk pro-tool and pro-systems thinking.
+This keeps the talk pro-tool and pro-systems thinking. In a solo project or small system, implementation can genuinely be the constraint, so AI coding can directly increase throughput. In a larger organization, check whether work actually waits in discovery, review, confidence, deployment, or decisions.
 -->
 
 ---
 
-<div class="eyebrow">ai-at-the-constraint</div>
+<div class="eyebrow">ai-at-the-constraint · 1/3</div>
 
-# Use AI at the constraint
+# Compress discovery with AI
 
-<ul class="checklist">
-  <li><strong>Discovery:</strong> synthesize research, logs, and support tickets.</li>
-  <li><strong>Review:</strong> make PRs smaller, clearer, and safer.</li>
-  <li><strong>CI:</strong> isolate flaky tests and shorten feedback loops.</li>
-</ul>
+<div class="three-col">
+  <div class="card cool">
+    <div class="mini-label">input</div>
+    <p>Tickets, interviews, research, and usage logs.</p>
+  </div>
+  <div class="card">
+    <div class="mini-label">ask AI</div>
+    <p>Cluster recurring pains, cite sources, expose contradictions.</p>
+  </div>
+  <div class="card hot">
+    <div class="mini-label">faster output</div>
+    <p>Draft problem statements and open questions.</p>
+  </div>
+</div>
 
 <!--
-The practical reframing is not “where can we generate code?” but “where is the constraint, and how can AI help there?” Three examples are enough to establish the pattern without starting another catalogue.
+AI compresses scattered evidence into a reviewable starting point; it does not decide what to build. Example prompt: “Cluster these sources by user problem. For each theme, cite source IDs, estimate frequency, list contradictions, and draft a testable problem statement. Do not fill gaps—list open questions.” Product judgment remains human.
+-->
+
+---
+
+<div class="eyebrow">ai-at-the-constraint · 2/3</div>
+
+# Pre-review the PR with AI
+
+<div class="three-col">
+  <div class="card cool">
+    <div class="mini-label">input</div>
+    <p>Diff, acceptance criteria, architecture notes, test output.</p>
+  </div>
+  <div class="card">
+    <div class="mini-label">ask AI</div>
+    <p>Map impact; flag risky paths, missing tests, and edge cases.</p>
+  </div>
+  <div class="card hot">
+    <div class="mini-label">faster output</div>
+    <p>Focused reviewer checklist and a split plan.</p>
+  </div>
+</div>
+
+<!--
+The goal is to reduce reviewer cognitive load before a human opens the PR, not generate more review comments. Example prompt: “Review this diff against the acceptance criteria and architecture notes. Map changed behavior, flag risky paths and missing tests, then propose how to split the PR. Return a focused reviewer checklist; do not approve it.” Human reviewers still own trade-offs, security judgment, and approval.
+-->
+
+---
+
+<div class="eyebrow">ai-at-the-constraint · 3/3</div>
+
+# Shorten the CI loop with AI
+
+<div class="three-col">
+  <div class="card cool">
+    <div class="mini-label">input</div>
+    <p>Failing and passing logs, test history, and the diff.</p>
+  </div>
+  <div class="card">
+    <div class="mini-label">ask AI</div>
+    <p>Cluster failures and rank likely causes.</p>
+  </div>
+  <div class="card hot">
+    <div class="mini-label">faster output</div>
+    <p>Minimal repro and a targeted verification plan.</p>
+  </div>
+</div>
+
+<!--
+AI turns noisy failures into testable hypotheses; the team still verifies the fix. Example prompt: “Compare failed and passing runs with this diff. Cluster equivalent failures, rank likely causes with evidence, identify likely flakes, and draft the smallest repro plus commands to verify it. Treat every hypothesis as unconfirmed.”
 -->
 
 ---
@@ -559,117 +595,46 @@ Set up the final slide verbally: “The competitive advantage is not writing cod
 
 <p class="site-link"><a href="https://andrewmurphy.io/">andrewmurphy.io</a></p>
 
+<p class="footnote">Thanks to <a href="https://www.linkedin.com/in/jecornwall/" target="_blank" rel="noopener noreferrer">Jason Cornwall</a> for the balls idea.</p>
+
 <!--
 Light outro after the punchline. Leave "Fix the bottleneck" as the real ending; this is just the room handoff.
 -->
 
 ---
 
-<div class="eyebrow">comparison-only</div>
+<div class="eyebrow">sources</div>
 
-# Appendix: cut from <em>main</em>
+# Resources
 
-<div class="subtitle">Seven standalone beats compressed into slides 29–34.</div>
-
-<!--
-Comparison-only appendix. The talk still ends on the Q&A slide; these are the original main-branch slides kept here so the cuts can be reviewed in context.
--->
-
----
-
-# Where does value get stuck?
-
-<div class="subtitle">That is the question AI should make louder.</div>
-
-<!--
-Transition from diagnosis to what to do instead.
--->
-
----
-
-<div class="eyebrow">what-to-do-instead</div>
-
-# Map the value stream
-
-<ul class="checklist">
-  <li>Follow one feature from idea to user value.</li>
-  <li>Write down every step.</li>
-  <li>Write down every wait between steps.</li>
-  <li>Bring snacks. This will be depressing.</li>
-</ul>
-
-<!--
-Make it actionable and boring. The boring thing is the thing that works.
--->
-
----
-
-<div class="eyebrow">what-to-do-instead</div>
-
-# Measure cycle time, not output
-
-<div class="quote-panel">
-  <p>The gap <em>between</em> steps is where your <em>delivery time</em> lives.</p>
-</div>
-
-<!--
-Emphasize elapsed time from idea/commit to production/use, not activity inside one station.
--->
-
----
-
-<div class="eyebrow">what-to-do-instead</div>
-
-# Find the wait states and kill them
-
-<div class="two-col">
-  <div class="card hot">
-    <div class="mini-label">if this waits</div>
-    <p>PR review, deploy approval, security signoff, product decision, flaky CI</p>
+<div class="resource-grid">
+  <div class="resource-card">
+    <span class="resource-slide">Slide 10</span>
+    <div class="resource-title"><a href="https://www.idc.com/getdoc.jsp?containerId=US53204725" target="_blank" rel="noopener noreferrer">IDC · Developer time (2025)</a></div>
+    <p>Self-reported application-development time: 16%; remaining 84% derived. <a class="resource-extra" href="https://www.infoworld.com/article/3831759/developers-spend-most-of-their-time-not-coding-idc-report.html" target="_blank" rel="noopener noreferrer">Coverage ↗</a></p>
   </div>
-  <div class="card cool">
-    <div class="mini-label">fix that station</div>
-    <p>Smaller PRs, pairing, dedicated review time, automated gates, fast feedback, delegated decisions</p>
+  <div class="resource-card">
+    <span class="resource-slide">Slide 17</span>
+    <div class="resource-title"><a href="https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/" target="_blank" rel="noopener noreferrer">GitHub · Copilot productivity</a></div>
+    <p>One JavaScript task: 55% faster.</p>
+  </div>
+  <div class="resource-card">
+    <span class="resource-slide">Slide 17</span>
+    <div class="resource-title"><a href="https://www.gitclear.com/coding_on_copilot_data_shows_ais_downward_pressure_on_code_quality" target="_blank" rel="noopener noreferrer">GitClear · Coding on Copilot (2024)</a></div>
+    <p>Projected 2024 churn: ≈2× 2021, from 153M changed lines.</p>
+  </div>
+  <div class="resource-card">
+    <span class="resource-slide">Slide 17</span>
+    <div class="resource-title"><a href="https://dora.dev/research/2024/dora-report/" target="_blank" rel="noopener noreferrer">DORA · 2024 report</a></div>
+    <p>Per +25% AI adoption: −1.5% throughput; −7.2% stability (association).</p>
+  </div>
+  <div class="resource-card">
+    <span class="resource-slide">Slide 18</span>
+    <div class="resource-title"><a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/" target="_blank" rel="noopener noreferrer">METR · Experienced OSS developers (2025)</a></div>
+    <p>Historical RCT: 19% slower while estimating 20% faster. <a class="resource-extra" href="https://arxiv.org/abs/2507.09089" target="_blank" rel="noopener noreferrer">Paper ↗</a></p>
   </div>
 </div>
 
 <!--
-Do not prescribe one universal fix. The fix depends on the actual constraint.
--->
-
----
-
-# Stop starting. Start finishing
-
-<div class="subtitle">Ten things in flight is not faster than three things done.</div>
-
-<!--
-WIP limits. Context switching. Inventory. This connects directly to the avalanche visual.
--->
-
----
-
-<div class="eyebrow">ai-at-the-constraint</div>
-
-# Better questions
-
-<ul class="checklist">
-  <li>If discovery is stuck: can AI help synthesize research, logs, support tickets?</li>
-  <li>If review is stuck: can AI help make PRs smaller, clearer, safer?</li>
-  <li>If CI is stuck: can AI help isolate flaky tests and shorten feedback loops?</li>
-  <li>If decisions are stuck: can AI make tradeoffs explicit enough to decide?</li>
-</ul>
-
-<!--
-This is the practical reframing: not “where can we generate code?” but “where is the constraint and how can AI help there?”
--->
-
----
-
-# The competitive advantage is not writing code fastest
-
-<div class="subtitle">It is figuring out what to build, building it, and getting it into users' hands while everyone else is drowning in WIP.</div>
-
-<!--
-Almost the blog's final argument. Make it land.
+Every dataset cited in the talk, collected in one place for the audience to follow up after Q&A.
 -->
