@@ -383,14 +383,14 @@ This is straight from the original post's "deploy trust spiral". If your team is
 
 <div class="eyebrow">bottleneck-suspect-4</div>
 
-# Your calendar is a load-bearing wall
+# Your org runs on blocking I/O
 
 <div class="quote-panel">
-  <p>Sometimes the entire delivery system is waiting for <em>a meeting</em> with someone who is <em>on holiday</em>.</p>
+  <p>Sometimes the whole delivery system is blocked on <em>a meeting</em> with someone who is <em>on holiday</em>.</p>
 </div>
 
 <!--
-Coordination is a real constraint. AI cannot refactor the org chart by producing more PRs.
+Coordination is blocking I/O. More PRs just add requests to the queue; they do not make the dependency available.
 -->
 
 ---
