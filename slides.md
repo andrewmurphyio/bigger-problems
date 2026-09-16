@@ -37,15 +37,80 @@ Opening posture: pro-AI, excited, personal. This is not a dunk-on-tools talk. It
 # So many ideas. So little time
 
 <div class="idea-storm">
-  <span style="left: 5%; top: 14%; --hue: 52; --rot: -8deg; --delay: 0s">egg counter</span>
-  <span style="left: 26%; top: 9%; --hue: 332; --rot: 7deg; --delay: .2s">net worth app</span>
-  <span style="left: 58%; top: 12%; --hue: 188; --rot: -4deg; --delay: .4s">coop door bot</span>
-  <span style="left: 76%; top: 22%; --hue: 96; --rot: 11deg; --delay: .1s">solar monitor</span>
-  <span style="left: 16%; top: 41%; --hue: 24; --rot: 6deg; --delay: .5s">dividend chart</span>
-  <span style="left: 45%; top: 39%; --hue: 276; --rot: -10deg; --delay: .15s">chicken cam</span>
-  <span style="left: 68%; top: 49%; --hue: 42; --rot: 5deg; --delay: .3s">budget scraper</span>
-  <span style="left: 9%; top: 66%; --hue: 196; --rot: -5deg; --delay: .6s">smart blinds</span>
-  <span style="left: 80%; top: 66%; --hue: 348; --rot: -12deg; --delay: .35s">1:1 notes tool</span>
+  <span style="left: 5%; top: 14%; --hue: 52; --rot: -8deg; --delay: 0s">
+    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <path d="M10 17c0 3-2 5-4 5s-4-2-4-5 2-9 4-9 4 6 4 9ZM20 17c0 3-2 5-4 5s-4-2-4-5 2-9 4-9 4 6 4 9ZM30 17c0 3-2 5-4 5s-4-2-4-5 2-9 4-9 4 6 4 9Z" />
+      <rect x="2" y="24" width="28" height="5" rx="2" />
+    </svg>
+    egg counter
+  </span>
+  <span style="left: 26%; top: 9%; --hue: 332; --rot: 7deg; --delay: .2s">
+    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <path d="m4 15 8-6 7 4 9-9M21 4h7v7" />
+      <circle cx="8" cy="24" r="5" />
+      <path d="M8 22v4M17 25h12" />
+    </svg>
+    net worth app
+  </span>
+  <span style="left: 58%; top: 12%; --hue: 188; --rot: -4deg; --delay: .4s">
+    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <path d="m2 15 11-9 11 9M5 13v16h16V13" />
+      <rect x="10" y="20" width="6" height="9" rx="1" />
+      <path d="M23 3a7 7 0 0 1 7 7M23 7a3 3 0 0 1 3 3" />
+    </svg>
+    coop door bot
+  </span>
+  <span style="left: 76%; top: 22%; --hue: 96; --rot: 11deg; --delay: .1s">
+    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <circle cx="8" cy="8" r="3" />
+      <path d="M8 2v1M8 13v1M2 8h1M13 8h1m-9.5-4.5 1 1m7 7 1 1m-9 0 1-1m7-7 1-1" />
+      <path d="M9 17h18l3 10H6ZM15 17l-1 10m7-10 1 10M7.5 22h21M18 27v3m-5 0h10" />
+    </svg>
+    solar monitor
+  </span>
+  <span style="left: 16%; top: 41%; --hue: 24; --rot: 6deg; --delay: .5s">
+    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <rect x="3" y="21" width="4" height="8" rx="1" />
+      <rect x="11" y="17" width="4" height="12" rx="1" />
+      <rect x="19" y="13" width="4" height="16" rx="1" />
+      <circle cx="25" cy="6" r="4" />
+      <path d="M25 4v4" />
+    </svg>
+    dividend chart
+  </span>
+  <span style="left: 45%; top: 39%; --hue: 276; --rot: -10deg; --delay: .15s">
+    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <rect x="2" y="7" width="22" height="22" rx="3" />
+      <path d="m24 15 6-3v13l-6-3M8 24v-5a5 5 0 0 1 10 0l3 2-3 1v2M10 15v-4l3 2 2-3 2 6" />
+      <circle cx="15" cy="18" r="0.8" fill="currentColor" stroke="none" />
+    </svg>
+    chicken cam
+  </span>
+  <span style="left: 68%; top: 49%; --hue: 42; --rot: 5deg; --delay: .3s">
+    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <rect x="3" y="4" width="26" height="24" rx="3" />
+      <path d="M3 10h26M7 7h.01M11 7h.01M7 15h8M7 19h6M7 23h4M23 14v10m-4-4 4 4 4-4" />
+    </svg>
+    budget scraper
+  </span>
+  <span style="left: 9%; top: 66%; --hue: 196; --rot: -5deg; --delay: .6s">
+    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <rect x="4" y="3" width="21" height="26" rx="1" />
+      <path d="M4 9h21M4 15h21M4 21h21M29 6v14" />
+      <circle cx="29" cy="22" r="1.5" />
+    </svg>
+    smart blinds
+  </span>
+  <span style="left: 80%; top: 72%; --hue: 348; --rot: -12deg; --delay: .35s">
+    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <circle cx="9" cy="7" r="3" />
+      <circle cx="23" cy="7" r="3" />
+      <path d="M3 16v-1a6 6 0 0 1 12 0v1m2 0v-1a6 6 0 0 1 12 0v1" />
+      <rect x="7" y="19" width="18" height="11" rx="2" />
+      <path d="M11 23h10M11 26h7" />
+    </svg>
+    1:1 notes tool
+  </span>
   <div class="constraint">available weekends</div>
 </div>
 
@@ -117,6 +182,53 @@ Keep this practical and visual. No long management theory detour. One bottleneck
 
 <!--
 Callback to the weekend pipe, now through the ToC lens: THIS is a bottleneck. The narrowest station set the throughput of the whole system — which is exactly why AI coding felt miraculous there.
+-->
+
+---
+
+<div class="eyebrow">bottlenecks</div>
+
+<figure class="photo-slide">
+  <img src="/IMG_3492.jpg" alt="A toddler in a high chair holding a spoon in each hand, mouth full" />
+  <figcaption>No matter how many spoons he holds, the bottleneck is the mouth.</figcaption>
+</figure>
+
+<!--
+Joke beat. Let the photo land before you say anything. The weekend pipe has a constraint the AI can't touch. Keep it short, get the laugh, move on to the receipts.
+-->
+
+---
+
+<div class="eyebrow">who-am-i</div>
+
+<div class="speaker-grid">
+  <div class="speaker-copy">
+    <h1>Hi, I’m <em>Andrew Murphy</em></h1>
+    <div class="speaker-facts">
+      <div class="speaker-fact">
+        <div class="mini-label">experience</div>
+        <strong><span class="speaker-number">20+</span> years writing software</strong>
+      </div>
+      <div class="speaker-fact">
+        <div class="mini-label">andrewmurphy.io</div>
+        <strong>Coaching engineers and leaders</strong>
+      </div>
+      <div class="speaker-fact">
+        <div class="mini-label">PatientNotes.app</div>
+        <strong>Fractional CTO</strong>
+      </div>
+    </div>
+  </div>
+  <div class="speaker-photos" aria-label="Photos of Andrew with his family, chickens, and speaking at conferences">
+    <img class="speaker-photo" src="/andrew-with-chickens.png" alt="Andrew with two chickens" />
+    <img class="speaker-photo" src="/andrew-with-family.jpg" alt="Andrew celebrating with his family" />
+    <img class="speaker-photo" src="/andrew-speaking.jpg" alt="Andrew speaking at a conference" />
+    <img class="speaker-photo" src="/andrew-with-audience.png" alt="Andrew with a conference audience" />
+  </div>
+</div>
+
+<!--
+Brief personal introduction before moving from the bottleneck example into the evidence.
 -->
 
 ---
@@ -591,11 +703,18 @@ Set up the final slide verbally: “The competitive advantage is not writing cod
 
 # Thanks. <em>Q&A</em>
 
-<div class="subtitle">Questions?</div>
-
-<p class="site-link"><a href="https://andrewmurphy.io/">andrewmurphy.io</a></p>
-
-<p class="footnote">Thanks to <a href="https://www.linkedin.com/in/jecornwall/" target="_blank" rel="noopener noreferrer">Jason Cornwall</a> for the balls idea.</p>
+<div class="qa-layout">
+  <div class="qa-copy">
+    <div class="subtitle">Questions?</div>
+    <p class="site-link"><a href="https://andrewmurphy.io/">andrewmurphy.io</a></p>
+    <p class="footnote">Thanks to <a href="https://www.linkedin.com/in/jecornwall/" target="_blank" rel="noopener noreferrer">Jason Cornwall</a> for the balls idea.</p>
+  </div>
+  <figure class="feedback-qr">
+    <div class="mini-label">Feedback</div>
+    <img src="/feedback-qr.png" alt="Scan this QR code to share feedback on the talk" />
+    <figcaption>Tell me what you thought</figcaption>
+  </figure>
+</div>
 
 <!--
 Light outro after the punchline. Leave "Fix the bottleneck" as the real ending; this is just the room handoff.
