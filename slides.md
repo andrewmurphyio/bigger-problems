@@ -406,14 +406,6 @@ The PM hasn't talked to a user, the ticket has three sentences and a Figma link,
 
 ---
 
-# Writing code faster just means you arrive at “oh no” sooner
-
-<!--
-Good joke line. Use your own language on stage.
--->
-
----
-
 <div class="eyebrow">bottleneck-suspect-2</div>
 
 # Everything after code is “done”
