@@ -1,6 +1,7 @@
 ---
 theme: default
-title: If you thought the speed of writing code was your problem, you have bigger problems
+title: If you thought the speed of writing code was your problem, you have
+  bigger problems
 info: |
   NDC Oslo 2026 talk draft by Andrew Murphy.
   Core thesis: AI coding is powerful when coding is the constraint; at work, the bottleneck is usually somewhere else.
@@ -18,7 +19,7 @@ drawings:
 
 <!-- markdownlint-disable MD003 MD013 MD024 MD025 MD033 -->
 
-<div class="eyebrow">ndc-oslo/60-min</div>
+<div class="eyebrow">fost</div>
 
 <p class="cover-setup">If you thought <em>the speed of writing code</em> was your problem…</p>
 
@@ -120,7 +121,7 @@ Make this human. The audience has side projects, ideas, little tools they wish e
 
 ---
 
-<PipelineSim mode="weekendBefore" :speed="1.5" />
+<PipelineSim mode="weekendBefore" :speed="2" />
 
 <!--
 Before AI, the bottleneck in a weekend project is often just the lonely human doing all the mechanical work: scaffolding, wiring, debugging, styling, deploying.
@@ -128,7 +129,7 @@ Before AI, the bottleneck in a weekend project is often just the lonely human do
 
 ---
 
-<PipelineSim mode="weekendAfter" :speed="1" />
+<PipelineSim mode="weekendAfter" :speed="2" />
 
 <!--
 This is the honest excitement. AI coding attacked the actual constraint in the small system. Therefore throughput improved. Don't minimize this; it is the reason the talk has credibility.
@@ -140,7 +141,7 @@ This is the honest excitement. AI coding attacked the actual constraint in the s
 
 # Sunday afternoon: working product
 
-<div class="subtitle">Not polished. Not enterprise-grade. But real. Clickable. Alive.</div>
+<div class="subtitle">Not polished. Not enterprise-grade. But real and clickable.</div>
 
 <!--
 Let the room feel the possibility. This is the promise people are chasing at work.
@@ -184,6 +185,8 @@ Keep this practical and visual. No long management theory detour. One bottleneck
 Callback to the weekend pipe, now through the ToC lens: THIS is a bottleneck. The narrowest station set the throughput of the whole system — which is exactly why AI coding felt miraculous there.
 -->
 
+---
+hide: true
 ---
 
 <div class="eyebrow">bottlenecks</div>
@@ -317,6 +320,8 @@ Hero animation / visual. AI accelerates Build. Review is still constrained. The 
 -->
 
 ---
+hide: true
+---
 
 <div class="eyebrow">what-changed</div>
 
@@ -417,6 +422,9 @@ Code being written is not done. Code sitting in review, CI, QA, security, stagin
 -->
 
 ---
+hide: true
+---
+
 
 <div class="eyebrow">the-horror-show</div>
 
@@ -498,6 +506,8 @@ Coordination is blocking I/O. More PRs just add requests to the queue; they do n
 -->
 
 ---
+hide: true
+---
 
 # No amount of Copilot refactors the org chart
 
@@ -505,6 +515,8 @@ Coordination is blocking I/O. More PRs just add requests to the queue; they do n
 Short sharp line.
 -->
 
+---
+hide: true
 ---
 
 <div class="eyebrow">the-measurement-bug</div>
@@ -552,6 +564,28 @@ Synthesis beat and practical turn. We already knew these problems existed: vague
 
 ---
 
+<div class="eyebrow">use-ai-where-the-constraint-is</div>
+
+# Is coding the bottleneck?
+
+<div class="two-col">
+  <div class="card cool">
+    <div class="mini-label">yes</div>
+    <p><strong>Use AI there.</strong></p>
+  </div>
+  <div class="card hot">
+    <div class="mini-label">not sure</div>
+    <p><strong>Find the constraint first.</strong></p>
+  </div>
+</div>
+
+<!--
+This keeps the talk pro-tool and pro-systems thinking. In a solo project or small system, implementation can genuinely be the constraint, so AI coding can directly increase throughput. In a larger organization, check whether work actually waits in discovery, review, confidence, deployment, or decisions.
+-->
+
+---
+---
+
 <div class="eyebrow">what-to-do-instead</div>
 
 # Find the constraint
@@ -576,6 +610,9 @@ One method, three moves. Map the real path, not the official process. Measure el
 -->
 
 ---
+hide: true
+---
+
 
 <PipelineSim mode="fixedConstraint" :speed="5" />
 
@@ -584,26 +621,7 @@ A satisfying visual resolution: fewer piles, more value out. WIP limits reduce c
 -->
 
 ---
-
-<div class="eyebrow">use-ai-where-the-constraint-is</div>
-
-# Is coding the bottleneck?
-
-<div class="two-col">
-  <div class="card cool">
-    <div class="mini-label">yes</div>
-    <p><strong>Use AI there.</strong></p>
-  </div>
-  <div class="card hot">
-    <div class="mini-label">not sure</div>
-    <p><strong>Find the constraint first.</strong></p>
-  </div>
-</div>
-
-<!--
-This keeps the talk pro-tool and pro-systems thinking. In a solo project or small system, implementation can genuinely be the constraint, so AI coding can directly increase throughput. In a larger organization, check whether work actually waits in discovery, review, confidence, deployment, or decisions.
--->
-
+hide: true
 ---
 
 <div class="eyebrow">ai-at-the-constraint · 1/3</div>
@@ -630,6 +648,8 @@ AI compresses scattered evidence into a reviewable starting point; it does not d
 -->
 
 ---
+hide: true
+---
 
 <div class="eyebrow">ai-at-the-constraint · 2/3</div>
 
@@ -654,6 +674,8 @@ AI compresses scattered evidence into a reviewable starting point; it does not d
 The goal is to reduce reviewer cognitive load before a human opens the PR, not generate more review comments. Example prompt: “Review this diff against the acceptance criteria and architecture notes. Map changed behavior, flag risky paths and missing tests, then propose how to split the PR. Return a focused reviewer checklist; do not approve it.” Human reviewers still own trade-offs, security judgment, and approval.
 -->
 
+---
+hide: true
 ---
 
 <div class="eyebrow">ai-at-the-constraint · 3/3</div>
@@ -683,7 +705,7 @@ AI turns noisy failures into testable hypotheses; the team still verifies the fi
 
 # Fix the bottleneck
 
-<div class="subtitle">It's not the keyboard.</div>
+<div class="subtitle">It's not the code.</div>
 
 <!--
 Set up the final slide verbally: “The competitive advantage is not writing code fastest. It is figuring out what to build, building it, and getting it into users' hands while everyone else is drowning in WIP.” Then let the shorter line land. Pause after “bottleneck”, then after “keyboard”.
@@ -693,17 +715,16 @@ Set up the final slide verbally: “The competitive advantage is not writing cod
 
 <div class="eyebrow">thanks</div>
 
-# Thanks. <em>Q&A</em>
+# Thanks.
 
 <div class="qa-layout">
   <div class="qa-copy">
-    <div class="subtitle">Questions?</div>
     <p class="site-link"><a href="https://andrewmurphy.io/">andrewmurphy.io</a></p>
     <p class="footnote">Thanks to <a href="https://www.linkedin.com/in/jecornwall/" target="_blank" rel="noopener noreferrer">Jason Cornwall</a> for the balls idea.</p>
   </div>
   <figure class="feedback-qr">
     <div class="mini-label">Feedback</div>
-    <img src="/feedback-qr.png" alt="Scan this QR code to share feedback on the talk" />
+    <img src="/fost-qr-code.png" alt="Scan this QR code to share feedback on the talk" />
     <figcaption>Tell me what you thought</figcaption>
   </figure>
 </div>
